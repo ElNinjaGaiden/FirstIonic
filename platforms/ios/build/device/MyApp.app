@@ -1,0 +1,1 @@
+/Users/dgarcia/Library/Developer/Xcode/DerivedData/MyApp-cdfpthndhjqdfjauoibkvhabgjcc/Build/Intermediates/ArchiveIntermediates/MyApp/InstallationBuildProductsLocation/Applications/MyApp.app
