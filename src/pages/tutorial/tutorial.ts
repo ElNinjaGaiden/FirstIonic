@@ -5,7 +5,7 @@ import { WelcomePage } from '../welcome/welcome';
 
 import { TranslateService } from '@ngx-translate/core';
 
-
+declare var FCMPlugin;
 
 export interface Slide {
   title: string;
@@ -52,6 +52,13 @@ export class TutorialPage {
   }
 
   startApp() {
+
+    const topicName = 'example';
+    console.log('Topic name: ', topicName);
+    FCMPlugin.subscribeToTopic(topicName, () => {
+      console.log('Subscribed to topic!');
+    });
+
     this.navCtrl.setRoot(WelcomePage, {}, {
       animate: true,
       direction: 'forward'

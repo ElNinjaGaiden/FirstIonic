@@ -20,7 +20,9 @@ import { WelcomePage } from '../pages/welcome/welcome';
 
 import { Settings } from '../providers/providers';
 
-import { TranslateService } from '@ngx-translate/core'
+import { TranslateService } from '@ngx-translate/core';
+
+declare var FCMPlugin;
 
 @Component({
   template: `<ion-menu [content]="content">
@@ -71,6 +73,21 @@ export class MyApp {
       // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+
+      setTimeout(() => {
+
+        FCMPlugin.getToken(function(token){
+            console.log('getToken', token);
+        });
+
+        FCMPlugin.onTokenRefresh(function(token){
+            console.log('onTokenRefresh', token);
+        });
+
+        FCMPlugin.onNotification(function(data){
+            console.log('onNotification', data);
+        });
+      }, 20000);
     });
   }
 
