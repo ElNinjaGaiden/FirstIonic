@@ -53,7 +53,7 @@ export class TutorialPage {
 
   startApp() {
 
-    const topicName = 'example';
+    const topicName = 'exampledev';
     console.log('Topic name: ', topicName);
     FCMPlugin.subscribeToTopic(topicName, () => {
       console.log('Subscribed to topic!');
