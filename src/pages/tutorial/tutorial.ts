@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
-import { MenuController, NavController } from 'ionic-angular';
+import { MenuController, NavController, ToastController } from 'ionic-angular';
 
 import { WelcomePage } from '../welcome/welcome';
 
 import { TranslateService } from '@ngx-translate/core';
+
+import { Toast } from '../../providers/toast';
 
 declare var FCMPlugin;
 
@@ -21,7 +23,7 @@ export class TutorialPage {
   slides: Slide[];
   showSkip = true;
 
-  constructor(public navCtrl: NavController, public menu: MenuController, translate: TranslateService) {
+  constructor(public navCtrl: NavController, public menu: MenuController, translate: TranslateService, public toastCtrl: ToastController, private toast: Toast) {
     translate.get(["TUTORIAL_SLIDE1_TITLE",
       "TUTORIAL_SLIDE1_DESCRIPTION",
       "TUTORIAL_SLIDE2_TITLE",
@@ -54,10 +56,11 @@ export class TutorialPage {
   startApp() {
 
     const topicName = 'exampledev';
-    console.log('Topic name: ', topicName);
     FCMPlugin.subscribeToTopic(topicName, () => {
       console.log('Subscribed to topic!');
     });
+
+    FCMPlugin.onNotification(this.onNotificationReceived.bind(this));
 
     this.navCtrl.setRoot(WelcomePage, {}, {
       animate: true,
@@ -77,6 +80,10 @@ export class TutorialPage {
   ionViewWillLeave() {
     // enable the root left menu when leaving the tutorial page
     this.menu.enable(true);
+  }
+
+  onNotificationReceived(data) {
+    this.toast.show(data.body);
   }
 
 }

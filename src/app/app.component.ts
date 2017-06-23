@@ -75,7 +75,6 @@ export class MyApp {
       this.splashScreen.hide();
 
       setTimeout(() => {
-
         FCMPlugin.getToken(function(token){
             console.log('getToken', token);
         });
@@ -83,11 +82,7 @@ export class MyApp {
         FCMPlugin.onTokenRefresh(function(token){
             console.log('onTokenRefresh', token);
         });
-
-        FCMPlugin.onNotification(function(data){
-            console.log('onNotification', data);
-        });
-      }, 20000);
+      }, 1000);
     });
   }
 
