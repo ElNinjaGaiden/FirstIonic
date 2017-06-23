@@ -83,7 +83,9 @@ export class TutorialPage {
   }
 
   onNotificationReceived(data) {
-    this.toast.show(data.body);
+    if(!data.wasTapped) {
+      this.toast.show(data.body);
+    }
   }
 
 }
