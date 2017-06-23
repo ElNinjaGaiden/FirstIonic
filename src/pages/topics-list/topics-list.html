@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{ 'TOPICS_LIST_TITLE' | translate }}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+    <ion-list>
+        <ion-item-sliding *ngFor="let topic of currentTopics" #slidingItem>
+            <ion-item>
+                <ion-icon name="{{topic.icon}}" item-start color="{{ topic.subscribed ? 'primary' : '' }}"></ion-icon>
+                <h2>{{ 'TOPICS.' + topic.name | translate }}</h2>
+            </ion-item>
+
+            <ion-item-options>
+                <button *ngIf="!topic.subscribed" ion-button color="primary" (click)="subscribeToTopic(slidingItem, topic)">
+                    {{ 'SUBSCRIBE_BUTTON' | translate }}
+                </button>
+                <button *ngIf="topic.subscribed" ion-button color="danger" (click)="unsubscribeToTopic(slidingItem, topic)">
+                    {{ 'UNSUBSCRIBE_BUTTON' | translate }}
+                </button>
+            </ion-item-options>
+        </ion-item-sliding>
+    </ion-list>
+</ion-content>

@@ -5,8 +5,6 @@ import { WelcomePage } from '../welcome/welcome';
 
 import { TranslateService } from '@ngx-translate/core';
 
-import { Toast } from '../../providers/toast';
-
 declare var FCMPlugin;
 
 export interface Slide {
@@ -23,7 +21,7 @@ export class TutorialPage {
   slides: Slide[];
   showSkip = true;
 
-  constructor(public navCtrl: NavController, public menu: MenuController, translate: TranslateService, public toastCtrl: ToastController, private toast: Toast) {
+  constructor(public navCtrl: NavController, public menu: MenuController, translate: TranslateService, public toastCtrl: ToastController) {
     translate.get(["TUTORIAL_SLIDE1_TITLE",
       "TUTORIAL_SLIDE1_DESCRIPTION",
       "TUTORIAL_SLIDE2_TITLE",
@@ -54,14 +52,6 @@ export class TutorialPage {
   }
 
   startApp() {
-
-    const topicName = 'exampledev';
-    FCMPlugin.subscribeToTopic(topicName, () => {
-      console.log('Subscribed to topic!');
-    });
-
-    FCMPlugin.onNotification(this.onNotificationReceived.bind(this));
-
     this.navCtrl.setRoot(WelcomePage, {}, {
       animate: true,
       direction: 'forward'
@@ -81,11 +71,4 @@ export class TutorialPage {
     // enable the root left menu when leaving the tutorial page
     this.menu.enable(true);
   }
-
-  onNotificationReceived(data) {
-    if(!data.wasTapped) {
-      this.toast.show(data.body);
-    }
-  }
-
 }

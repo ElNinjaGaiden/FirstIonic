@@ -1,8 +1,11 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 
-import { LoginPage } from '../login/login';
-import { SignupPage } from '../signup/signup';
+import { User } from '../../providers/user';
+import { Toast } from '../../providers/toast';
+import { MainPage } from '../../pages/pages';
+
+declare var FCMPlugin;
 
 /**
  * The Welcome Page is a splash page that quickly describes the app,
@@ -16,13 +19,45 @@ import { SignupPage } from '../signup/signup';
 })
 export class WelcomePage {
 
-  constructor(public navCtrl: NavController) { }
+  account: { email: string, password: string } = {
+    email: 'test@example.com',
+    password: '123'
+  };
 
-  login() {
-    this.navCtrl.push(LoginPage);
+  constructor(public navCtrl: NavController, 
+              public user: User, 
+              private toast: Toast) { 
+
   }
 
-  signup() {
-    this.navCtrl.push(SignupPage);
+  doLogin() {
+    this.user.login(this.account).subscribe((resp) => {
+      this.navCtrl.push(MainPage);
+      this.configurePushNotificationsLsteners();
+    }, (err) => {
+      // Unable to log in ...
+      this.navCtrl.push(MainPage);
+      this.configurePushNotificationsLsteners();
+    });
+  }
+
+  configurePushNotificationsLsteners() {
+    if(typeof FCMPlugin !== 'undefined') {
+      FCMPlugin.getToken(function(token){
+          console.log('getToken', token);
+      });
+
+      FCMPlugin.onTokenRefresh(function(token){
+          console.log('onTokenRefresh', token);
+      });
+
+      FCMPlugin.onNotification(this.onNotificationReceived.bind(this));
+    }
+  }
+
+  onNotificationReceived(data) {
+    if(!data.wasTapped) {
+      this.toast.show(data.body);
+    }
   }
 }

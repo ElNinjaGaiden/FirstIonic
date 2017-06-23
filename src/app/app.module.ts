@@ -20,12 +20,14 @@ import { SignupPage } from '../pages/signup/signup';
 import { TabsPage } from '../pages/tabs/tabs';
 import { TutorialPage } from '../pages/tutorial/tutorial';
 import { WelcomePage } from '../pages/welcome/welcome';
+import { TopicsListPage } from '../pages/topics-list/topics-list'; 
 
 import { Api } from '../providers/api';
 import { Items } from '../mocks/providers/items';
 import { Settings } from '../providers/settings';
 import { User } from '../providers/user';
 import { Toast } from '../providers/toast';
+import { Topics } from '../mocks/providers/topics';
 
 import { Camera } from '@ionic-native/camera';
 import { GoogleMaps } from '@ionic-native/google-maps';
@@ -74,7 +76,8 @@ export function provideSettings(storage: Storage) {
     SignupPage,
     TabsPage,
     TutorialPage,
-    WelcomePage
+    WelcomePage,
+    TopicsListPage
   ],
   imports: [
     BrowserModule,
@@ -105,13 +108,15 @@ export function provideSettings(storage: Storage) {
     SignupPage,
     TabsPage,
     TutorialPage,
-    WelcomePage
+    WelcomePage,
+    TopicsListPage
   ],
   providers: [
     Api,
     Items,
     User,
     Toast,
+    Topics,
     Camera,
     GoogleMaps,
     SplashScreen,

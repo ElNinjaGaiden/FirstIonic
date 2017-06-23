@@ -44,5 +44,18 @@
 
   "CARDS_TITLE": "Social",
 
-  "SEARCH_TITLE": "Buscar"
+  "SEARCH_TITLE": "Buscar",
+
+  "SUBSCRIBE_BUTTON": "Suscribir",
+  "UNSUBSCRIBE_BUTTON": "Desvincular",
+
+  "TOPICS_LIST_TITLE": "Topics",
+
+  "TOPICS": {
+    "admin": "Administración",
+    "news": "Noticias",
+    "security": "Seguridad",
+    "common": "Areas Común",
+    "parking": "Parqueo"
+  }
 }
