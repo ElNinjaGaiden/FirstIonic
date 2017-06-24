@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, MenuController } from 'ionic-angular';
 
 import { User } from '../../providers/user';
 import { Toast } from '../../providers/toast';
@@ -26,19 +26,33 @@ export class WelcomePage {
 
   constructor(public navCtrl: NavController, 
               public user: User, 
-              private toast: Toast) { 
+              private toast: Toast,
+              private menu: MenuController) { 
+  }
 
+  ionViewWillEnter() {
+    this.menu.enable(false);
+  }
+
+  ionViewWillLeave() {
+    this.menu.enable(true);
   }
 
   doLogin() {
     this.user.login(this.account).subscribe((resp) => {
-      this.navCtrl.push(MainPage);
-      this.configurePushNotificationsLsteners();
+      this.goToApp();
     }, (err) => {
       // Unable to log in ...
-      this.navCtrl.push(MainPage);
-      this.configurePushNotificationsLsteners();
+      this.goToApp();
     });
+  }
+
+  goToApp() {
+    this.navCtrl.setRoot(MainPage, {}, {
+      animate: true,
+      direction: 'forward'
+    });
+    this.configurePushNotificationsLsteners();
   }
 
   configurePushNotificationsLsteners() {
