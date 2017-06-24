@@ -1,5 +1,6 @@
 import { Component, ViewChild, } from '@angular/core';
 import { Platform, Nav, Config, NavController } from 'ionic-angular';
+import { Storage } from '@ionic/storage';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -90,7 +91,7 @@ import { TranslateService } from '@ngx-translate/core';
   <ion-nav #content [root]="rootPage"></ion-nav>`
 })
 export class MyApp {
-  rootPage = FirstRunPage;
+  rootPage = null; //FirstRunPage
   mainPage = MainPage;
 
   @ViewChild(Nav) nav: Nav;
@@ -101,9 +102,18 @@ export class MyApp {
               public settings: Settings, 
               private config: Config, 
               private statusBar: StatusBar, 
-              private splashScreen: SplashScreen) {
+              private splashScreen: SplashScreen,
+              private storage: Storage) {
 
     this.initTranslate();
+    this.storage.get('userAccount').then((userAccount) => {
+      if(userAccount) {
+        this.rootPage = MainPage;
+      }
+      else {
+        this.rootPage = FirstRunPage;
+      }
+    });
   }
 
   ionViewDidLoad() {
@@ -139,6 +149,8 @@ export class MyApp {
   }
 
   doLogout() {
-    this.nav.setRoot(WelcomePage);
+    this.storage.remove('userAccount').then(() => {
+      this.nav.setRoot(WelcomePage);
+    });
   }
 }

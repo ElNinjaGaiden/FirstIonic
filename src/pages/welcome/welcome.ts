@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Storage } from '@ionic/storage';
 import { NavController, MenuController } from 'ionic-angular';
 
 import { User } from '../../providers/user';
@@ -27,7 +28,8 @@ export class WelcomePage {
   constructor(public navCtrl: NavController, 
               public user: User, 
               private toast: Toast,
-              private menu: MenuController) { 
+              private menu: MenuController,
+              private storage: Storage) { 
   }
 
   ionViewWillEnter() {
@@ -53,6 +55,7 @@ export class WelcomePage {
       direction: 'forward'
     });
     this.configurePushNotificationsLsteners();
+    this.storage.set('userAccount', this.account);
   }
 
   configurePushNotificationsLsteners() {

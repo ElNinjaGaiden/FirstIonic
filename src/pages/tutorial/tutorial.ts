@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { MenuController, NavController, ToastController } from 'ionic-angular';
+import { Storage } from '@ionic/storage';
 
 import { WelcomePage } from '../welcome/welcome';
 
@@ -21,7 +22,12 @@ export class TutorialPage {
   slides: Slide[];
   showSkip = true;
 
-  constructor(public navCtrl: NavController, public menu: MenuController, translate: TranslateService, public toastCtrl: ToastController) {
+  constructor(public navCtrl: NavController, 
+              public menu: MenuController, 
+              translate: TranslateService, 
+              public toastCtrl: ToastController,
+              public storage: Storage) {
+
     translate.get(["TUTORIAL_SLIDE1_TITLE",
       "TUTORIAL_SLIDE1_DESCRIPTION",
       "TUTORIAL_SLIDE2_TITLE",
@@ -51,10 +57,9 @@ export class TutorialPage {
       });
   }
 
-  startApp() {
-    this.navCtrl.setRoot(WelcomePage, {}, {
-      animate: true,
-      direction: 'forward'
+  hideTutorial() {
+    this.storage.set('doneWithTutorial', true).then(() => {
+      this.navCtrl.pop();
     });
   }
 
