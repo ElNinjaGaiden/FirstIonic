@@ -3,10 +3,7 @@ import { Storage } from '@ionic/storage';
 import { NavController, MenuController } from 'ionic-angular';
 
 import { User } from '../../providers/user';
-import { Toast } from '../../providers/toast';
 import { MainPage } from '../../pages/pages';
-
-declare var FCMPlugin;
 
 /**
  * The Welcome Page is a splash page that quickly describes the app,
@@ -27,7 +24,6 @@ export class WelcomePage {
 
   constructor(public navCtrl: NavController, 
               public user: User, 
-              private toast: Toast,
               private menu: MenuController,
               private storage: Storage) { 
   }
@@ -50,31 +46,11 @@ export class WelcomePage {
   }
 
   goToApp() {
-    this.navCtrl.setRoot(MainPage, {}, {
-      animate: true,
-      direction: 'forward'
+    this.storage.set('userAccount', this.account).then(() => {
+      this.navCtrl.setRoot(MainPage, {}, {
+        animate: true,
+        direction: 'forward'
+      });
     });
-    this.configurePushNotificationsLsteners();
-    this.storage.set('userAccount', this.account);
-  }
-
-  configurePushNotificationsLsteners() {
-    if(typeof FCMPlugin !== 'undefined') {
-      FCMPlugin.getToken(function(token){
-          console.log('getToken', token);
-      });
-
-      FCMPlugin.onTokenRefresh(function(token){
-          console.log('onTokenRefresh', token);
-      });
-
-      FCMPlugin.onNotification(this.onNotificationReceived.bind(this));
-    }
-  }
-
-  onNotificationReceived(notificationData) {
-    if(!notificationData.wasTapped) {
-      this.toast.show(notificationData);
-    }
   }
 }
