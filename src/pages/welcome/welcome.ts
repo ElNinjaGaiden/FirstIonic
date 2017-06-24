@@ -69,9 +69,9 @@ export class WelcomePage {
     }
   }
 
-  onNotificationReceived(data) {
-    if(!data.wasTapped) {
-      this.toast.show(data.body);
+  onNotificationReceived(notificationData) {
+    if(!notificationData.wasTapped) {
+      this.toast.show(notificationData);
     }
   }
 }

@@ -10,8 +10,9 @@ export class Toast {
 
     }
 
-    show(message: string, duration: number = 5000, position: string = 'top') {
-        let toast = this.toastCtrl.create({
+    show(notification: any, duration: number = 5000, position: string = 'top') {
+        const message = typeof notification === 'string' ? notification : (notification.body || notification.message);
+        const toast = this.toastCtrl.create({
             message: message,
             duration: duration,
             position: position
