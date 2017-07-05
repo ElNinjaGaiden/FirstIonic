@@ -157,7 +157,7 @@ export class MyApp {
 
   doLogout() {
     let loader = this.loadingCtrl.create({
-        content: "Starting session..."
+        content: "Closing session..."
     });
     loader.present();
     this.user.logout().then((success) => {
