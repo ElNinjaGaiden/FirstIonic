@@ -18,7 +18,7 @@
           <ion-input type="password" [(ngModel)]="account.password" name="password"></ion-input>
         </ion-item>
         <div padding>
-          <button ion-button color="primary" block>{{ 'LOGIN_BUTTON' | translate }}</button>
+          <button ion-button color="primary" block [disabled]="!account.email || !account.password">{{ 'LOGIN_BUTTON' | translate }}</button>
         </div>
       </ion-list>
     </form>
