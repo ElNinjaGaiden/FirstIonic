@@ -156,6 +156,25 @@ export class MyApp {
   }
 
   doLogout() {
+    let confirmation = this.alertCtrl.create({
+      title: 'Are you sure?',
+      message: 'Are you sure you want to end your session?',
+      buttons: [
+        {
+          text: 'Cancel'
+        },
+        {
+          text: 'Yes',
+          handler: () => {
+            this._doLogout();
+          }
+        }
+      ]
+    });
+    confirmation.present();
+  }
+
+  _doLogout() {
     let loader = this.loadingCtrl.create({
         content: "Closing session..."
     });
