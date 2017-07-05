@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Storage } from '@ionic/storage';
-import { NavController, MenuController } from 'ionic-angular';
+import { NavController, MenuController, LoadingController, AlertController } from 'ionic-angular';
 
 import { User } from '../../providers/user';
 import { MainPage } from '../../pages/pages';
@@ -18,13 +18,15 @@ import { MainPage } from '../../pages/pages';
 export class WelcomePage {
 
   account: { email: string, password: string } = {
-    email: 'test@example.com',
-    password: '123'
+    email: '',
+    password: ''
   };
 
   constructor(public navCtrl: NavController, 
               public user: User, 
               private menu: MenuController,
+              private loadingCtrl: LoadingController,
+              private alertCtrl: AlertController,
               private storage: Storage) { 
   }
 
@@ -37,20 +39,28 @@ export class WelcomePage {
   }
 
   doLogin() {
-    this.user.login(this.account).subscribe((resp) => {
+    let loader = this.loadingCtrl.create({
+        content: "Starting session..."
+    });
+    loader.present();
+    this.user.getToken(this.account).then((accessTokenData) => {
+      loader.dismiss();
       this.goToApp();
-    }, (err) => {
-      // Unable to log in ...
-      this.goToApp();
+    }, (errorMessage) => {
+      loader.dismiss();
+      let alert = this.alertCtrl.create({
+        title: 'Error',
+        subTitle: errorMessage,
+        buttons: ['OK']
+      });
+      alert.present();
     });
   }
 
   goToApp() {
-    this.storage.set('userAccount', this.account).then(() => {
-      this.navCtrl.setRoot(MainPage, {}, {
-        animate: true,
-        direction: 'forward'
-      });
+    this.navCtrl.setRoot(MainPage, {}, {
+      animate: true,
+      direction: 'forward'
     });
   }
 }

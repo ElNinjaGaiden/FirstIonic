@@ -1,5 +1,5 @@
 import { Component, ViewChild, } from '@angular/core';
-import { Platform, Nav, Config, NavController } from 'ionic-angular';
+import { Platform, Nav, Config, NavController, LoadingController, AlertController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 
 import { StatusBar } from '@ionic-native/status-bar';
@@ -21,6 +21,7 @@ import { WelcomePage } from '../pages/welcome/welcome';
 //import { TopicsListPage } from '../pages/topics-list/topics-list';
 
 import { Settings } from '../providers/providers';
+import { User } from '../providers/user';
 
 import { TranslateService } from '@ngx-translate/core';
 
@@ -98,21 +99,27 @@ export class MyApp {
   @ViewChild('content') navCtrl: NavController;
 
   constructor(private translate: TranslateService, 
+              private loadingCtrl: LoadingController,
+              private alertCtrl: AlertController,
               private platform: Platform, 
               public settings: Settings, 
+              private user: User,
               private config: Config, 
               private statusBar: StatusBar, 
               private splashScreen: SplashScreen,
               private storage: Storage) {
 
     this.initTranslate();
-    this.storage.get('userAccount').then((userAccount) => {
-      if(userAccount) {
+    this.user.getAccessData().then((accessData) => {
+      if(accessData) {
         this.rootPage = MainPage;
       }
       else {
         this.rootPage = FirstRunPage;
       }
+    }, (error) => {
+      console.error(error);
+      this.rootPage = FirstRunPage;
     });
   }
 
@@ -149,8 +156,21 @@ export class MyApp {
   }
 
   doLogout() {
-    this.storage.remove('userAccount').then(() => {
+    let loader = this.loadingCtrl.create({
+        content: "Starting session..."
+    });
+    loader.present();
+    this.user.logout().then((success) => {
+      loader.dismiss();
       this.nav.setRoot(WelcomePage);
+    }, errorMessage => {
+      loader.dismiss();
+      let alert = this.alertCtrl.create({
+        title: 'Error',
+        subTitle: errorMessage,
+        buttons: ['OK']
+      });
+      alert.present();
     });
   }
 }
