@@ -85,6 +85,7 @@ export class User {
         .subscribe(accessData => {
           accessData.userName = userAccount.email;
           accessData.password = userAccount.password;
+          accessData.expiresAt = this.getNowInSeconds() + accessData.expires_in;
           this._tokenReceived(accessData).then(() => {
             resolve(accessData);
           });
@@ -99,6 +100,15 @@ export class User {
           reject(errorMessage);
         });
     });
+  }
+
+  getNowInSeconds() {
+    return Math.floor(Date.now() / 1000);
+  }
+
+  isTokenExpired(accessData: any) {
+    let nowInSeconds = this.getNowInSeconds();
+    return nowInSeconds >= accessData.expiresAt;
   }
 
   /**

@@ -63,6 +63,29 @@ export class TabsPage {
   }
 
   onFirebaseTokenReceived(firebaseToken) {
+    //First check if the current access token is not expired
+    this.user.getAccessData().then((accessData) => {
+      if(accessData) {
+        if(!this.user.isTokenExpired(accessData)) {
+          this._doLogin(firebaseToken);
+        }
+        else {
+          //The access token is expired, we need to request a new access token
+          console.log('Re-login user because acces token was expired');
+          this.reLoginUser(firebaseToken);
+        }
+      }
+      else {
+        //There is no acces data
+        //This should not happens because if the user gets to this page is because there is one but just in case...
+        this.navCtrl.setRoot(WelcomePage);
+      }
+    });
+
+    
+  }
+
+  _doLogin(firebaseToken) {
     let loader = this.loadingCtrl.create({
         content: "Loading data..."
     });
