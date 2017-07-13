@@ -10,6 +10,7 @@ import { Tab1Root } from '../pages';
 import { Tab2Root } from '../pages';
 import { Tab3Root } from '../pages';
 import { TutorialPage } from '../../pages/tutorial/tutorial';
+import { WelcomePage } from '../../pages/welcome/welcome';
 
 declare var FCMPlugin;
 
@@ -57,19 +58,24 @@ export class TabsPage {
       FCMPlugin.onNotification(this.onNotificationReceived.bind(this));
     }
     else {
-      this.onFirebaseTokenReceived(null);
+      this.onFirebaseTokenReceived('DummyDeviceRegistrationId-WebApp');
     }
   }
 
-  onFirebaseTokenReceived(token) {
+  onFirebaseTokenReceived(firebaseToken) {
     let loader = this.loadingCtrl.create({
         content: "Loading data..."
     });
     loader.present();
-    this.user.login(token).then((userData) => {
+    this.user.login(firebaseToken).then((userData) => {
       loader.dismiss();
-    }, (errorMessage) => {
+    }, (error) => {
+      console.log(error);
       loader.dismiss();
+      if(error.status === 401) {
+        this.reLoginUser(firebaseToken);
+        //This means the token has expired, we need to login again
+      }
     });
   }
 
@@ -81,5 +87,36 @@ export class TabsPage {
     if(!notificationData.wasTapped) {
       this.toast.show(notificationData);
     }
+  }
+
+  reLoginUser(firebaseToken) {
+    let loader = this.loadingCtrl.create({
+        content: "Renewing session..."
+    });
+    loader.present();
+    //Get the current acces data (to pull the name and password)
+    this.user.getAccessData().then((currenAccesData) => {
+      let email = currenAccesData.userName;
+      let password = currenAccesData.password;
+      //Remove the current access token
+      this.user.deleteAccessData().then(() => {
+        this.user.getToken({ email, password }).then((accessTokenData) => {
+          loader.dismiss();
+          this.onFirebaseTokenReceived(firebaseToken);
+        }, (error) => {
+          //Error login the user again, maybe the password is wrong
+          loader.dismiss();
+          this.navCtrl.setRoot(WelcomePage);
+        });
+      }, (error) => {
+        //Error deleting the current access data
+        loader.dismiss();
+        this.navCtrl.setRoot(WelcomePage);
+      });
+    }, (error) => {
+      //Error getting the current acces token data
+      loader.dismiss();
+      this.navCtrl.setRoot(WelcomePage);
+    });
   }
 }

@@ -84,6 +84,7 @@ export class User {
         .map(res => res.json())
         .subscribe(accessData => {
           accessData.userName = userAccount.email;
+          accessData.password = userAccount.password;
           this._tokenReceived(accessData).then(() => {
             resolve(accessData);
           });
@@ -126,15 +127,19 @@ export class User {
         .map(res => res.json())
         .subscribe(userData => {
           resolve(userData);
-        }, error => {
-          let errorMessage = 'There was an error reaching the server, please try again';
-          if(error && typeof error.text === 'function') {
-            const errorData = JSON.parse(error.text());
+        }, er => {
+          //console.log(er);
+          let error = {
+            status: er.status,
+            message: 'There was an error reaching the server, please try again'
+          };
+          if(er && typeof er.text === 'function') {
+            const errorData = JSON.parse(er.text());
             if(errorData.error_description) {
-              errorMessage = errorData.error_description;
+              error.message = errorData.error_description;
             }
           }
-          reject(errorMessage);
+          reject(error);
         });
       });
     });
@@ -191,6 +196,10 @@ export class User {
   _tokenReceived(accessData) {
     this._accessData = accessData;
     return this.storage.set('accessData', accessData);
+  }
+
+  deleteAccessData() {
+    return this._deleteAccessData();
   }
 
   _deleteAccessData() {
