@@ -53,36 +53,40 @@ export class TabsPage {
   configurePushNotificationsLsteners() {
     console.log('Configuring FCM integration');
     if(typeof FCMPlugin !== 'undefined') {
-      FCMPlugin.getToken(this.onFirebaseTokenReceived.bind(this));
-      FCMPlugin.onTokenRefresh(this.configurePushNotificationsLsteners.bind(this));
+      FCMPlugin.onTokenRefresh(this.onFirebaseTokenReceived.bind(this));
       FCMPlugin.onNotification(this.onNotificationReceived.bind(this));
+      if(!this.user.deviceRegistrationToken) {
+        FCMPlugin.getToken(this.onFirebaseTokenReceived.bind(this));
+      }
     }
     else {
-      this.onFirebaseTokenReceived('DummyDeviceRegistrationId-WebApp');
+      if(!this.user.deviceRegistrationToken) {
+        this.onFirebaseTokenReceived('DummyDeviceRegistrationId-WebApp');
+      }
     }
   }
 
   onFirebaseTokenReceived(firebaseToken) {
-    //First check if the current access token is not expired
-    this.user.getAccessData().then((accessData) => {
-      if(accessData) {
-        if(!this.user.isTokenExpired(accessData)) {
-          this._doLogin(firebaseToken);
+    if(!this.user.userData) {
+      //First check if the current access token is not expired
+      this.user.getAccessData().then((accessData) => {
+        if(accessData) {
+          if(!this.user.isTokenExpired(accessData)) {
+            this._doLogin(firebaseToken);
+          }
+          else {
+            //The access token is expired, we need to request a new access token
+            console.log('Re-login user because acces token was expired');
+            this.reLoginUser(firebaseToken);
+          }
         }
         else {
-          //The access token is expired, we need to request a new access token
-          console.log('Re-login user because acces token was expired');
-          this.reLoginUser(firebaseToken);
+          //There is no acces data
+          //This should not happens because if the user gets to this page is because there is one but just in case...
+          this.navCtrl.setRoot(WelcomePage);
         }
-      }
-      else {
-        //There is no acces data
-        //This should not happens because if the user gets to this page is because there is one but just in case...
-        this.navCtrl.setRoot(WelcomePage);
-      }
-    });
-
-    
+      });
+    }
   }
 
   _doLogin(firebaseToken) {

@@ -13,11 +13,11 @@ export class Security {
     }
 
     get isAdminUser () : boolean {
-        return this._userRoles.indexOf('Admin') > -1;
+        return this._userRoles.indexOf('Administrator') > -1;
     }
 
     get isSecurityUser () : boolean {
-        return this._userRoles.indexOf('Secuity') > -1;
+        return this._userRoles.indexOf('Security') > -1;
     }
 
     get isResidentUser () : boolean {

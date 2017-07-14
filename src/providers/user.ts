@@ -30,6 +30,7 @@ import { Security } from './security';
 export class User {
   _accessData: any;
   _deviceRegistrationToken: string;
+  _userData: any;
 
   constructor(public http: Http, 
               public api: Api,
@@ -43,6 +44,14 @@ export class User {
 
   set deviceRegistrationToken(value) {
     this._deviceRegistrationToken = value;
+  }
+
+  get userData() :  any {
+    return this._userData;
+  }
+
+  set userData(userData: any) {
+    this._userData = userData;
   }
 
   getAccessData() : Promise<any> {
@@ -119,7 +128,7 @@ export class User {
    * the user entered on the form.
    */
   login(deviceRegistrationToken) {
-    this._deviceRegistrationToken = deviceRegistrationToken;
+    this.deviceRegistrationToken = deviceRegistrationToken;
     return new Promise((resolve, reject) => {
       this.getAccessData().then((accessData) => {
 
