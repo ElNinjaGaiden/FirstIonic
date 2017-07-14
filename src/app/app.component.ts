@@ -22,6 +22,7 @@ import { WelcomePage } from '../pages/welcome/welcome';
 
 import { Settings } from '../providers/providers';
 import { User } from '../providers/user';
+import { Security } from '../providers/security';
 
 import { TranslateService } from '@ngx-translate/core';
 
@@ -36,49 +37,49 @@ import { TranslateService } from '@ngx-translate/core';
 
     <ion-content>
       <ion-list>
-        <ion-list-header color="danger">
+        <ion-list-header color="danger" *ngIf="security.isDevelopmentMode">
           Development
         </ion-list-header>
-        <button menuClose ion-item (click)="openPage(mainPage)">
+        <button menuClose ion-item (click)="openPage(mainPage)" *ngIf="security.isDevelopmentMode">
           Topics
         </button>
-        <ion-list-header color="light">
+        <ion-list-header color="light" *ngIf="security.isAdminUser">
           Adminstración
         </ion-list-header>
-        <button menuClose ion-item (click)="openPage()">
+        <button menuClose ion-item (click)="openPage()" *ngIf="security.isAdminUser">
           Amenidades
         </button>
-        <button menuClose ion-item (click)="openPage()">
+        <button menuClose ion-item (click)="openPage()" *ngIf="security.isAdminUser">
           Cobros
         </button>
-        <button menuClose ion-item (click)="openPage()">
+        <button menuClose ion-item (click)="openPage()" *ngIf="security.isAdminUser">
           Usuarios
         </button>
-        <ion-list-header color="light">
+        <ion-list-header color="light" *ngIf="security.isSecurityUser">
           Seguridad
         </ion-list-header>
-        <button menuClose ion-item (click)="openPage()">
+        <button menuClose ion-item (click)="openPage()" *ngIf="security.isSecurityUser">
           Ingreso de Invitados
         </button>
-        <ion-list-header color="light">
+        <ion-list-header color="light" *ngIf="security.isResidentUser">
           Mi Condominio
         </ion-list-header>
-        <button menuClose ion-item (click)="openPage()">
+        <button menuClose ion-item (click)="openPage()" *ngIf="security.isResidentUser">
           Amenidades
         </button>
-        <button menuClose ion-item (click)="openPage()">
+        <button menuClose ion-item (click)="openPage()" *ngIf="security.isResidentUser">
           Pagos y facturas
         </button>
-        <button menuClose ion-item (click)="openPage()">
+        <button menuClose ion-item (click)="openPage()" *ngIf="security.isResidentUser">
           Visitas
         </button>
-        <button menuClose ion-item (click)="openPage()">
+        <button menuClose ion-item (click)="openPage()" *ngIf="security.isResidentUser">
           Alertas
         </button>
-        <button menuClose ion-item (click)="openPage()">
+        <button menuClose ion-item (click)="openPage()" *ngIf="security.isResidentUser">
           Servicios
         </button>
-        <button menuClose ion-item (click)="openPage()">
+        <button menuClose ion-item (click)="openPage()" *ngIf="security.isResidentUser">
           Mi Perfil
         </button>
         <ion-item menuClose (click)="doLogout()">
@@ -104,6 +105,7 @@ export class MyApp {
               private platform: Platform, 
               public settings: Settings, 
               private user: User,
+              private security: Security,
               private config: Config, 
               private statusBar: StatusBar, 
               private splashScreen: SplashScreen,

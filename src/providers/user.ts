@@ -5,6 +5,8 @@ import { Api } from './api';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
 
+import { Security } from './security';
+
 /**
  * Most apps have the concept of a User. This is a simple provider
  * with stubs for login/signup/etc.
@@ -31,6 +33,7 @@ export class User {
 
   constructor(public http: Http, 
               public api: Api,
+              private security: Security,
               private storage: Storage) {
   }
 
@@ -136,6 +139,7 @@ export class User {
         .share()
         .map(res => res.json())
         .subscribe(userData => {
+          this.security.Roles = userData.role;
           resolve(userData);
         }, er => {
           //console.log(er);

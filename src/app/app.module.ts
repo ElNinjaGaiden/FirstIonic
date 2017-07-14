@@ -26,6 +26,7 @@ import { Api } from '../providers/api';
 import { Items } from '../mocks/providers/items';
 import { Settings } from '../providers/settings';
 import { User } from '../providers/user';
+import { Security } from '../providers/security';
 import { Toast } from '../providers/toast';
 import { Topics } from '../mocks/providers/topics';
 
@@ -115,6 +116,7 @@ export function provideSettings(storage: Storage) {
     Api,
     Items,
     User,
+    Security,
     Toast,
     Topics,
     Camera,
