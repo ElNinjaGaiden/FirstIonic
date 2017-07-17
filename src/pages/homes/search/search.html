@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>{{ 'HOMES.SEARCH.TITLE' | translate }}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-searchbar (ionInput)="searchHomes($event)" debounce="600" placeholder="{{ 'HOMES.SEARCH.PLACEHOLDER' | translate }}"></ion-searchbar>
+  <ion-list>
+      <ion-item-sliding *ngFor="let home of currentHomes" #slidingItem>
+          <ion-item>
+              <h2>{{home.number}}</h2>
+              <p *ngFor="let contact of home.contacts" >{{contact.getFullName()}}</p>
+          </ion-item>
+
+          <ion-item-options>
+              <button ion-button color="primary" (click)="goToVisitors(slidingItem, home)">
+                  {{ 'HOMES.SEARCH.OPTIONS.VISITORS' | translate }}
+              </button>
+          </ion-item-options>
+      </ion-item-sliding>
+  </ion-list>
+</ion-content>

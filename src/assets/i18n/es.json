@@ -62,6 +62,16 @@
     "parking": "Parqueo"
   },
 
+  "HOMES": {
+    "SEARCH": {
+      "TITLE": "Casas",
+      "PLACEHOLDER": "Buscar por número de casa",
+      "OPTIONS": {
+        "VISITORS": "Visitantes"
+      }
+    }
+  },
+
   "VISITORS": {
     "QUICK": {
       "TITLE": "Visitantes",

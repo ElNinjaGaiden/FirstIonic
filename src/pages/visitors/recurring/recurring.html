@@ -1,10 +1,10 @@
 <ion-header>
-  <ion-navbar>
-    <button ion-button menuToggle>
+  <ion-navbar [class]="navBarClass">
+     <button ion-button menuToggle *ngIf="tabsContainerIsRootView">
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-buttons end>
-      <button ion-button *ngIf="security.isResidentUser" (click)="goToNewVisitor()">
+      <button ion-button (click)="goToNewVisitor()">
         <ion-icon name="add"></ion-icon>
       </button>
       <button ion-button>
@@ -16,5 +16,7 @@
 </ion-header>
 
 <ion-content>
-    
+  <ion-list>
+    <visitor-item *ngFor="let visitor of visitors.recurringVisitors" [visitor]="visitor"></visitor-item>
+  </ion-list>
 </ion-content>

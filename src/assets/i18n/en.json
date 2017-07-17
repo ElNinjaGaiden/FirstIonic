@@ -79,6 +79,16 @@
     "parking": "Parking"
   },
 
+  "HOMES": {
+    "SEARCH": {
+      "TITLE": "Homes",
+      "PLACEHOLDER": "Search by home number",
+      "OPTIONS": {
+        "VISITORS": "Visitors"
+      }
+    }
+  },
+
   "VISITORS": {
     "QUICK": {
       "TITLE": "Visitors",

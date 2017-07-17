@@ -25,3 +25,11 @@ ion-navbar {
         }
     }
 }
+
+.force-back-button .back-button {
+  display: inline-block;
+}
+
+.no-back-button .back-button {
+    display: none;
+}

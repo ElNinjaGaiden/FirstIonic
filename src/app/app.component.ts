@@ -18,6 +18,7 @@ import { FirstRunPage, MainPage } from '../pages/pages';
 // import { TabsPage } from '../pages/tabs/tabs';
 // import { TutorialPage } from '../pages/tutorial/tutorial';
 import { WelcomePage } from '../pages/welcome/welcome';
+import { HomesSearchPage } from '../pages/homes/search/search';
 import { VisitorsTabsPage } from '../pages/visitors/visitorsTabs/visitorsTabs';
 //import { TopicsListPage } from '../pages/topics-list/topics-list';
 
@@ -59,7 +60,7 @@ import { TranslateService } from '@ngx-translate/core';
         <ion-list-header color="light" *ngIf="security.isSecurityUser">
           Seguridad
         </ion-list-header>
-        <button menuClose ion-item (click)="openPage()" *ngIf="security.isSecurityUser">
+        <button menuClose ion-item (click)="openPage(homesSearchPage)" *ngIf="security.isSecurityUser">
           Ingreso de Invitados
         </button>
         <ion-list-header color="light" *ngIf="security.isResidentUser">
@@ -71,7 +72,7 @@ import { TranslateService } from '@ngx-translate/core';
         <button menuClose ion-item (click)="openPage()" *ngIf="security.isResidentUser">
           Pagos y facturas
         </button>
-        <button menuClose ion-item (click)="openPage(visitorsPage)" *ngIf="security.isResidentUser">
+        <button menuClose ion-item (click)="openPage(visitorsPage, { houseNumber: 100 })" *ngIf="security.isResidentUser">
           Visitas
         </button>
         <button menuClose ion-item (click)="openPage()" *ngIf="security.isResidentUser">
@@ -96,6 +97,7 @@ import { TranslateService } from '@ngx-translate/core';
 export class MyApp {
   rootPage = null; //FirstRunPage
   mainPage = MainPage;
+  homesSearchPage = HomesSearchPage;
   visitorsPage = VisitorsTabsPage;
 
   @ViewChild(Nav) public nav: Nav;
@@ -155,11 +157,11 @@ export class MyApp {
     });
   }
 
-  openPage(page) {
+  openPage(page, params) {
     // Reset the content nav to have just this page
     // we wouldn't want the back button to show in this scenario
     if(page) {
-      this.nav.setRoot(page);
+      this.nav.setRoot(page, params);
     }
   }
 

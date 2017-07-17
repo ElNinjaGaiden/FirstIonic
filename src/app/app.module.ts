@@ -1,4 +1,4 @@
-import { NgModule, ErrorHandler } from '@angular/core';
+import { NgModule, ErrorHandler, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule, Http } from '@angular/http';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
@@ -21,11 +21,16 @@ import { TabsPage } from '../pages/tabs/tabs';
 import { TutorialPage } from '../pages/tutorial/tutorial';
 import { WelcomePage } from '../pages/welcome/welcome';
 import { TopicsListPage } from '../pages/topics-list/topics-list';
+
+import { HomesSearchPage } from '../pages/homes/search/search';
+
 import { VisitorsTabsPage } from '../pages/visitors/visitorsTabs/visitorsTabs';
 import { QuickVisitorsPage } from '../pages/visitors/quick/quick';
 import { PermanentVisitorsPage } from '../pages/visitors/permanent/permanent';
 import { RecurringVisitorsPage } from '../pages/visitors/recurring/recurring';
 import { NewVisitorPage } from '../pages/visitors/new/new';
+
+import { VisitorItem } from '../components/visitor-item/visitorItem';
 
 import { Api } from '../providers/api';
 import { Items } from '../mocks/providers/items';
@@ -34,6 +39,8 @@ import { User } from '../providers/user';
 import { Security } from '../providers/security';
 import { Toast } from '../providers/toast';
 import { Topics } from '../mocks/providers/topics';
+import { Homes } from '../providers/homes';
+import { Visitors } from '../providers/visitors';
 
 import { Camera } from '@ionic-native/camera';
 import { GoogleMaps } from '@ionic-native/google-maps';
@@ -84,11 +91,13 @@ export function provideSettings(storage: Storage) {
     TutorialPage,
     WelcomePage,
     TopicsListPage,
+    HomesSearchPage,
     VisitorsTabsPage,
     PermanentVisitorsPage,
     QuickVisitorsPage,
     RecurringVisitorsPage,
-    NewVisitorPage
+    NewVisitorPage,
+    VisitorItem
   ],
   imports: [
     BrowserModule,
@@ -121,6 +130,7 @@ export function provideSettings(storage: Storage) {
     TutorialPage,
     WelcomePage,
     TopicsListPage,
+    HomesSearchPage,
     VisitorsTabsPage,
     PermanentVisitorsPage,
     QuickVisitorsPage,
@@ -134,7 +144,9 @@ export function provideSettings(storage: Storage) {
     Security,
     Toast,
     Topics,
+    Homes,
     Camera,
+    Visitors,
     GoogleMaps,
     SplashScreen,
     StatusBar,
@@ -143,6 +155,9 @@ export function provideSettings(storage: Storage) {
     { provide: Settings, useFactory: provideSettings, deps: [Storage] },
     // Keep this to enable Ionic's runtime error handling during development
     { provide: ErrorHandler, useClass: IonicErrorHandler }
+  ],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA
   ]
 })
 export class AppModule { }
