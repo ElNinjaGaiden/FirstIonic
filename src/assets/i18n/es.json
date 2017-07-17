@@ -60,5 +60,39 @@
     "security": "Seguridad",
     "common": "Areas Común",
     "parking": "Parqueo"
-  }
+  },
+
+  "VISITORS": {
+    "QUICK": {
+      "TITLE": "Visitantes",
+      "TAB_TITLE": "Rápidos"
+    },
+    "RECURRING": {
+      "TITLE": "Visitantes",
+      "TAB_TITLE": "Recurrentes"
+    },
+    "PERMANENT": {
+      "TITLE": "Visitantes",
+      "TAB_TITLE": "Permanentes"
+    },
+    "NEW": {
+      "TITLE": "Nueva visita",
+      "HOUSE_ID": "# de casa",
+      "FIRST_NAME": "Nombre",
+      "LAST_NAME": "Apellidos",
+      "ID": "Identificación",
+      "CAR_ID": "Placa",
+      "VISITOR_TYPE": "Tipo de visita"
+    },
+
+    "VISITORS_TYPES": {
+      "QUICK": "Rápida",
+      "RECURRING": "Recurrente",
+      "PERMANENT": "Permanente"
+    }
+  },
+
+  "BUTTONS": {
+      "SAVE": "Guardar"
+    }
 }

@@ -18,6 +18,7 @@ import { FirstRunPage, MainPage } from '../pages/pages';
 // import { TabsPage } from '../pages/tabs/tabs';
 // import { TutorialPage } from '../pages/tutorial/tutorial';
 import { WelcomePage } from '../pages/welcome/welcome';
+import { VisitorsTabsPage } from '../pages/visitors/visitorsTabs/visitorsTabs';
 //import { TopicsListPage } from '../pages/topics-list/topics-list';
 
 import { Settings } from '../providers/providers';
@@ -70,7 +71,7 @@ import { TranslateService } from '@ngx-translate/core';
         <button menuClose ion-item (click)="openPage()" *ngIf="security.isResidentUser">
           Pagos y facturas
         </button>
-        <button menuClose ion-item (click)="openPage()" *ngIf="security.isResidentUser">
+        <button menuClose ion-item (click)="openPage(visitorsPage)" *ngIf="security.isResidentUser">
           Visitas
         </button>
         <button menuClose ion-item (click)="openPage()" *ngIf="security.isResidentUser">
@@ -95,9 +96,10 @@ import { TranslateService } from '@ngx-translate/core';
 export class MyApp {
   rootPage = null; //FirstRunPage
   mainPage = MainPage;
+  visitorsPage = VisitorsTabsPage;
 
-  @ViewChild(Nav) nav: Nav;
-  @ViewChild('content') navCtrl: NavController;
+  @ViewChild(Nav) public nav: Nav;
+  @ViewChild('content') public _navCtrl: NavController;
 
   constructor(private translate: TranslateService, 
               private loadingCtrl: LoadingController,
@@ -123,6 +125,10 @@ export class MyApp {
       console.error(error);
       this.rootPage = FirstRunPage;
     });
+  }
+
+  get navCtrl () {
+    return this._navCtrl;
   }
 
   ionViewDidLoad() {

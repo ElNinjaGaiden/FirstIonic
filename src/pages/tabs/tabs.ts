@@ -132,16 +132,19 @@ export class TabsPage {
           this.onFirebaseTokenReceived(firebaseToken);
         }, (error) => {
           //Error login the user again, maybe the password is wrong
+          console.log('Error login the user again, maybe the password is wrong');
           loader.dismiss();
           this.navCtrl.setRoot(WelcomePage);
         });
       }, (error) => {
         //Error deleting the current access data
+        console.log('Error deleting the current access data');
         loader.dismiss();
         this.navCtrl.setRoot(WelcomePage);
       });
     }, (error) => {
       //Error getting the current acces token data
+      console.log('Error getting the current acces token data');
       loader.dismiss();
       this.navCtrl.setRoot(WelcomePage);
     });

@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{ 'VISITORS.NEW.TITLE' | translate }}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+    <form [formGroup]="visitorForm" (ngSubmit)="onSubmit()">
+        <ion-list>
+            <ion-item>
+                <ion-label stacked>{{ 'VISITORS.NEW.HOUSE_ID' | translate }}</ion-label>
+                <ion-select [(ngModel)]="visitor.houseId" formControlName="houseId">
+                    <ion-option value="001">001</ion-option>
+                    <ion-option value="002">002</ion-option>
+                    <ion-option value="003">003</ion-option>
+                </ion-select>
+            </ion-item>
+            <ion-item>
+                <ion-label floating>{{ 'VISITORS.NEW.FIRST_NAME' | translate }}</ion-label>
+                <ion-input type="text" [(ngModel)]="visitor.firtName" formControlName="firstName"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label floating>{{ 'VISITORS.NEW.LAST_NAME' | translate }}</ion-label>
+                <ion-input type="text" [(ngModel)]="visitor.lastName" formControlName="lastName"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label floating>{{ 'VISITORS.NEW.ID' | translate }}</ion-label>
+                <ion-input type="text" [(ngModel)]="visitor.id" formControlName="id"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label floating>{{ 'VISITORS.NEW.CAR_ID' | translate }}</ion-label>
+                <ion-input type="text" [(ngModel)]="visitor.carId" formControlName="carId"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label stacked>{{ 'VISITORS.NEW.VISITOR_TYPE' | translate }}</ion-label>
+                <ion-select [(ngModel)]="visitor.visitorType" formControlName="visitorType">
+                    <ion-option *ngFor="let visitorType of visitorTypes" [value]="visitorType.type" [selected]="visitorType.type == visitor.visitorType">{{visitorType.name}}</ion-option>
+                </ion-select>
+            </ion-item>
+            <div padding>
+                <button ion-button color="primary" block [disabled]="!visitorForm.valid">{{ 'BUTTONS.SAVE' | translate }}</button>
+            </div>
+        </ion-list>
+    </form>
+</ion-content>

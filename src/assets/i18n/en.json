@@ -77,5 +77,38 @@
     "security": "Security",
     "common": "Common Areas",
     "parking": "Parking"
+  },
+
+  "VISITORS": {
+    "QUICK": {
+      "TITLE": "Visitors",
+      "TAB_TITLE": "Quick"
+    },
+    "RECURRING": {
+      "TITLE": "Visitors",
+      "TAB_TITLE": "Recurring"
+    },
+    "PERMANENT": {
+      "TITLE": "Visitors",
+      "TAB_TITLE": "Permanent"
+    },
+    "NEW": {
+      "TITLE": "New visitor",
+      "HOUSE_ID": "House #",
+      "FIRST_NAME": "First name",
+      "LAST_NAME": "Last name",
+      "ID": "Identification",
+      "CAR_ID": "Car Id",
+      "VISITOR_TYPE": "Visitor type"
+    },
+    "VISITORS_TYPES": {
+      "QUICK": "Quick",
+      "RECURRING": "Recurring",
+      "PERMANENT": "Permanent"
+    }
+  },
+
+  "BUTTONS": {
+    "SAVE": "Save"
   }
 }

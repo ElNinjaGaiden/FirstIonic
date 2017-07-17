@@ -20,7 +20,12 @@ import { SignupPage } from '../pages/signup/signup';
 import { TabsPage } from '../pages/tabs/tabs';
 import { TutorialPage } from '../pages/tutorial/tutorial';
 import { WelcomePage } from '../pages/welcome/welcome';
-import { TopicsListPage } from '../pages/topics-list/topics-list'; 
+import { TopicsListPage } from '../pages/topics-list/topics-list';
+import { VisitorsTabsPage } from '../pages/visitors/visitorsTabs/visitorsTabs';
+import { QuickVisitorsPage } from '../pages/visitors/quick/quick';
+import { PermanentVisitorsPage } from '../pages/visitors/permanent/permanent';
+import { RecurringVisitorsPage } from '../pages/visitors/recurring/recurring';
+import { NewVisitorPage } from '../pages/visitors/new/new';
 
 import { Api } from '../providers/api';
 import { Items } from '../mocks/providers/items';
@@ -78,7 +83,12 @@ export function provideSettings(storage: Storage) {
     TabsPage,
     TutorialPage,
     WelcomePage,
-    TopicsListPage
+    TopicsListPage,
+    VisitorsTabsPage,
+    PermanentVisitorsPage,
+    QuickVisitorsPage,
+    RecurringVisitorsPage,
+    NewVisitorPage
   ],
   imports: [
     BrowserModule,
@@ -110,7 +120,12 @@ export function provideSettings(storage: Storage) {
     TabsPage,
     TutorialPage,
     WelcomePage,
-    TopicsListPage
+    TopicsListPage,
+    VisitorsTabsPage,
+    PermanentVisitorsPage,
+    QuickVisitorsPage,
+    RecurringVisitorsPage,
+    NewVisitorPage
   ],
   providers: [
     Api,
