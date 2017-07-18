@@ -94,11 +94,16 @@
       "CAR_ID": "Placa",
       "VISITOR_TYPE": "Tipo de visita"
     },
-
     "VISITORS_TYPES": {
       "QUICK": "Rápida",
       "RECURRING": "Recurrente",
       "PERMANENT": "Permanente"
+    },
+    "VISITOR": {
+      "OPTIONS": {
+        "IS_ARRIVING": "Llegó",
+        "CANCEL": "Cancelar"
+      }
     }
   },
 

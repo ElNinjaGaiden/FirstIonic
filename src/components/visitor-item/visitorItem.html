@@ -4,8 +4,11 @@
     </ion-item>
 
     <ion-item-options>
-        <!-- <button ion-button color="primary" (click)="goToVisitors(slidingItem, home)">
-            {{ 'HOMES.SEARCH.OPTIONS.VISITORS' | translate }}
-        </button> -->
+         <button *ngIf="security.isSecurityUser" ion-button color="primary" (click)="notifyVisitorIsArriving(slidingItem, visitor)">
+            {{ 'VISITORS.VISITOR.OPTIONS.IS_ARRIVING' | translate }}
+        </button> 
+        <button *ngIf="security.isResidentUser" ion-button color="danger" (click)="cancelVisitor(slidingItem, visitor)">
+            {{ 'VISITORS.VISITOR.OPTIONS.CANCEL' | translate }}
+        </button> 
     </ion-item-options>
 </ion-item-sliding>
