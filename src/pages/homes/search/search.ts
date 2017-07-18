@@ -38,7 +38,7 @@ export class HomesSearchPage {
 
     goToVisitors(slidingItem, home) {
         slidingItem.close();
-        this.nav.push(VisitorsTabsPage, { home: home });
+        this.nav.push(VisitorsTabsPage, { homes: [home], currentHome: home });
 
     }
 }

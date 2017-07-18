@@ -8,14 +8,14 @@ export class Visitors {
     _quickVisitors: Array<Visitor> = [];
     _recurrentVisitors: Array<Visitor> = [];
     _permanentVisitors: Array<Visitor> = [];
-    _currentHouseId: number;
+    _currentHome: Home;
 
-    get currentHouseId() : number {
-        return this._currentHouseId;
+    get currentHome() : Home {
+        return this._currentHome;
     }
 
-    set currentHouseId(houseId: number) {
-        this._currentHouseId = houseId;
+    set currentHome(home: Home) {
+        this._currentHome = home;
     }
 
     get quickVisitors() : Array<Visitor> {
@@ -51,7 +51,7 @@ export class Visitors {
                     new Visitor('Mickey', 'Mouse', 'recurring', '', ''),
                     new Visitor('Michael', 'Jordan', 'permanent', '', '')
                 ];
-                this.currentHouseId = home.id;
+                this.currentHome = home;
                 this.quickVisitors = visitors.filter(v => v.isQuick());
                 this.recurringVisitors = visitors.filter(v => v.isRecurring());
                 this.permanentVisitors = visitors.filter(v => v.isPermanent());

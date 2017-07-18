@@ -24,6 +24,7 @@ import { VisitorsTabsPage } from '../pages/visitors/visitorsTabs/visitorsTabs';
 
 import { Settings } from '../providers/providers';
 import { User } from '../providers/user';
+import { Homes } from '../providers/homes';
 import { Security } from '../providers/security';
 
 import { TranslateService } from '@ngx-translate/core';
@@ -72,7 +73,7 @@ import { TranslateService } from '@ngx-translate/core';
         <button menuClose ion-item (click)="openPage()" *ngIf="security.isResidentUser">
           Pagos y facturas
         </button>
-        <button menuClose ion-item (click)="openPage(visitorsPage, { home: user.userHome })" *ngIf="security.isResidentUser">
+        <button menuClose ion-item (click)="openPage(visitorsPage, { homes: homes.userHomes })" *ngIf="security.isResidentUser">
           Visitas
         </button>
         <button menuClose ion-item (click)="openPage()" *ngIf="security.isResidentUser">
@@ -109,6 +110,7 @@ export class MyApp {
               private platform: Platform, 
               public settings: Settings, 
               private user: User,
+              private homes: Homes,
               private security: Security,
               private config: Config, 
               private statusBar: StatusBar, 

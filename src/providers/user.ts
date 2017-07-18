@@ -34,7 +34,7 @@ export class User {
   _accessData: any;
   _deviceRegistrationToken: string;
   _userData: any;
-  _userHome: Home;
+  //_userHome: Home;
 
   constructor(public http: Http, 
               public api: Api,
@@ -58,13 +58,13 @@ export class User {
     this._userData = userData;
   }
 
-  get userHome() : Home {
-    return this._userHome;
-  }
+  // get userHome() : Home {
+  //   return this._userHome;
+  // }
 
-  set userHome(home : Home) {
-    this._userHome = home;
-  }
+  // set userHome(home : Home) {
+  //   this._userHome = home;
+  // }
 
   getAccessData() : Promise<any> {
     return new Promise((resolve) => {
@@ -161,9 +161,7 @@ export class User {
         .map(res => res.json())
         .subscribe(userData => {
           this.security.Roles = userData.role;
-          if(userData.homes && userData.homes.length) {
-            this.userHome = userData.homes.map(h => new Home(h.id, h.name, [ new Resident(userData.firstName, userData.lastName) ]))[0];
-          }
+          this.userData = userData;
           resolve(userData);
         }, er => {
           //console.log(er);

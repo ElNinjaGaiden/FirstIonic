@@ -16,6 +16,18 @@
 </ion-header>
 
 <ion-content>
+  <ion-toolbar color="primary">
+    <form [formGroup]="homesForm">
+      <ion-list>
+        <ion-item>
+            <ion-label>{{ 'VISITORS.NEW.HOUSE_ID' | translate }}</ion-label>
+             <ion-select [(ngModel)]="currentHome.id" formControlName="houseId">
+                <ion-option *ngFor="let home of homes" [value]="home.id" [selected]="home.id == currentHome.id">{{home.name}}</ion-option>
+            </ion-select> 
+        </ion-item>
+      </ion-list>
+    </form>
+  </ion-toolbar>
   <ion-list>
     <visitor-item *ngFor="let visitor of visitors.recurringVisitors" [visitor]="visitor"></visitor-item>
   </ion-list>

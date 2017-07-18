@@ -14,7 +14,8 @@ import { Home } from '../../../models/home';
 })
 export class VisitorsTabsPage {
 
-    home: Home;
+    homes: Array<Home>;
+    currentHome: Home;
 
     visitorsQuickTab: any = QuickVisitorsPage;
     visitorsRecurringTab: any = RecurringVisitorsPage;
@@ -35,9 +36,10 @@ export class VisitorsTabsPage {
             this.visitorsPermanentTitle = values['VISITORS.PERMANENT.TAB_TITLE'];
         });
 
-        if(this.navParams.data.home) {
-            this.home = this.navParams.data.home
-            this.loadHouseVisitors(this.home);
+        if(this.navParams.data.homes && this.navParams.data.homes.length) {
+            this.homes = this.navParams.data.homes;
+            this.currentHome = this.homes[0];
+            this.loadHouseVisitors(this.currentHome);
         }
     }
 

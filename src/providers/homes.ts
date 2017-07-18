@@ -6,6 +6,8 @@ import { User } from '../providers/user';
 @Injectable()
 export class Homes {
 
+    _userHomes: Array<Home>;
+
     constructor(private user: User) {
 
     }
@@ -41,13 +43,21 @@ export class Homes {
         });
     }
 
-    searchByUser() : Promise<Array<Home>> {
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                const userData = this.user.userData;
-                const userHomes = userData.homes.map(h => new Home(h.id, h.name, [ new Resident(userData.firstName, userData.lastName) ]));
-                resolve(userHomes);
-            }, 400);
-        });
+    get userHomes() : Array<Home> {
+        if(!this._userHomes) {
+            const userData = this.user.userData;
+            this._userHomes = userData.homes.map(h => new Home(h.id, h.name, [ new Resident(userData.firstName, userData.lastName) ]));
+        }
+        return this._userHomes;
     }
+
+    // searchByUser() : Promise<Array<Home>> {
+    //     return new Promise((resolve) => {
+    //         setTimeout(() => {
+    //             const userData = this.user.userData;
+    //             const userHomes = userData.homes.map(h => new Home(h.id, h.name, [ new Resident(userData.firstName, userData.lastName) ]));
+    //             resolve(userHomes);
+    //         }, 400);
+    //     });
+    // }
 }

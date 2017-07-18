@@ -34,11 +34,12 @@ export class NewVisitorPage {
                 private visitors: Visitors,
                 private translateService: TranslateService) {
 
-        this.visitor.visitorType = this.security.isResidentUser ? this.navParams.data.visitorType : 'quick';
-        this.visitor.houseId = visitors.currentHouseId;
+        //NOTE: Security users can only add quick visitors
+        this.visitor.visitorType = this.security.isSecurityUser ? 'quick' : this.navParams.data.visitorType;
+        this.visitor.houseId = visitors.currentHome.id;
 
         this.visitorForm = this.formBuilder.group({
-            'houseId': new FormControl({ value: visitors.currentHouseId, disabled: !this.security.isResidentUser }, Validators.required),
+            'houseId': new FormControl({ value: visitors.currentHome.id, disabled: !this.security.isResidentUser }, Validators.required),
             'firstName': ['', [Validators.required]],
             'lastName': ['', [Validators.required]],
             'id': ['', [Validators.required]],
@@ -53,24 +54,6 @@ export class NewVisitorPage {
         });
 
         this.homesCollection = this.navParams.data.homes;
-        //this.loadHomes();
-    }
-
-    loadHomes() {
-        if(this.security.isResidentUser) {
-            this.homes.searchByUser()
-            .then((homes) => {
-                this.homesCollection = homes;
-            })
-            .catch();
-        }
-        else {
-            this.homes.searchByNumber('')
-            .then((homes) => {
-                this.homesCollection = homes;
-            })
-            .catch();
-        }
     }
 
     onSubmit() {
