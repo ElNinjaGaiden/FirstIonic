@@ -1,7 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
-import { App, NavController, Navbar, ViewController, Platform } from 'ionic-angular';
+import { App, NavController, Navbar, ViewController, Platform, NavParams } from 'ionic-angular';
 import { NewVisitorPage } from '../new/new';
 import { Visitors } from '../../../providers/visitors';
+import { Home } from '../../../models/home';
 
 @Component({
     selector: 'permanent-visitors',
@@ -12,18 +13,21 @@ export class PermanentVisitorsPage {
     @ViewChild(Navbar) navBar:Navbar;
     private rootNav: NavController;
     private tabsContainerIsRootView: boolean = false;
+    home: Home;
 
     constructor(private app: App,
                 private visitors: Visitors,
                 public navCtrl: NavController,
                 private viewCtrl: ViewController,
-                private platform: Platform) {
+                private platform: Platform,
+                private navParams: NavParams) {
 
         this.rootNav = this.app.getRootNav();
+        this.home = this.navParams.data;
     }
 
     goToNewVisitor() {
-        this.rootNav.push(NewVisitorPage, { visitorType: 'permanent' });
+        this.rootNav.push(NewVisitorPage, { visitorType: 'permanent', homes: [this.home] });
     }
 
     ionViewDidLoad() {

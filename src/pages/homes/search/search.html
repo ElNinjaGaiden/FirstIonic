@@ -12,7 +12,7 @@
   <ion-list>
       <ion-item-sliding *ngFor="let home of currentHomes" #slidingItem>
           <ion-item>
-              <h2>{{home.number}}</h2>
+              <h2>{{home.name}}</h2>
               <p *ngFor="let contact of home.contacts" >{{contact.getFullName()}}</p>
           </ion-item>
 

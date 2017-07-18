@@ -10,12 +10,12 @@
             <ion-item>
                 <ion-label stacked>{{ 'VISITORS.NEW.HOUSE_ID' | translate }}</ion-label>
                 <ion-select [(ngModel)]="visitor.houseId" formControlName="houseId">
-                    <ion-option *ngFor="let home of homesCollection" [value]="home.number" [selected]="home.number == visitor.houseId">{{home.number}}</ion-option>
+                    <ion-option *ngFor="let home of homesCollection" [value]="home.id" [selected]="home.id == visitor.houseId">{{home.name}}</ion-option>
                 </ion-select>
             </ion-item>
             <ion-item>
                 <ion-label floating>{{ 'VISITORS.NEW.FIRST_NAME' | translate }}</ion-label>
-                <ion-input type="text" [(ngModel)]="visitor.firtName" formControlName="firstName"></ion-input>
+                <ion-input type="text" [(ngModel)]="visitor.firstName" formControlName="firstName"></ion-input>
             </ion-item>
             <ion-item>
                 <ion-label floating>{{ 'VISITORS.NEW.LAST_NAME' | translate }}</ion-label>

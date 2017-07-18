@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Visitor } from '../models/visitor';
+import { Home } from '../models/home';
 
 @Injectable()
 export class Visitors {
@@ -7,14 +8,14 @@ export class Visitors {
     _quickVisitors: Array<Visitor> = [];
     _recurrentVisitors: Array<Visitor> = [];
     _permanentVisitors: Array<Visitor> = [];
-    _currentHouseNumber: string;
+    _currentHouseId: number;
 
-    get currentHouseNumber() : string {
-        return this._currentHouseNumber;
+    get currentHouseId() : number {
+        return this._currentHouseId;
     }
 
-    set currentHouseNumber(houseNumber: string) {
-        this._currentHouseNumber = houseNumber;
+    set currentHouseId(houseId: number) {
+        this._currentHouseId = houseId;
     }
 
     get quickVisitors() : Array<Visitor> {
@@ -41,7 +42,7 @@ export class Visitors {
         this._permanentVisitors = visitors;
     }
 
-    loadVisitorsByHome(houseNumber: string) : Promise<Array<Visitor>> {
+    loadVisitorsByHome(home: Home) : Promise<Array<Visitor>> {
         return new Promise((resolve) => {
             setTimeout(() => {
                 let visitors = [
@@ -50,7 +51,7 @@ export class Visitors {
                     new Visitor('Mickey', 'Mouse', 'recurring', '', ''),
                     new Visitor('Michael', 'Jordan', 'permanent', '', '')
                 ];
-                this.currentHouseNumber = houseNumber;
+                this.currentHouseId = home.id;
                 this.quickVisitors = visitors.filter(v => v.isQuick());
                 this.recurringVisitors = visitors.filter(v => v.isRecurring());
                 this.permanentVisitors = visitors.filter(v => v.isPermanent());

@@ -7,6 +7,9 @@ import 'rxjs/add/operator/toPromise';
 
 import { Security } from './security';
 
+import { Home } from '../models/home';
+import { Resident } from '../models/resident';
+
 /**
  * Most apps have the concept of a User. This is a simple provider
  * with stubs for login/signup/etc.
@@ -31,6 +34,7 @@ export class User {
   _accessData: any;
   _deviceRegistrationToken: string;
   _userData: any;
+  _userHome: Home;
 
   constructor(public http: Http, 
               public api: Api,
@@ -52,6 +56,14 @@ export class User {
 
   set userData(userData: any) {
     this._userData = userData;
+  }
+
+  get userHome() : Home {
+    return this._userHome;
+  }
+
+  set userHome(home : Home) {
+    this._userHome = home;
   }
 
   getAccessData() : Promise<any> {
@@ -149,6 +161,9 @@ export class User {
         .map(res => res.json())
         .subscribe(userData => {
           this.security.Roles = userData.role;
+          if(userData.homes && userData.homes.length) {
+            this.userHome = userData.homes.map(h => new Home(h.id, h.name, [ new Resident(userData.firstName, userData.lastName) ]))[0];
+          }
           resolve(userData);
         }, er => {
           //console.log(er);

@@ -6,12 +6,15 @@ import { PermanentVisitorsPage } from '../permanent/permanent';
 import { RecurringVisitorsPage } from '../recurring/recurring';
 import { Visitors } from '../../../providers/visitors';
 import { Visitor } from '../../../models/visitor';
+import { Home } from '../../../models/home';
 
 @Component({
     selector: 'vists-tabs',
     templateUrl: 'visitorsTabs.html'
 })
 export class VisitorsTabsPage {
+
+    home: Home;
 
     visitorsQuickTab: any = QuickVisitorsPage;
     visitorsRecurringTab: any = RecurringVisitorsPage;
@@ -32,24 +35,24 @@ export class VisitorsTabsPage {
             this.visitorsPermanentTitle = values['VISITORS.PERMANENT.TAB_TITLE'];
         });
 
-        if(this.navParams.data.houseNumber) {
-            this.loadHouseVisitors(this.navParams.data.houseNumber);
+        if(this.navParams.data.home) {
+            this.home = this.navParams.data.home
+            this.loadHouseVisitors(this.home);
         }
     }
 
-    loadHouseVisitors(houseNumber) {
+    loadHouseVisitors(home) {
         let loader = this.loadingCtrl.create({
             content: "Please wait..."
         });
         loader.present();
-        this.visitors.loadVisitorsByHome(houseNumber)
+        this.visitors.loadVisitorsByHome(home)
         .then((visitors) => {
             loader.dismiss();
-            //console.log(visitors);
         })
         .catch((error) => {
             loader.dismiss();
-            console.error(error); //
+            console.error(error);
         });
     }
 }

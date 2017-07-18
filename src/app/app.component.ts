@@ -72,7 +72,7 @@ import { TranslateService } from '@ngx-translate/core';
         <button menuClose ion-item (click)="openPage()" *ngIf="security.isResidentUser">
           Pagos y facturas
         </button>
-        <button menuClose ion-item (click)="openPage(visitorsPage, { houseNumber: 100 })" *ngIf="security.isResidentUser">
+        <button menuClose ion-item (click)="openPage(visitorsPage, { home: user.userHome })" *ngIf="security.isResidentUser">
           Visitas
         </button>
         <button menuClose ion-item (click)="openPage()" *ngIf="security.isResidentUser">

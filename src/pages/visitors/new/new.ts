@@ -35,10 +35,10 @@ export class NewVisitorPage {
                 private translateService: TranslateService) {
 
         this.visitor.visitorType = this.security.isResidentUser ? this.navParams.data.visitorType : 'quick';
-        this.visitor.houseId = visitors.currentHouseNumber;
+        this.visitor.houseId = visitors.currentHouseId;
 
         this.visitorForm = this.formBuilder.group({
-            'houseId': new FormControl({ value: visitors.currentHouseNumber, disabled: !this.security.isResidentUser }, Validators.required),
+            'houseId': new FormControl({ value: visitors.currentHouseId, disabled: !this.security.isResidentUser }, Validators.required),
             'firstName': ['', [Validators.required]],
             'lastName': ['', [Validators.required]],
             'id': ['', [Validators.required]],
@@ -52,11 +52,25 @@ export class NewVisitorPage {
             this.visitorTypes.push({ type: 'permanent', name: values['VISITORS.VISITORS_TYPES.PERMANENT'] });
         });
 
-        this.homes.searchByNumber('')
-        .then((homes) => {
-            this.homesCollection = homes;
-        })
-        .catch();
+        this.homesCollection = this.navParams.data.homes;
+        //this.loadHomes();
+    }
+
+    loadHomes() {
+        if(this.security.isResidentUser) {
+            this.homes.searchByUser()
+            .then((homes) => {
+                this.homesCollection = homes;
+            })
+            .catch();
+        }
+        else {
+            this.homes.searchByNumber('')
+            .then((homes) => {
+                this.homesCollection = homes;
+            })
+            .catch();
+        }
     }
 
     onSubmit() {

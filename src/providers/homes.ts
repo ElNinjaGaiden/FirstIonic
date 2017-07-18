@@ -1,54 +1,52 @@
 import { Injectable } from '@angular/core';
 import { Home } from '../models/home';
-import { User } from '../models/user';
+import { Resident } from '../models/resident';
+import { User } from '../providers/user';
 
 @Injectable()
 export class Homes {
+
+    constructor(private user: User) {
+
+    }
 
     searchByNumber(parameters: any) : Promise<Array<Home>> {
         return new Promise((resolve) => {
             setTimeout(() => {
                 resolve([
-                    new Home('101', [
-                        new User('Sergio', 'Sanchez'),
-                        new User('Juana', 'Consuelo'),
+                    new Home(1, '101', [
+                        new Resident('Sergio', 'Sanchez'),
+                        new Resident('Juana', 'Consuelo'),
                     ]),
-                    new Home('102', [
-                        new User('Sergio', 'Sanchez'),
+                    new Home(2, '102', [
+                        new Resident('Sergio', 'Sanchez'),
                     ]),
-                    new Home('201', [
-                        new User('Sergio', 'Sanchez'),
-                        new User('Juana', 'Consuelo'),
+                    new Home(3, '201', [
+                        new Resident('Sergio', 'Sanchez'),
+                        new Resident('Juana', 'Consuelo'),
                     ]),
-                    new Home('202', [
-                        new User('Sergio', 'Sanchez')
+                    new Home(4, '202', [
+                        new Resident('Sergio', 'Sanchez')
                     ]),
-                    new Home('301', [
-                        new User('Sergio', 'Sanchez'),
-                        new User('Juana', 'Consuelo'),
+                    new Home(5, '301', [
+                        new Resident('Sergio', 'Sanchez'),
+                        new Resident('Juana', 'Consuelo'),
                     ]),
-                    new Home('302', [
-                        new User('Sergio', 'Sanchez'),
-                        new User('Juana', 'Consuelo'),
+                    new Home(6, '302', [
+                        new Resident('Sergio', 'Sanchez'),
+                        new Resident('Juana', 'Consuelo'),
                     ])
                 ]);
             }, 400);
         });
     }
 
-    searchByUser(parameters: any) : Promise<Array<Home>> {
+    searchByUser() : Promise<Array<Home>> {
         return new Promise((resolve) => {
             setTimeout(() => {
-                resolve([
-                    new Home('101', [
-                        new User('Sergio', 'Sanchez'),
-                        new User('Juana', 'Consuelo'),
-                    ]),
-                    new Home('102', [
-                        new User('Sergio', 'Sanchez'),
-                        new User('Juana', 'Consuelo'),
-                    ]),
-                ]);
+                const userData = this.user.userData;
+                const userHomes = userData.homes.map(h => new Home(h.id, h.name, [ new Resident(userData.firstName, userData.lastName) ]));
+                resolve(userHomes);
             }, 400);
         });
     }

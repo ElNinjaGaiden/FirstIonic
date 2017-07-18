@@ -1,12 +1,14 @@
-import { User } from './user';
+import { Resident } from './resident';
 
 export class Home {
 
-    number: string;
-    contacts: Array<User>;
+    id: number;
+    name: string;
+    contacts: Array<Resident>;
 
-    constructor(number: string, contacts: Array<User>) {
-        this.number = number;
+    constructor(id: number, name: string, contacts: Array<Resident>) {
+        this.id = id;
+        this.name = name;
         this.contacts = contacts;
     }
 
