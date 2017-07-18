@@ -7,6 +7,15 @@ export class Visitors {
     _quickVisitors: Array<Visitor> = [];
     _recurrentVisitors: Array<Visitor> = [];
     _permanentVisitors: Array<Visitor> = [];
+    _currentHouseNumber: string;
+
+    get currentHouseNumber() : string {
+        return this._currentHouseNumber;
+    }
+
+    set currentHouseNumber(houseNumber: string) {
+        this._currentHouseNumber = houseNumber;
+    }
 
     get quickVisitors() : Array<Visitor> {
         return this._quickVisitors;
@@ -32,7 +41,7 @@ export class Visitors {
         this._permanentVisitors = visitors;
     }
 
-    loadVisitorsByHome(homeNumber: string) : Promise<Array<Visitor>> {
+    loadVisitorsByHome(houseNumber: string) : Promise<Array<Visitor>> {
         return new Promise((resolve) => {
             setTimeout(() => {
                 let visitors = [
@@ -41,6 +50,7 @@ export class Visitors {
                     new Visitor('Mickey', 'Mouse', 'recurring', '', ''),
                     new Visitor('Michael', 'Jordan', 'permanent', '', '')
                 ];
+                this.currentHouseNumber = houseNumber;
                 this.quickVisitors = visitors.filter(v => v.isQuick());
                 this.recurringVisitors = visitors.filter(v => v.isRecurring());
                 this.permanentVisitors = visitors.filter(v => v.isPermanent());

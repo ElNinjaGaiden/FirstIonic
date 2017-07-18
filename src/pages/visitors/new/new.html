@@ -10,9 +10,7 @@
             <ion-item>
                 <ion-label stacked>{{ 'VISITORS.NEW.HOUSE_ID' | translate }}</ion-label>
                 <ion-select [(ngModel)]="visitor.houseId" formControlName="houseId">
-                    <ion-option value="001">001</ion-option>
-                    <ion-option value="002">002</ion-option>
-                    <ion-option value="003">003</ion-option>
+                    <ion-option *ngFor="let home of homesCollection" [value]="home.number" [selected]="home.number == visitor.houseId">{{home.number}}</ion-option>
                 </ion-select>
             </ion-item>
             <ion-item>
