@@ -34,7 +34,6 @@ export class User {
   _accessData: any;
   _deviceRegistrationToken: string;
   _userData: any;
-  //_userHome: Home;
 
   constructor(public http: Http, 
               public api: Api,
@@ -57,14 +56,6 @@ export class User {
   set userData(userData: any) {
     this._userData = userData;
   }
-
-  // get userHome() : Home {
-  //   return this._userHome;
-  // }
-
-  // set userHome(home : Home) {
-  //   this._userHome = home;
-  // }
 
   getAccessData() : Promise<any> {
     return new Promise((resolve) => {
@@ -241,6 +232,8 @@ export class User {
   _deleteAccessData() {
     this._accessData = null;
     this._deviceRegistrationToken = null;
+    this.userData = null;
+    this.security.Roles = [];
     return this.storage.remove('accessData');
   }
 }
