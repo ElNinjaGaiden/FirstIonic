@@ -79,7 +79,10 @@
     },
     "RECURRING": {
       "TITLE": "Visitantes",
-      "TAB_TITLE": "Recurrentes"
+      "TAB_TITLE": "Recurrentes",
+      "DAYS": {
+        "TITLE": "Días"
+      }
     },
     "PERMANENT": {
       "TITLE": "Visitantes",
@@ -92,22 +95,40 @@
       "LAST_NAME": "Apellidos",
       "ID": "Identificación",
       "CAR_ID": "Placa",
-      "VISITOR_TYPE": "Tipo de visita"
+      "REGISTRATION_TYPE": "Tipo de registro",
+      "ENTRY_MODE": "Medio de entrada"
     },
-    "VISITORS_TYPES": {
+    "REGISTRATION_TYPES": {
       "QUICK": "Rápida",
       "RECURRING": "Recurrente",
       "PERMANENT": "Permanente"
+    },
+    "ENTRY_MODES": {
+      "PEDESTRIAN": "Peatón",
+      "VEHICLE": "Vehículo",
+      "PUBLIC_TRANSPORTATION": "Transporte público"
     },
     "VISITOR": {
       "OPTIONS": {
         "IS_ARRIVING": "Llegó",
         "CANCEL": "Cancelar"
       }
-    }
+    },
+    "APPROX_TIME": "Hora aprox"
   },
 
   "BUTTONS": {
-      "SAVE": "Guardar"
-    }
+    "SAVE": "Guardar",
+    "NEXT": "Siguiente"
+  },
+
+  "DAYS": {
+    "MONDAY": "Lunes",
+    "TUESDAY": "Martes",
+    "WEDNESDAY": "Miércoles",
+    "THURSDAY": "Jueves",
+    "FRIDAY": "Viernes",
+    "SATURDAY": "Sábado",
+    "SUNDAY": "Domingo"
+  }
 }

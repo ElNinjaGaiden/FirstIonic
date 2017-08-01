@@ -5,6 +5,7 @@ import { NewVisitorPage } from '../new/new';
 import { Visitors } from '../../../providers/visitors';
 import { Security } from '../../../providers/security';
 import { Home } from '../../../models/home';
+import { VisitorRegistrationTypes } from '../../../models/visitor';
 
 @Component({
     selector: 'permanent-visitors',
@@ -37,7 +38,7 @@ export class PermanentVisitorsPage {
     }
 
     goToNewVisitor() {
-        this.rootNav.push(NewVisitorPage, { visitorType: 'permanent', homes: this.homes });
+        this.rootNav.push(NewVisitorPage, { registrationType: VisitorRegistrationTypes.Permanent, homes: this.homes });
     }
 
     ionViewDidLoad() {

@@ -6,6 +6,7 @@ import { Visitors } from '../../../providers/visitors';
 import { Homes } from '../../../providers/homes';
 import { Security } from '../../../providers/security';
 import { Home } from '../../../models/home';
+import { VisitorRegistrationTypes } from '../../../models/visitor';
 
 @Component({
     selector: 'quick-visitors',
@@ -39,7 +40,7 @@ export class QuickVisitorsPage {
     }
 
     goToNewVisitor() {
-        this.rootNav.push(NewVisitorPage, { visitorType: 'quick', homes: this.homes });
+        this.rootNav.push(NewVisitorPage, { registrationType: VisitorRegistrationTypes.Quick, homes: this.homes });
     }
 
     ionViewDidLoad() {

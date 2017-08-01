@@ -7,7 +7,7 @@ import 'rxjs/add/operator/map';
  */
 @Injectable()
 export class Api {
-  url: string = 'http://mycondoappcr.azurewebsites.net';
+  url: string = 'http://koti.azurewebsites.net';
 
   constructor(public http: Http) {
   }

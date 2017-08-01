@@ -55,6 +55,7 @@ export class VisitorsTabsPage {
         .catch((error) => {
             loader.dismiss();
             console.error(error);
+            
         });
     }
 }

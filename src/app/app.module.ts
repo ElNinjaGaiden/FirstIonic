@@ -28,6 +28,7 @@ import { VisitorsTabsPage } from '../pages/visitors/visitorsTabs/visitorsTabs';
 import { QuickVisitorsPage } from '../pages/visitors/quick/quick';
 import { PermanentVisitorsPage } from '../pages/visitors/permanent/permanent';
 import { RecurringVisitorsPage } from '../pages/visitors/recurring/recurring';
+import { RecurringDaysView } from '../pages/visitors/recurring/days';
 import { NewVisitorPage } from '../pages/visitors/new/new';
 
 import { VisitorItem } from '../components/visitor-item/visitorItem';
@@ -96,6 +97,7 @@ export function provideSettings(storage: Storage) {
     PermanentVisitorsPage,
     QuickVisitorsPage,
     RecurringVisitorsPage,
+    RecurringDaysView,
     NewVisitorPage,
     VisitorItem
   ],
@@ -135,6 +137,7 @@ export function provideSettings(storage: Storage) {
     PermanentVisitorsPage,
     QuickVisitorsPage,
     RecurringVisitorsPage,
+    RecurringDaysView,
     NewVisitorPage
   ],
   providers: [

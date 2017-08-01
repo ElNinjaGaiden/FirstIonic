@@ -5,6 +5,7 @@ import { NewVisitorPage } from '../new/new';
 import { Visitors } from '../../../providers/visitors';
 import { Security } from '../../../providers/security';
 import { Home } from '../../../models/home';
+import { VisitorRegistrationTypes } from '../../../models/visitor';
 
 @Component({
     selector: 'recurring-visitors',
@@ -37,7 +38,7 @@ export class RecurringVisitorsPage {
     }
 
     goToNewVisitor() {
-        this.rootNav.push(NewVisitorPage, { visitorType: 'recurring', homes: this.homes });
+        this.rootNav.push(NewVisitorPage, { registrationType: VisitorRegistrationTypes.Recurring, homes: this.homes });
     }
 
     ionViewDidLoad() {

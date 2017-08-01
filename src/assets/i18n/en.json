@@ -96,7 +96,10 @@
     },
     "RECURRING": {
       "TITLE": "Visitors",
-      "TAB_TITLE": "Recurring"
+      "TAB_TITLE": "Recurring",
+      "DAYS": {
+        "TITLE": "Days"
+      }
     },
     "PERMANENT": {
       "TITLE": "Visitors",
@@ -109,22 +112,40 @@
       "LAST_NAME": "Last name",
       "ID": "Identification",
       "CAR_ID": "Car Id",
-      "VISITOR_TYPE": "Visitor type"
+      "REGISTRATION_TYPE": "Registration type",
+      "ENTRY_TYPE": "Entry mode"
     },
-    "VISITORS_TYPES": {
+    "REGISTRATION_TYPES": {
       "QUICK": "Quick",
       "RECURRING": "Recurring",
       "PERMANENT": "Permanent"
+    },
+    "ENTRY_TYPES": {
+      "PEDESTRIAN": "Pedestrian",
+      "VEHICLE": "Vehicle",
+      "PUBLIC_TRANSPORTATION": "Public transportation"
     },
     "VISITOR": {
       "OPTIONS": {
         "IS_ARRIVING": "Is here",
         "CANCEL": "Cancel"
       }
-    }
+    },
+    "APPROX_TIME": "Approx time"
   },
 
   "BUTTONS": {
-    "SAVE": "Save"
+    "SAVE": "Save",
+    "NEXT": "Next"
+  },
+
+  "DAYS": {
+    "MONDAY": "Monday",
+    "TUESDAY": "Tuesday",
+    "WEDNESDAY": "Wednesday",
+    "THURSDAY": "Thursday",
+    "FRIDAY": "Friday",
+    "SATURDAY": "Saturday",
+    "SUNDAY": "Sunday"
   }
 }

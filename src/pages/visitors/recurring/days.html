@@ -1,0 +1,48 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{ 'VISITORS.RECURRING.DAYS.TITLE' | translate }}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+    <form [formGroup]="daysForm" (ngSubmit)="onSubmit()">
+        <ion-list>
+            <ion-item>
+                <ion-label>{{ 'DAYS.MONDAY' | translate }}</ion-label>
+                <ion-toggle [(ngModel)]="days.monday.selected" formControlName="mondaySelected"></ion-toggle>
+            </ion-item>
+            <ion-item>
+                <ion-label>{{ 'DAYS.TUESDAY' | translate }}</ion-label>
+                <ion-toggle [(ngModel)]="days.tuesday.selected" formControlName="tuesdaySelected"></ion-toggle>
+            </ion-item>
+            <ion-item>
+                <ion-label>{{ 'DAYS.WEDNESDAY' | translate }}</ion-label>
+                <ion-toggle [(ngModel)]="days.wednesday.selected" formControlName="wednesdaySelected"></ion-toggle>
+            </ion-item>
+            <ion-item>
+                <ion-label>{{ 'DAYS.THURSDAY' | translate }}</ion-label>
+                <ion-toggle [(ngModel)]="days.thursday.selected" formControlName="thursdaySelected"></ion-toggle>
+            </ion-item>
+            <ion-item>
+                <ion-label>{{ 'DAYS.FRIDAY' | translate }}</ion-label>
+                <ion-toggle [(ngModel)]="days.friday.selected" formControlName="fridaySelected"></ion-toggle>
+            </ion-item>
+            <ion-item>
+                <ion-label>{{ 'DAYS.SATURDAY' | translate }}</ion-label>
+                <ion-toggle [(ngModel)]="days.saturday.selected" formControlName="saturdaySelected"></ion-toggle>
+            </ion-item>
+            <ion-item>
+                <ion-label>{{ 'DAYS.SUNDAY' | translate }}</ion-label>
+                <ion-toggle [(ngModel)]="days.sunday.selected" formControlName="sundaySelected"></ion-toggle>
+            </ion-item>
+            <ion-list-header color="light"></ion-list-header>
+            <ion-item>
+                <ion-label>{{ 'VISITORS.APPROX_TIME' | translate }}</ion-label>
+                <ion-datetime displayFormat="hh:mm A" [(ngModel)]="approxTime" formControlName="approxTime"></ion-datetime>
+            </ion-item>
+            <div padding>
+                <button ion-button color="primary" block [disabled]="!daysForm.valid || !validateDaysSelection()">{{ 'BUTTONS.SAVE' | translate }}</button>
+            </div>
+        </ion-list>
+    </form>
+</ion-content>

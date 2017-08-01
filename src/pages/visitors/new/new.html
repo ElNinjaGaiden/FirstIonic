@@ -9,8 +9,20 @@
         <ion-list>
             <ion-item>
                 <ion-label stacked>{{ 'VISITORS.NEW.HOUSE_ID' | translate }}</ion-label>
-                <ion-select [(ngModel)]="visitor.houseId" formControlName="houseId">
+                <ion-select [(ngModel)]="visitor.homeId" formControlName="homeId">
                     <ion-option *ngFor="let home of homesCollection" [value]="home.id" [selected]="home.id == visitor.houseId">{{home.name}}</ion-option>
+                </ion-select>
+            </ion-item>
+            <ion-item>
+                <ion-label stacked>{{ 'VISITORS.NEW.REGISTRATION_TYPE' | translate }}</ion-label>
+                <ion-select [(ngModel)]="visitor.registrationType" formControlName="registrationType">
+                    <ion-option *ngFor="let registrationType of registrationTypes" [value]="registrationType.type" [selected]="registrationType.type == visitor.registrationType">{{registrationType.text}}</ion-option>
+                </ion-select>
+            </ion-item>
+            <ion-item>
+                <ion-label stacked>{{ 'VISITORS.NEW.ENTRY_TYPE' | translate }}</ion-label>
+                <ion-select [(ngModel)]="visitor.entryType" formControlName="entryType">
+                    <ion-option *ngFor="let entryType of entryTypes" [value]="entryType.type" [selected]="entryType.type == visitor.entryType">{{entryType.text}}</ion-option>
                 </ion-select>
             </ion-item>
             <ion-item>
@@ -29,14 +41,17 @@
                 <ion-label floating>{{ 'VISITORS.NEW.CAR_ID' | translate }}</ion-label>
                 <ion-input type="text" [(ngModel)]="visitor.carId" formControlName="carId"></ion-input>
             </ion-item>
-            <ion-item>
-                <ion-label stacked>{{ 'VISITORS.NEW.VISITOR_TYPE' | translate }}</ion-label>
-                <ion-select [(ngModel)]="visitor.visitorType" formControlName="visitorType">
-                    <ion-option *ngFor="let visitorType of visitorTypes" [value]="visitorType.type" [selected]="visitorType.type == visitor.visitorType">{{visitorType.name}}</ion-option>
-                </ion-select>
-            </ion-item>
             <div padding>
-                <button ion-button color="primary" block [disabled]="!visitorForm.valid">{{ 'BUTTONS.SAVE' | translate }}</button>
+                <button *ngIf="enableSave()" ion-button color="primary" block 
+                        [disabled]="!visitorForm.valid || !validateVisitorEntryType()">
+                    {{ 'BUTTONS.SAVE' | translate }}
+                </button>
+                <button ion-button color="primary" block 
+                        *ngIf="enableNext()"
+                        (click)="goToRecurringDays($event)"
+                        [disabled]="!visitorForm.valid || !validateVisitorEntryType()">
+                    {{ 'BUTTONS.NEXT' | translate }}
+                </button>
             </div>
         </ion-list>
     </form>
