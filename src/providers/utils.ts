@@ -4,16 +4,34 @@ import { TranslateService } from '@ngx-translate/core';
 @Injectable()
 export class Utils {
 
-    _daysTranslations: any;
+    private _daysTranslations: any;
+    private _pleaseWaitMessage: string;
+    private _confirmationTitle: string;
 
     constructor(private translateService: TranslateService) {
         translateService.get('DAYS').subscribe(values => {
             this._daysTranslations = values;
         });
+
+        translateService.get('PLEASE_WAIT').subscribe(values => {
+            this._pleaseWaitMessage = values;
+        });
+
+        translateService.get('CONFIRMATION_TITLE').subscribe(values => {
+            this._confirmationTitle = values;
+        });
+    }
+
+    get pleaseWaitMessage() : string {
+        return this._pleaseWaitMessage;
+    }
+
+    get confirmationTitle() : string {
+        return this._confirmationTitle;
     }
 
     getDaysLabels(days: Array<string>) : Array<string> {
-        return days.map(d => this._daysTranslations[d]);
+        return days && days.map(d => this._daysTranslations[d]);
     }
 
     formatTimeLabel(time: string) : string {

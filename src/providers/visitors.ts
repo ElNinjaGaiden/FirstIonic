@@ -11,6 +11,7 @@ export class Visitors {
     _quickVisitors: Array<Visitor> = [];
     _recurrentVisitors: Array<Visitor> = [];
     _permanentVisitors: Array<Visitor> = [];
+    _activeVisitors: Array<Visitor> = [];
     _currentHome: Home;
 
     constructor(private user: User,
@@ -47,6 +48,14 @@ export class Visitors {
 
     set permanentVisitors(visitors: Array<Visitor>) {
         this._permanentVisitors = visitors;
+    }
+
+    set activeVisitors (visitors: Array<Visitor>) {
+        this._activeVisitors = visitors;
+    }
+
+    get activeVisitors() : Array<Visitor> {
+        return this._activeVisitors;
     }
 
     loadVisitorsByHome(home: Home) : Promise<any> {
@@ -99,7 +108,9 @@ export class Visitors {
     _parseVisitor(data: any) : Visitor {
         const visitor = new Visitor(data.id, data.name, data.identification, data.idVisitRegistrationType, data.idVisitEntryType, data.plate, data.idHome);
         if(visitor.isRecurring()) {
-            visitor.days = data.days.split(',');
+            if(data.days) {
+                visitor.days = data.days.split(',');
+            }
             visitor.approxTime = data.aproxHour;
         }
         return visitor;
@@ -246,15 +257,82 @@ export class Visitors {
         });
     }
 
-    getActives() : Promise<Array<Visitor>> {
-        return new Promise((resolve) => {
-            resolve([]);
+    loadActiveVisitors() : Promise<Array<Visitor>> {
+        return new Promise((resolve, reject) => {
+            this.user.getAccessData().then(accessData => {
+                const requestOptions = new RequestOptions({
+                    headers: new Headers({
+                        "Content-type": "application/json",
+                        "Accept": "application/json",
+                        "Authorization": 'Bearer ' + accessData.access_token
+                    })
+                });
+
+                this.api.get('api/visits/active', { }, requestOptions)
+                .share()
+                .map(res => res.json())
+                .subscribe(responseData => {
+                    this.activeVisitors = responseData.map(v => this._parseVisitor(v));
+                    this.activeVisitors.forEach(v => {
+                        v.isActive = true;
+                    });
+                    resolve(this.activeVisitors);
+                }, er => {
+                    console.log(er);
+                    let error = {
+                        status: er.status,
+                        message: 'There was an error reaching the server, please try again'
+                    };
+                    if(er && typeof er.text === 'function') {
+                        const errorData = JSON.parse(er.text());
+                        console.log('Error data', errorData);
+                        if(errorData.error_description || errorData.message) {
+                            error.message = errorData.error_description || errorData.message;
+                        }
+                    }
+                    reject(error);
+                });
+            });
         });
     }
 
     exit(visitor: Visitor) : Promise<any> {
-        return new Promise((resolve) => {
-            resolve({});
+        return new Promise((resolve, reject) => {
+            this.user.getAccessData().then(accessData => {
+                const currentUserData = this.user.userData;
+                const data = {
+                    "Id": visitor.id,
+                    "UserName": currentUserData.email
+                };
+                const requestOptions = new RequestOptions({
+                    headers: new Headers({
+                        "Content-type": "application/json",
+                        "Accept": "application/json",
+                        "Authorization": 'Bearer ' + accessData.access_token
+                    })
+                });
+
+                this.api.post('api/visits/exit', data, requestOptions)
+                .share()
+                .map(res => res.json())
+                .subscribe(responseData => {
+                    resolve(responseData);
+                }, er => {
+                    console.log(er);
+                    let error = {
+                        status: er.status,
+                        message: 'There was an error reaching the server, please try again'
+                    };
+                    if(er && typeof er.text === 'function') {
+                        const errorData = JSON.parse(er.text());
+                        console.log('Error data', errorData);
+                        if(errorData.error_description || errorData.message) {
+                            error.message = errorData.error_description || errorData.message;
+                        }
+                    }
+                    reject(error);
+                });
+            });
         });
     }
 }

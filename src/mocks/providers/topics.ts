@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { LoadingController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { Item } from '../../models/item';
+import { Utils } from '../../providers/utils';
 
 declare var FCMPlugin;
 
@@ -9,7 +10,7 @@ declare var FCMPlugin;
 export class Topics {
   items: Item[] = [];
 
-  constructor(private storage: Storage, private loadingCtrl: LoadingController) {
+  constructor(private storage: Storage, private loadingCtrl: LoadingController, private utils: Utils) {
     let items = [
         { name: 'admin', icon: 'briefcase', subscribed: false },
         { name: 'news', icon: 'information-circle', subscribed: false },
@@ -44,7 +45,7 @@ export class Topics {
             if(typeof FCMPlugin !== 'undefined') {
 
                 let loader = this.loadingCtrl.create({
-                    content: "Please wait..."
+                    content: this.utils.pleaseWaitMessage
                 });
                 loader.present();
 
@@ -75,7 +76,7 @@ export class Topics {
             if(typeof FCMPlugin !== 'undefined') {
 
                 let loader = this.loadingCtrl.create({
-                    content: "Please wait..."
+                    content: this.utils.pleaseWaitMessage
                 });
                 loader.present();
 

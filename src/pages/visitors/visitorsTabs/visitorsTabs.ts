@@ -5,6 +5,7 @@ import { QuickVisitorsPage } from '../quick/quick';
 import { PermanentVisitorsPage } from '../permanent/permanent';
 import { RecurringVisitorsPage } from '../recurring/recurring';
 import { Visitors } from '../../../providers/visitors';
+import { Utils } from '../../../providers/utils';
 import { Visitor } from '../../../models/visitor';
 import { Home } from '../../../models/home';
 
@@ -28,7 +29,8 @@ export class VisitorsTabsPage {
     constructor(private navParams: NavParams,
                 private translateService: TranslateService,
                 private visitors: Visitors,
-                private loadingCtrl: LoadingController) {
+                private loadingCtrl: LoadingController,
+                private utils: Utils) {
 
         translateService.get(['VISITORS.QUICK.TAB_TITLE', 'VISITORS.RECURRING.TAB_TITLE', 'VISITORS.PERMANENT.TAB_TITLE']).subscribe(values => {
             this.visitorsQuickTitle = values['VISITORS.QUICK.TAB_TITLE'];
@@ -45,7 +47,7 @@ export class VisitorsTabsPage {
 
     loadHouseVisitors(home) {
         let loader = this.loadingCtrl.create({
-            content: "Please wait..."
+            content: this.utils.pleaseWaitMessage
         });
         loader.present();
         this.visitors.loadVisitorsByHome(home)
@@ -55,7 +57,6 @@ export class VisitorsTabsPage {
         .catch((error) => {
             loader.dismiss();
             console.error(error);
-            
         });
     }
 }

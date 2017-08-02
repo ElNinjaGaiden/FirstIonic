@@ -64,7 +64,6 @@ export class QuickVisitorsPage {
     }
 
     onVisitorEntry(visitor) {
-        console.log(visitor); //
         this.rootNav.push(NewVisitorPage, { visitor: visitor, homes: this.homes, mode: 'notify' });
     }
 }

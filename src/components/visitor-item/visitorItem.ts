@@ -12,6 +12,7 @@ export class VisitorItem {
     _visitor: Visitor;
 
     @Output() visitorEntry = new EventEmitter();
+    @Output() visitorDeparture = new EventEmitter();
 
     constructor(private security: Security,
                 private utils: Utils) {
@@ -34,6 +35,11 @@ export class VisitorItem {
 
     cancelVisitor(slidingItem, visitor) {
         slidingItem.close();
+    }
+
+    departureVisitor(slidingItem, visitor) {
+        slidingItem.close();
+        this.visitorDeparture.emit(this.visitor);
     }
 
     getDaysLabels() : string {

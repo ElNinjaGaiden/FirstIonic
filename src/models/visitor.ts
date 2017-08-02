@@ -8,6 +8,7 @@ export class Visitor {
     entryType: number;
     homeId: number;
     days: Array<string>;
+    isActive: boolean;
 
     constructor(id: number,
                 name: string,

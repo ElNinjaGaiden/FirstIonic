@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-navbar>
+     <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-buttons end>
+      <button ion-button (click)="loadActiveVisitors()">
+        <ion-icon name="refresh"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>{{ 'ACTIVE_VISITORS.TITLE' | translate }}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+    <ion-searchbar (ionInput)="filterActiveVisitors($event)" debounce="600" placeholder="{{ 'ACTIVE_VISITORS.SEARCH_PLACEHOLDER' | translate }}"></ion-searchbar>
+    <ion-list *ngIf="activeVisitos.length">
+        <visitor-item *ngFor="let visitor of activeVisitos" [visitor]="visitor" (visitorDeparture)="onVisitorDeparture($event)"></visitor-item>
+    </ion-list>
+    <div *ngIf="!activeVisitos.length" class="visitor-list-empty">
+        {{ 'VISITORS.EMPTY_LIST' | translate }}
+    </div>
+</ion-content>

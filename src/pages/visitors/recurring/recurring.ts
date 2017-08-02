@@ -60,4 +60,8 @@ export class RecurringVisitorsPage {
         let baseCssClass = this.platform.is('android') ? 'toolbar toolbar-md' : 'toolbar toolbar-ios';
         return (!this.tabsContainerIsRootView ? 'force-back-button' : 'no-back-button') + ' ' + baseCssClass;
     }
+
+    onVisitorEntry(visitor) {
+        this.rootNav.push(NewVisitorPage, { visitor: visitor, homes: this.homes, mode: 'notify' });
+    }
 }

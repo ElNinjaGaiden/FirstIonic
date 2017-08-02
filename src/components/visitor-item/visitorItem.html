@@ -4,17 +4,20 @@
         <p>{{visitor.identification}}</p>
         <p *ngIf="visitor.carId">{{ 'VISITORS.NEW.CAR_ID' | translate }}: {{ visitor.carId }}</p>
         <div *ngIf="visitor.isRecurring()">
-            <p class="days-label">{{getDaysLabels()}}</p>
-            <p>{{formatTimeLabel()}}</p>
+            <p *ngIf="visitor.days" class="days-label">{{getDaysLabels()}}</p>
+            <p *ngIf="visitor.property">{{formatTimeLabel()}}</p>
         </div>
     </ion-item>
 
     <ion-item-options>
-         <button *ngIf="security.isSecurityUser" ion-button color="primary" (click)="notifyVisitorIsArriving(slidingItem, visitor)">
+         <button *ngIf="security.isSecurityUser && !visitor.isActive" ion-button color="primary" (click)="notifyVisitorIsArriving(slidingItem, visitor)">
             {{ 'VISITORS.VISITOR.OPTIONS.IS_ARRIVING' | translate }}
         </button> 
         <button *ngIf="security.isResidentUser" ion-button color="danger" (click)="cancelVisitor(slidingItem, visitor)">
             {{ 'VISITORS.VISITOR.OPTIONS.CANCEL' | translate }}
+        </button> 
+        <button *ngIf="security.isSecurityUser && visitor.isActive" ion-button color="danger" (click)="departureVisitor(slidingItem, visitor)">
+            {{ 'VISITORS.VISITOR.OPTIONS.DEPARTURE' | translate }}
         </button> 
     </ion-item-options>
 </ion-item-sliding>

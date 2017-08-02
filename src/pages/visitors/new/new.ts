@@ -5,6 +5,7 @@ import { NavParams, NavController, LoadingController, AlertController } from 'io
 import { Security } from '../../../providers/security';
 import { Homes } from '../../../providers/homes';
 import { Visitors } from '../../../providers/visitors';
+import { Utils } from '../../../providers/utils';
 import { Home } from '../../../models/home';
 import { RecurringDaysView } from '../recurring/days';
 import { Visitor, VisitorRegistrationTypes, VisitorEntryTypes } from '../../../models/visitor';
@@ -30,7 +31,8 @@ export class NewVisitorPage {
                 private visitors: Visitors,
                 private translateService: TranslateService,
                 private loadingCtrl: LoadingController,
-                private alertCtrl: AlertController) {
+                private alertCtrl: AlertController,
+                private utils: Utils) {
 
         if(this.navParams.data.visitor) {
             this.visitor = this.navParams.data.visitor;
@@ -89,7 +91,7 @@ export class NewVisitorPage {
 
     _submitByResident() {
         let loader = this.loadingCtrl.create({
-            content: "Please wait..."
+            content: this.utils.pleaseWaitMessage
         });
         loader.present();
         this.visitors.preregister(this.visitor)
@@ -111,7 +113,7 @@ export class NewVisitorPage {
 
     _submitBySecurityUser() {
         let loader = this.loadingCtrl.create({
-            content: "Please wait..."
+            content: this.utils.pleaseWaitMessage
         });
         loader.present();
         this.visitors.register(this.visitor)
@@ -158,7 +160,7 @@ export class NewVisitorPage {
     notifyVisitorEntry() {
         event.preventDefault();
         let loader = this.loadingCtrl.create({
-            content: "Please wait..."
+            content: this.utils.pleaseWaitMessage
         });
         loader.present();
         this.visitors.entry(this.visitor)

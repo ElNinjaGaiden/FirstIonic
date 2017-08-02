@@ -1,5 +1,10 @@
 {
+  "PLEASE_WAIT": "Espera un momento...",
   "MENU_TITLE": "Menú",
+  "BACK_BUTTON_TEXT" : "Atrás",
+  "CONFIRMATION_TITLE": "Segur@?",
+
+
   "NAME": "Nombre",
   "PASSWORD": "Contraseña",
   "EMAIL": "Email",
@@ -11,6 +16,8 @@
   "TAB3_TITLE": "Ajustes",
 
   "MAP_TITLE": "Mapa",
+
+  "TUTORIAL_SKIP_BUTTON" : "Listo",
 
   "TUTORIAL_SLIDE1_TITLE": "Bienvenido/a al Ionic Super Starter",
   "TUTORIAL_SLIDE1_DESCRIPTION": "El <b>Ionic Super Starter</b> es un starter de Ionic completo con muchas páginas preconstruidas y mejores prácticas.",
@@ -54,6 +61,57 @@
 
   "TOPICS_LIST_TITLE": "Topics",
 
+  "ADMIN": {
+    "MENU_TITLE": "Admin"
+  },
+  "ADMIN_AMENITIES": {
+    "MENU_TITLE": "Amenidades"
+  },
+  "ADMIN_CHARGES": {
+    "MENU_TITLE": "Cobros"
+  },
+  "ADMIN_USERS": {
+    "MENU_TITLE": "Usuarios"
+  },
+  "SECURITY": {
+    "MENU_TITLE": "Seguridad"
+  },
+  "SECURITY_VISITORS": {
+    "MENU_TITLE": "Visitantes"
+  },
+  "ACTIVE_VISITORS": {
+    "MENU_TITLE": "Salidas",
+    "TITLE": "Visitas activas",
+    "SEARCH_PLACEHOLDER": "Busca por nombre, placa o número de casa"
+  },
+  "MY_HOUSE": {
+    "MENU_TITLE": "Mi casa"
+  },
+  "AMENITIES": {
+    "MENU_TITLE": "Amenidades"
+  },
+  "PAYMENTS": {
+    "MENU_TITLE": "Pagos y facturas"
+  },
+  "ALERTS": {
+    "MENU_TITLE": "Alertas"
+  },
+  "SERVICES": {
+    "MENU_TITLE": "Servicios"
+  },
+  "MI_PROFILE": {
+    "MENU_TITLE": "Mi perfil"
+  },
+  "SETTINGS": {
+    "MENU_TITLE": "Configuraciones",
+    "TITLE": "Configuraciones",
+    "LANGUAGE": "Idioma"
+  },
+  "LOG_OUT": {
+    "MENU_TITLE": "Cerrar sesión",
+    "CONFIRMATION_MESSAGE": "Segur@ que quieres salir de la aplicación?"
+  },
+
   "TOPICS": {
     "admin": "Administración",
     "news": "Noticias",
@@ -73,6 +131,7 @@
   },
 
   "VISITORS": {
+    "MENU_TITLE": "Visitantes",
     "EMPTY_LIST": "No hay visitantes registrados en ésta sección",
     "QUICK": {
       "TITLE": "Visitantes",
@@ -96,14 +155,14 @@
       "IDENTIFICATION": "Identificación",
       "CAR_ID": "Placa",
       "REGISTRATION_TYPE": "Tipo de registro",
-      "ENTRY_MODE": "Medio de entrada"
+      "ENTRY_TYPE": "Medio de entrada"
     },
     "REGISTRATION_TYPES": {
       "QUICK": "Rápida",
       "RECURRING": "Recurrente",
       "PERMANENT": "Permanente"
     },
-    "ENTRY_MODES": {
+    "ENTRY_TYPES": {
       "PEDESTRIAN": "Peatón",
       "VEHICLE": "Vehículo",
       "PUBLIC_TRANSPORTATION": "Transporte público"
@@ -111,7 +170,8 @@
     "VISITOR": {
       "OPTIONS": {
         "IS_ARRIVING": "Llegó",
-        "CANCEL": "Cancelar"
+        "CANCEL": "Cancelar",
+        "DEPARTURE": "Adiós"
       },
       "BUTTONS": {
         "ENTRY": "Entrada"

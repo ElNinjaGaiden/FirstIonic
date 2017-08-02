@@ -1,6 +1,8 @@
 {
+  "PLEASE_WAIT": "Please wait...",
   "MENU_TITLE": "Menu",
   "BACK_BUTTON_TEXT" : "Back",
+  "CONFIRMATION_TITLE": "Are you sure?",
 
   "NAME": "Name",
   "EMAIL": "Email",
@@ -71,6 +73,57 @@
 
   "TOPICS_LIST_TITLE": "Topics",
 
+  "ADMIN": {
+    "MENU_TITLE": "Admin"
+  },
+  "ADMIN_AMENITIES": {
+    "MENU_TITLE": "Amenities"
+  },
+  "ADMIN_CHARGES": {
+    "MENU_TITLE": "Charges"
+  },
+  "ADMIN_USERS": {
+    "MENU_TITLE": "Users"
+  },
+  "SECURITY": {
+    "MENU_TITLE": "Security"
+  },
+  "SECURITY_VISITORS": {
+    "MENU_TITLE": "Visitors"
+  },
+  "ACTIVE_VISITORS": {
+    "MENU_TITLE": "Departures",
+    "TITLE": "Active visitors",
+    "SEARCH_PLACEHOLDER": "Search by name, card id or house number"
+  },
+  "MY_HOUSE": {
+    "MENU_TITLE": "Mi house"
+  },
+  "AMENITIES": {
+    "MENU_TITLE": "Amenities"
+  },
+  "PAYMENTS": {
+    "MENU_TITLE": "Payments"
+  },
+  "ALERTS": {
+    "MENU_TITLE": "Alerts"
+  },
+  "SERVICES": {
+    "MENU_TITLE": "Services"
+  },
+  "MI_PROFILE": {
+    "MENU_TITLE": "Mi profile"
+  },
+  "SETTINGS": {
+    "MENU_TITLE": "Settings",
+    "TITLE": "Settings",
+    "LANGUAGE": "Language"
+  },
+  "LOG_OUT": {
+    "MENU_TITLE": "Log out",
+    "CONFIRMATION_MESSAGE": "Are you sure you want to end your session?"
+  },
+
   "TOPICS": {
     "admin": "Administration",
     "news": "News",
@@ -90,6 +143,7 @@
   },
 
   "VISITORS": {
+    "MENU_TITLE": "Visitors",
     "EMPTY_LIST": "There are no visitors registered in this section",
     "QUICK": {
       "TITLE": "Visitors",
@@ -128,7 +182,8 @@
     "VISITOR": {
       "OPTIONS": {
         "IS_ARRIVING": "Is here",
-        "CANCEL": "Cancel"
+        "CANCEL": "Cancel",
+        "DEPARTURE": "Bye"
       },
       "BUTTONS": {
         "ENTRY": "Entry"

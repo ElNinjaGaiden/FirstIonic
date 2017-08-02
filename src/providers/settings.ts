@@ -70,4 +70,19 @@ export class Settings {
   get allSettings() {
     return this.settings;
   }
+
+  get supportedLanguages() : Array<any> {
+    return [
+      {
+        code: 'es',
+        name: 'Español'
+      },
+      {
+        code: 'en',
+        name: 'English'
+      }
+    ];
+  }
 }
+
+export const DefaultLanguage = 'es';

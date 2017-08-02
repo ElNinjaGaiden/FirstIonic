@@ -9,7 +9,7 @@ export class Security {
     }
 
     get isDevelopmentMode () : boolean {
-        return true;
+        return false;
     }
 
     get isAdminUser () : boolean {

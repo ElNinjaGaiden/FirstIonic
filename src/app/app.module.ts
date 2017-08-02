@@ -30,12 +30,13 @@ import { PermanentVisitorsPage } from '../pages/visitors/permanent/permanent';
 import { RecurringVisitorsPage } from '../pages/visitors/recurring/recurring';
 import { RecurringDaysView } from '../pages/visitors/recurring/days';
 import { NewVisitorPage } from '../pages/visitors/new/new';
+import { ActiveVisitorsPage } from '../pages/visitors/actives/actives';
 
 import { VisitorItem } from '../components/visitor-item/visitorItem';
 
 import { Api } from '../providers/api';
 import { Items } from '../mocks/providers/items';
-import { Settings } from '../providers/settings';
+import { Settings, DefaultLanguage } from '../providers/settings';
 import { User } from '../providers/user';
 import { Security } from '../providers/security';
 import { Toast } from '../providers/toast';
@@ -68,10 +69,7 @@ export function provideSettings(storage: Storage) {
    * these values will not overwrite the saved values (this can be done manually if desired).
    */
   return new Settings(storage, {
-    option1: true,
-    option2: 'Ionitron J. Framework',
-    option3: '3',
-    option4: 'Hello'
+    language: DefaultLanguage
   });
 }
 
@@ -100,7 +98,8 @@ export function provideSettings(storage: Storage) {
     RecurringVisitorsPage,
     RecurringDaysView,
     NewVisitorPage,
-    VisitorItem
+    VisitorItem,
+    ActiveVisitorsPage
   ],
   imports: [
     BrowserModule,
@@ -139,7 +138,8 @@ export function provideSettings(storage: Storage) {
     QuickVisitorsPage,
     RecurringVisitorsPage,
     RecurringDaysView,
-    NewVisitorPage
+    NewVisitorPage,
+    ActiveVisitorsPage
   ],
   providers: [
     Api,

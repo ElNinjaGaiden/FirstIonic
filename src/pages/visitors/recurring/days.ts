@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, FormControl, Validators } from "@angular/forms"
 import { NavParams, LoadingController, AlertController } from 'ionic-angular';
 import { Visitor } from '../../../models/visitor';
 import { Visitors } from '../../../providers/visitors';
+import { Utils } from '../../../providers/utils';
 
 @Component({
     selector: 'recurring-days',
@@ -48,7 +49,8 @@ export class RecurringDaysView {
                 private formBuilder: FormBuilder,
                 private visitors: Visitors,
                 private loadingCtrl: LoadingController,
-                private alertCtrl: AlertController) {
+                private alertCtrl: AlertController,
+                private utils: Utils) {
 
         this.visitor = navParams.data.visitor;
 
@@ -85,7 +87,7 @@ export class RecurringDaysView {
         this.visitor.days = this.getSelectedDays().map(d => d.key);
         this.visitor.approxTime = this.approxTime;
         let loader = this.loadingCtrl.create({
-            content: "Please wait..."
+            content: this.utils.pleaseWaitMessage
         });
         loader.present();
         this.visitors.preregister(this.visitor)

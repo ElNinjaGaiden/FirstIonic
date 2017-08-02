@@ -13,19 +13,21 @@ import { FirstRunPage, MainPage } from '../pages/pages';
 // import { MapPage } from '../pages/map/map';
 // import { MenuPage } from '../pages/menu/menu';
 // import { SearchPage } from '../pages/search/search';
-// import { SettingsPage } from '../pages/settings/settings';
+import { SettingsPage } from '../pages/settings/settings';
 // import { SignupPage } from '../pages/signup/signup';
 // import { TabsPage } from '../pages/tabs/tabs';
 // import { TutorialPage } from '../pages/tutorial/tutorial';
 import { WelcomePage } from '../pages/welcome/welcome';
 import { HomesSearchPage } from '../pages/homes/search/search';
 import { VisitorsTabsPage } from '../pages/visitors/visitorsTabs/visitorsTabs';
+import { ActiveVisitorsPage } from '../pages/visitors/actives/actives';
 //import { TopicsListPage } from '../pages/topics-list/topics-list';
 
 import { Settings } from '../providers/providers';
 import { User } from '../providers/user';
 import { Homes } from '../providers/homes';
 import { Security } from '../providers/security';
+import { Utils } from '../providers/utils';
 
 import { TranslateService } from '@ngx-translate/core';
 
@@ -47,47 +49,53 @@ import { TranslateService } from '@ngx-translate/core';
           Topics
         </button>
         <ion-list-header color="light" *ngIf="security.isAdminUser">
-          Adminstración
+          {{ 'ADMIN.MENU_TITLE' | translate }}
         </ion-list-header>
         <button menuClose ion-item (click)="openPage()" *ngIf="security.isAdminUser">
-          Amenidades
+          {{ 'ADMIN_AMENITIES.MENU_TITLE' | translate }}
         </button>
         <button menuClose ion-item (click)="openPage()" *ngIf="security.isAdminUser">
-          Cobros
+          {{ 'ADMIN_CHARGES.MENU_TITLE' | translate }}
         </button>
         <button menuClose ion-item (click)="openPage()" *ngIf="security.isAdminUser">
-          Usuarios
+          {{ 'ADMIN_USERS.MENU_TITLE' | translate }}
         </button>
         <ion-list-header color="light" *ngIf="security.isSecurityUser">
-          Seguridad
+          {{ 'SECURITY.MENU_TITLE' | translate }}
         </ion-list-header>
         <button menuClose ion-item (click)="openPage(homesSearchPage)" *ngIf="security.isSecurityUser">
-          Ingreso de Invitados
+          {{ 'SECURITY_VISITORS.MENU_TITLE' | translate }}
+        </button>
+        <button menuClose ion-item (click)="openPage(activeVisitorsPage)" *ngIf="security.isSecurityUser">
+          {{ 'ACTIVE_VISITORS.MENU_TITLE' | translate }}
         </button>
         <ion-list-header color="light" *ngIf="security.isResidentUser">
-          Mi Condominio
+          {{ 'MY_HOUSE.MENU_TITLE' | translate }}
         </ion-list-header>
         <button menuClose ion-item (click)="openPage()" *ngIf="security.isResidentUser">
-          Amenidades
+          {{ 'AMENITIES.MENU_TITLE' | translate }}
         </button>
         <button menuClose ion-item (click)="openPage()" *ngIf="security.isResidentUser">
-          Pagos y facturas
+          {{ 'PAYMENTS.MENU_TITLE' | translate }}
         </button>
         <button menuClose ion-item (click)="openPage(visitorsPage, { homes: homes.userHomes })" *ngIf="security.isResidentUser">
-          Visitas
+          {{ 'VISITORS.MENU_TITLE' | translate }}
         </button>
         <button menuClose ion-item (click)="openPage()" *ngIf="security.isResidentUser">
-          Alertas
+          {{ 'ALERTS.MENU_TITLE' | translate }}
         </button>
         <button menuClose ion-item (click)="openPage()" *ngIf="security.isResidentUser">
-          Servicios
+          {{ 'SERVICES.MENU_TITLE' | translate }}
         </button>
         <button menuClose ion-item (click)="openPage()" *ngIf="security.isResidentUser">
-          Mi Perfil
+          {{ 'MI_PROFILE.MENU_TITLE' | translate }}
+        </button>
+        <button menuClose ion-item (click)="openPage(settingsPage)">
+          {{ 'SETTINGS.MENU_TITLE' | translate }}
         </button>
         <ion-item menuClose (click)="doLogout()">
           <ion-icon name="power" item-start color="danger"></ion-icon>
-          <h2>Cerrar sesión</h2>
+          <h2>{{ 'LOG_OUT.MENU_TITLE' | translate }}</h2>
         </ion-item>
       </ion-list>
     </ion-content>
@@ -100,6 +108,9 @@ export class MyApp {
   mainPage = MainPage;
   homesSearchPage = HomesSearchPage;
   visitorsPage = VisitorsTabsPage;
+  settingsPage = SettingsPage;
+  activeVisitorsPage = ActiveVisitorsPage;
+  logoutConfirmationMessage : string;
 
   @ViewChild(Nav) public nav: Nav;
   @ViewChild('content') public _navCtrl: NavController;
@@ -115,7 +126,8 @@ export class MyApp {
               private config: Config, 
               private statusBar: StatusBar, 
               private splashScreen: SplashScreen,
-              private storage: Storage) {
+              private storage: Storage,
+              private utils: Utils) {
 
     this.initTranslate();
     this.user.getAccessData().then((accessData) => {
@@ -146,16 +158,15 @@ export class MyApp {
 
   initTranslate() {
     // Set the default language for translation strings, and the current language.
-    this.translate.setDefaultLang('en');
 
-    if (this.translate.getBrowserLang() !== undefined) {
-      this.translate.use(this.translate.getBrowserLang());
-    } else {
-      this.translate.use('en'); // Set your language here
-    }
+    this.settings.load()
+    .then(() => {
+      this.translate.setDefaultLang(this.settings.allSettings.language);
 
-    this.translate.get(['BACK_BUTTON_TEXT']).subscribe(values => {
-      this.config.set('ios', 'backButtonText', values.BACK_BUTTON_TEXT);
+      this.translate.get(['BACK_BUTTON_TEXT', 'LOG_OUT']).subscribe(values => {
+        this.config.set('ios', 'backButtonText', values.BACK_BUTTON_TEXT);
+        this.logoutConfirmationMessage = values.LOG_OUT.CONFIRMATION_MESSAGE;
+      });
     });
   }
 
@@ -169,8 +180,8 @@ export class MyApp {
 
   doLogout() {
     let confirmation = this.alertCtrl.create({
-      title: 'Are you sure?',
-      message: 'Are you sure you want to end your session?',
+      title: this.utils.confirmationTitle,
+      message: this.logoutConfirmationMessage,
       buttons: [
         {
           text: 'Cancel'
@@ -188,7 +199,7 @@ export class MyApp {
 
   _doLogout() {
     let loader = this.loadingCtrl.create({
-        content: "Closing session..."
+        content: this.utils.pleaseWaitMessage
     });
     loader.present();
     this.user.logout().then((success) => {
