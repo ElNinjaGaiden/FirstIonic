@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from "@angular/forms";
 import { NavParams, LoadingController, NavController, AlertController } from 'ionic-angular';
 import { Visitor } from '../../../models/visitor';
+import { Home } from '../../../models/home';
 import { Visitors } from '../../../providers/visitors';
 import { Utils } from '../../../providers/utils';
 
@@ -13,6 +14,7 @@ export class RecurringDaysView {
 
     daysForm: FormGroup;
     visitor: Visitor;
+    home: Home;
     approxTime: string = null;
     days: any = {
         monday: {
@@ -54,6 +56,7 @@ export class RecurringDaysView {
                 private utils: Utils) {
 
         this.visitor = navParams.data.visitor;
+        this.home = navParams.data.home;
 
         this.daysForm = this.formBuilder.group({
             'mondaySelected': [''],
@@ -95,6 +98,7 @@ export class RecurringDaysView {
         .then(response => {
             console.log(response);
             loader.dismiss();
+            this.visitors.loadVisitorsByHome(this.home);
             this.navController.popToRoot();
         })
         .catch(error => {

@@ -99,6 +99,7 @@ export class NewVisitorPage {
             console.log(response);
             loader.dismiss();
             this.navController.popToRoot();
+            this.visitors.loadVisitorsByHome(this.visitors.currentHome);
         })
         .catch(error => {
             loader.dismiss();
@@ -122,6 +123,7 @@ export class NewVisitorPage {
             console.log(response);
             loader.dismiss();
             this.navController.pop();
+            this.visitors.loadVisitorsByHome(this.visitors.currentHome);
         })
         .catch(error => {
             loader.dismiss();
@@ -145,7 +147,7 @@ export class NewVisitorPage {
 
     goToRecurringDays(event) {
         event.preventDefault();
-        this.navController.push(RecurringDaysView, { visitor: this.visitor });
+        this.navController.push(RecurringDaysView, { visitor: this.visitor, home: this.visitors.currentHome });
     }
 
     validateVisitorEntryType() {
