@@ -2,11 +2,11 @@ var fs = require('fs');
 var path = require('path');
 
 module.exports = function(context) {
-    var srcFile = path.join(context.opts.projectRoot, '/platforms/ios/MyApp/Entitlements-Debug.plist');
+    var srcFile = path.join(context.opts.projectRoot, '/platforms/ios/Koti/Entitlements-Debug.plist');
     var sourceExists = fs.existsSync(srcFile);
 
     if(sourceExists) {
-        var destFile = path.join(context.opts.projectRoot, '/platforms/ios/MyApp/MyApp.entitlements');
+        var destFile = path.join(context.opts.projectRoot, '/platforms/ios/Koti/Koti.entitlements');
         var destExists = fs.existsSync(destFile);
 
         if(!destExists) {
