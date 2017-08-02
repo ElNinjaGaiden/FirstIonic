@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from "@angular/forms";
-import { NavParams, LoadingController, AlertController } from 'ionic-angular';
+import { NavParams, LoadingController, NavController, AlertController } from 'ionic-angular';
 import { Visitor } from '../../../models/visitor';
 import { Visitors } from '../../../providers/visitors';
 import { Utils } from '../../../providers/utils';
@@ -49,6 +49,7 @@ export class RecurringDaysView {
                 private formBuilder: FormBuilder,
                 private visitors: Visitors,
                 private loadingCtrl: LoadingController,
+                private navController: NavController,
                 private alertCtrl: AlertController,
                 private utils: Utils) {
 
@@ -94,6 +95,7 @@ export class RecurringDaysView {
         .then(response => {
             console.log(response);
             loader.dismiss();
+            this.navController.popToRoot();
         })
         .catch(error => {
             loader.dismiss();

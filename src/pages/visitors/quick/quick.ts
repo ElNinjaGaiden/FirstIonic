@@ -1,10 +1,11 @@
 import { Component, ViewChild } from '@angular/core';
-import { App, NavController, Navbar, ViewController, Platform, NavParams } from 'ionic-angular';
+import { App, NavController, Navbar, ViewController, Platform, NavParams, LoadingController } from 'ionic-angular';
 import { FormGroup, FormBuilder, FormControl } from "@angular/forms";
 import { NewVisitorPage } from '../new/new';
 import { Visitors } from '../../../providers/visitors';
 import { Homes } from '../../../providers/homes';
 import { Security } from '../../../providers/security';
+import { Utils } from '../../../providers/utils';
 import { Home } from '../../../models/home';
 import { VisitorRegistrationTypes } from '../../../models/visitor';
 
@@ -29,7 +30,9 @@ export class QuickVisitorsPage {
                 public navCtrl: NavController,
                 private viewCtrl: ViewController,
                 private platform: Platform,
-                private navParams: NavParams) {
+                private navParams: NavParams,
+                private loadingCtrl: LoadingController,
+                private utils: Utils) {
 
         this.rootNav = this.app.getRootNav();
         this.homes = this.navParams.data.homes;
@@ -65,5 +68,20 @@ export class QuickVisitorsPage {
 
     onVisitorEntry(visitor) {
         this.rootNav.push(NewVisitorPage, { visitor: visitor, homes: this.homes, mode: 'notify' });
+    }
+
+    loadVisitors() {
+        let loader = this.loadingCtrl.create({
+            content: this.utils.pleaseWaitMessage
+        });
+        loader.present();
+        this.visitors.loadVisitorsByHome(this.currentHome)
+        .then((visitors) => {
+            loader.dismiss();
+        })
+        .catch((error) => {
+            loader.dismiss();
+            console.error(error);
+        });
     }
 }

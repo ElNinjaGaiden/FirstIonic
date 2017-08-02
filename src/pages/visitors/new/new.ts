@@ -98,6 +98,7 @@ export class NewVisitorPage {
         .then(response => {
             console.log(response);
             loader.dismiss();
+            this.navController.popToRoot();
         })
         .catch(error => {
             loader.dismiss();
@@ -120,6 +121,7 @@ export class NewVisitorPage {
         .then(response => {
             console.log(response);
             loader.dismiss();
+            this.navController.pop();
         })
         .catch(error => {
             loader.dismiss();

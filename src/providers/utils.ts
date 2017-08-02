@@ -9,17 +9,13 @@ export class Utils {
     private _confirmationTitle: string;
 
     constructor(private translateService: TranslateService) {
-        translateService.get('DAYS').subscribe(values => {
-            this._daysTranslations = values;
-        });
-
-        translateService.get('PLEASE_WAIT').subscribe(values => {
-            this._pleaseWaitMessage = values;
-        });
-
-        translateService.get('CONFIRMATION_TITLE').subscribe(values => {
-            this._confirmationTitle = values;
-        });
+        translateService.onLangChange.subscribe = () => {
+            translateService.get(['DAYS', 'PLEASE_WAIT', 'CONFIRMATION_TITLE']).subscribe(values => {
+                this._daysTranslations = values.DAYS;
+                this._pleaseWaitMessage = values.PLEASE_WAIT;
+                this._confirmationTitle = values.CONFIRMATION_TITLE;
+            });
+        };
     }
 
     get pleaseWaitMessage() : string {
@@ -31,7 +27,10 @@ export class Utils {
     }
 
     getDaysLabels(days: Array<string>) : Array<string> {
-        return days && days.map(d => this._daysTranslations[d]);
+        if(days && days.length) {
+            return days.map(d => this._daysTranslations[d]);
+        }
+        return [];
     }
 
     formatTimeLabel(time: string) : string {
