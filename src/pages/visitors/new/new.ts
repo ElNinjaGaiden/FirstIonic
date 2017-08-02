@@ -20,6 +20,7 @@ export class NewVisitorPage {
     visitor: Visitor = new Visitor(null, '', '', null, null, '', null);
     entryTypes: any = [];
     registrationTypes: any = [];
+    mode: string = 'save';
 
     constructor(public formBuilder: FormBuilder,
                 public security: Security,
@@ -31,6 +32,14 @@ export class NewVisitorPage {
                 private loadingCtrl: LoadingController,
                 private alertCtrl: AlertController) {
 
+        if(this.navParams.data.visitor) {
+            this.visitor = this.navParams.data.visitor;
+
+            if(this.navParams.data.mode) {
+                this.mode = this.navParams.data.mode;
+            }
+        }
+
         //NOTE: Security users can only add quick visitors
         this.visitor.registrationType = this.security.isSecurityUser ? VisitorRegistrationTypes.Quick : this.navParams.data.registrationType;
         this.visitor.entryType = VisitorEntryTypes.Vehicle;
@@ -39,9 +48,9 @@ export class NewVisitorPage {
 
         this.visitorForm = this.formBuilder.group({
             'homeId': new FormControl({ value: visitors.currentHome.id, disabled: !this.security.isResidentUser }, Validators.required),
-            'name': ['', [Validators.required]],
-            'id': ['', [Validators.required]],
-            'carId': ['', []],
+            'name': [this.visitor.name, [Validators.required]],
+            'identification': [this.visitor.identification, [Validators.required]],
+            'carId': [this.visitor.carId, []],
             registrationType: new FormControl({ value: this.security.isResidentUser ? this.navParams.data.registrationType : VisitorRegistrationTypes.Quick, disabled: !this.security.isResidentUser }, Validators.required),
             entryType: new FormControl({ value: VisitorEntryTypes.Vehicle }, Validators.required)
         });
@@ -123,7 +132,7 @@ export class NewVisitorPage {
     }
 
     enableSave() {
-        return this.visitor.isQuick() || this.visitor.isPermanent();
+        return (this.visitor.isQuick() || this.visitor.isPermanent()) && this.mode === 'save';
     }
 
     enableNext() {
@@ -140,5 +149,32 @@ export class NewVisitorPage {
             return this.visitor.carId ? true : false;
         }
         return true;
+    }
+
+    enableVisitorEntry() {
+        return this.mode === 'notify';
+    }
+
+    notifyVisitorEntry() {
+        event.preventDefault();
+        let loader = this.loadingCtrl.create({
+            content: "Please wait..."
+        });
+        loader.present();
+        this.visitors.entry(this.visitor)
+        .then(response => {
+            console.log(response);
+            loader.dismiss();
+        })
+        .catch(error => {
+            loader.dismiss();
+            console.error(error);
+            let alert = this.alertCtrl.create({
+                title: 'Error',
+                subTitle: error.message,
+                buttons: ['OK']
+            });
+            alert.present();
+        });
     }
 }

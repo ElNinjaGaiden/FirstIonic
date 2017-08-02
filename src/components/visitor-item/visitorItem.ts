@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Visitor } from '../../models/visitor';
 import { Security } from '../../providers/security';
 import { Utils } from '../../providers/utils';
@@ -10,6 +10,8 @@ import { Utils } from '../../providers/utils';
 export class VisitorItem {
 
     _visitor: Visitor;
+
+    @Output() visitorEntry = new EventEmitter();
 
     constructor(private security: Security,
                 private utils: Utils) {
@@ -27,6 +29,7 @@ export class VisitorItem {
 
     notifyVisitorIsArriving(slidingItem, visitor) {
         slidingItem.close();
+        this.visitorEntry.emit(this.visitor);
     }
 
     cancelVisitor(slidingItem, visitor) {

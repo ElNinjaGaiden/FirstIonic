@@ -65,9 +65,17 @@ export class Visitors {
                 .map(res => res.json())
                 .subscribe(responseData => {
                     this.currentHome = home;
-                    this.quickVisitors = responseData.inmediate.map(v => this._parseVisitor(v));
-                    this.recurringVisitors = responseData.recurrent.map(v => this._parseVisitor(v));
-                    this.permanentVisitors = responseData.permanent.map(v => this._parseVisitor(v));
+                    if(responseData.current) {
+                        const visitors: Array<Visitor> = responseData.current.map(v => this._parseVisitor(v));
+                        this.quickVisitors = visitors.filter(v => v.isQuick());
+                        this.recurringVisitors = visitors.filter(v => v.isRecurring());
+                        this.permanentVisitors = visitors.filter(v => v.isPermanent());
+                    }
+                    else {
+                        this.quickVisitors = responseData.inmediate.map(v => this._parseVisitor(v));
+                        this.recurringVisitors = responseData.recurrent.map(v => this._parseVisitor(v));
+                        this.permanentVisitors = responseData.permanent.map(v => this._parseVisitor(v));
+                    }
                     resolve();
                 }, er => {
                     console.log(er);
@@ -192,8 +200,49 @@ export class Visitors {
     }
 
     entry(visitor: Visitor) : Promise<any> {
-        return new Promise((resolve) => {
-            resolve({});
+        return new Promise((resolve, reject) => {
+            this.user.getAccessData().then(accessData => {
+                const currentUserData = this.user.userData;
+                const data = {
+                    "Id": visitor.id,
+                    "Identification" : visitor.id,
+                    "Name": visitor.name,
+                    "Plate": visitor.carId,
+                    "EntryType": visitor.entryType,
+                    //"RegistrationType": visitor.registrationType,
+                    "IdHome" : visitor.homeId,
+                    //"IsFavorite": false,
+                    "UserName": currentUserData.email
+                };
+                const requestOptions = new RequestOptions({
+                    headers: new Headers({
+                        "Content-type": "application/json",
+                        "Accept": "application/json",
+                        "Authorization": 'Bearer ' + accessData.access_token
+                    })
+                });
+
+                this.api.post('api/visits/entry', data, requestOptions)
+                .share()
+                .map(res => res.json())
+                .subscribe(responseData => {
+                    resolve(responseData);
+                }, er => {
+                    console.log(er);
+                    let error = {
+                        status: er.status,
+                        message: 'There was an error reaching the server, please try again'
+                    };
+                    if(er && typeof er.text === 'function') {
+                        const errorData = JSON.parse(er.text());
+                        console.log('Error data', errorData);
+                        if(errorData.error_description || errorData.message) {
+                            error.message = errorData.error_description || errorData.message;
+                        }
+                    }
+                    reject(error);
+                });
+            });
         });
     }
 

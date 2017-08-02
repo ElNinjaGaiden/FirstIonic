@@ -110,7 +110,7 @@
       "TITLE": "New visitor",
       "HOUSE_ID": "House #",
       "NAME": "Name",
-      "ID": "Identification",
+      "IDENTIFICATION": "Identification",
       "CAR_ID": "Car Id",
       "REGISTRATION_TYPE": "Registration type",
       "ENTRY_TYPE": "Entry mode"
@@ -129,6 +129,9 @@
       "OPTIONS": {
         "IS_ARRIVING": "Is here",
         "CANCEL": "Cancel"
+      },
+      "BUTTONS": {
+        "ENTRY": "Entry"
       }
     },
     "APPROX_TIME": "Approx time"

@@ -93,7 +93,7 @@
       "TITLE": "Nueva visita",
       "HOUSE_ID": "# de casa",
       "NAME": "Nombre",
-      "ID": "Identificación",
+      "IDENTIFICATION": "Identificación",
       "CAR_ID": "Placa",
       "REGISTRATION_TYPE": "Tipo de registro",
       "ENTRY_MODE": "Medio de entrada"
@@ -112,6 +112,9 @@
       "OPTIONS": {
         "IS_ARRIVING": "Llegó",
         "CANCEL": "Cancelar"
+      },
+      "BUTTONS": {
+        "ENTRY": "Entrada"
       }
     },
     "APPROX_TIME": "Hora aprox"

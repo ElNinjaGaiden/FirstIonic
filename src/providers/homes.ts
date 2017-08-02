@@ -12,35 +12,37 @@ export class Homes {
 
     }
 
-    searchByNumber(parameters: any) : Promise<Array<Home>> {
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                resolve([
-                    new Home(1, '101', [
-                        new Resident('Sergio', 'Sanchez'),
-                        new Resident('Juana', 'Consuelo'),
-                    ]),
-                    new Home(2, '102', [
-                        new Resident('Sergio', 'Sanchez'),
-                    ]),
-                    new Home(3, '201', [
-                        new Resident('Sergio', 'Sanchez'),
-                        new Resident('Juana', 'Consuelo'),
-                    ]),
-                    new Home(4, '202', [
-                        new Resident('Sergio', 'Sanchez')
-                    ]),
-                    new Home(5, '301', [
-                        new Resident('Sergio', 'Sanchez'),
-                        new Resident('Juana', 'Consuelo'),
-                    ]),
-                    new Home(6, '302', [
-                        new Resident('Sergio', 'Sanchez'),
-                        new Resident('Juana', 'Consuelo'),
-                    ])
-                ]);
-            }, 400);
-        });
+    searchByNumber(searchTerm: string) : Array<Home> {
+        const searchRegex = new RegExp(searchTerm, 'i');
+        return this.userHomes.filter(h => h.name.match(searchRegex));
+        // return new Promise((resolve) => {
+        //     setTimeout(() => {
+        //         resolve([
+        //             new Home(1, '101', [
+        //                 new Resident('Sergio', 'Sanchez'),
+        //                 new Resident('Juana', 'Consuelo'),
+        //             ]),
+        //             new Home(2, '102', [
+        //                 new Resident('Sergio', 'Sanchez'),
+        //             ]),
+        //             new Home(3, '201', [
+        //                 new Resident('Sergio', 'Sanchez'),
+        //                 new Resident('Juana', 'Consuelo'),
+        //             ]),
+        //             new Home(4, '202', [
+        //                 new Resident('Sergio', 'Sanchez')
+        //             ]),
+        //             new Home(5, '301', [
+        //                 new Resident('Sergio', 'Sanchez'),
+        //                 new Resident('Juana', 'Consuelo'),
+        //             ]),
+        //             new Home(6, '302', [
+        //                 new Resident('Sergio', 'Sanchez'),
+        //                 new Resident('Juana', 'Consuelo'),
+        //             ])
+        //         ]);
+        //     }, 400);
+        // });
     }
 
     get userHomes() : Array<Home> {

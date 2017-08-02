@@ -22,23 +22,16 @@ export class HomesSearchPage {
     currentHomes: Array<Home> = [];
 
     searchHomes(event) {
-        let loader = this.loadingCtrl.create({
-            content: "Please wait..."
-        });
-        loader.present();
-        this.homes.searchByNumber({ homeNumber: event.target.value })
-        .then((homes) => {
-            loader.dismiss();
-            this.currentHomes = homes;
-        })
-        .catch((error) => {
-            loader.dismiss();
-        });
+        if(event.target.value) {
+            this.currentHomes = this.homes.searchByNumber(event.target.value);
+        }
+        else {
+            this.currentHomes = [];
+        }
     }
 
     goToVisitors(slidingItem, home) {
         slidingItem.close();
         this.nav.push(VisitorsTabsPage, { homes: [home], currentHome: home });
-
     }
 }

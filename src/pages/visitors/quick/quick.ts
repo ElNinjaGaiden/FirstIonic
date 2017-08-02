@@ -62,4 +62,9 @@ export class QuickVisitorsPage {
         let baseCssClass = this.platform.is('android') ? 'toolbar toolbar-md' : 'toolbar toolbar-ios';
         return (!this.tabsContainerIsRootView ? 'force-back-button' : 'no-back-button') + ' ' + baseCssClass;
     }
+
+    onVisitorEntry(visitor) {
+        console.log(visitor); //
+        this.rootNav.push(NewVisitorPage, { visitor: visitor, homes: this.homes, mode: 'notify' });
+    }
 }

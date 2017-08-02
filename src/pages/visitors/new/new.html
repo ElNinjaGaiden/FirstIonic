@@ -30,8 +30,8 @@
                 <ion-input type="text" [(ngModel)]="visitor.name" formControlName="name"></ion-input>
             </ion-item>
             <ion-item>
-                <ion-label floating>{{ 'VISITORS.NEW.ID' | translate }}</ion-label>
-                <ion-input type="text" [(ngModel)]="visitor.id" formControlName="id"></ion-input>
+                <ion-label floating>{{ 'VISITORS.NEW.IDENTIFICATION' | translate }}</ion-label>
+                <ion-input type="text" [(ngModel)]="visitor.identification" formControlName="identification"></ion-input>
             </ion-item>
             <ion-item>
                 <ion-label floating>{{ 'VISITORS.NEW.CAR_ID' | translate }}</ion-label>
@@ -47,6 +47,12 @@
                         (click)="goToRecurringDays($event)"
                         [disabled]="!visitorForm.valid || !validateVisitorEntryType()">
                     {{ 'BUTTONS.NEXT' | translate }}
+                </button>
+                <button ion-button color="primary" block 
+                        *ngIf="enableVisitorEntry()"
+                        (click)="notifyVisitorEntry()"
+                        [disabled]="!visitorForm.valid || !validateVisitorEntryType()">
+                    {{ 'VISITORS.VISITOR.BUTTONS.ENTRY' | translate }}
                 </button>
             </div>
         </ion-list>
