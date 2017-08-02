@@ -49,22 +49,52 @@ export class Visitors {
         this._permanentVisitors = visitors;
     }
 
-    loadVisitorsByHome(home: Home) : Promise<Array<Visitor>> {
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                let visitors = [
-                    new Visitor('', 'Pedro', 'Perez', VisitorRegistrationTypes.Quick, VisitorEntryTypes.Vehicle, '', 0),
-                    new Visitor('', 'Juan', 'Perez', VisitorRegistrationTypes.Quick, VisitorEntryTypes.Vehicle, '', 0),
-                    new Visitor('', 'Mickey', 'Mouse', VisitorRegistrationTypes.Recurring, VisitorEntryTypes.Pedestrian, '', 0),
-                    new Visitor('', 'Michael', 'Jordan', VisitorRegistrationTypes.Permanent, VisitorEntryTypes.PublicTransportation, '', 0)
-                ];
-                this.currentHome = home;
-                this.quickVisitors = visitors.filter(v => v.isQuick());
-                this.recurringVisitors = visitors.filter(v => v.isRecurring());
-                this.permanentVisitors = visitors.filter(v => v.isPermanent());
-                resolve(visitors);
-            }, 400);
+    loadVisitorsByHome(home: Home) : Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.user.getAccessData().then(accessData => {
+                const requestOptions = new RequestOptions({
+                    headers: new Headers({
+                        "Content-type": "application/json",
+                        "Accept": "application/json",
+                        "Authorization": 'Bearer ' + accessData.access_token
+                    })
+                });
+
+                this.api.get('api/visits/registers', { id: home.id }, requestOptions)
+                .share()
+                .map(res => res.json())
+                .subscribe(responseData => {
+                    this.currentHome = home;
+                    this.quickVisitors = responseData.inmediate.map(v => this._parseVisitor(v));
+                    this.recurringVisitors = responseData.recurrent.map(v => this._parseVisitor(v));
+                    this.permanentVisitors = responseData.permanent.map(v => this._parseVisitor(v));
+                    resolve();
+                }, er => {
+                    console.log(er);
+                    let error = {
+                        status: er.status,
+                        message: 'There was an error reaching the server, please try again'
+                    };
+                    if(er && typeof er.text === 'function') {
+                        const errorData = JSON.parse(er.text());
+                        console.log('Error data', errorData);
+                        if(errorData.error_description || errorData.message) {
+                            error.message = errorData.error_description || errorData.message;
+                        }
+                    }
+                    reject(error);
+                });
+            });
         });
+    }
+
+    _parseVisitor(data: any) : Visitor {
+        const visitor = new Visitor(data.id, data.name, data.identification, data.idVisitRegistrationType, data.idVisitEntryType, data.plate, data.idHome);
+        if(visitor.isRecurring()) {
+            visitor.days = data.days.split(',');
+            visitor.approxTime = data.aproxHour;
+        }
+        return visitor;
     }
 
     preregister(visitor: Visitor) : Promise<any> {
@@ -73,7 +103,7 @@ export class Visitors {
                 const currentUserData = this.user.userData;
                 const data = {
                     "Identification" : visitor.id,
-                    "Name": visitor.getFullName(),
+                    "Name": visitor.name,
                     "Plate": visitor.carId,
                     "EntryType": visitor.entryType,
                     "RegistrationType": visitor.registrationType,
@@ -85,7 +115,7 @@ export class Visitors {
                 };
                 const requestOptions = new RequestOptions({
                     headers: new Headers({
-                        "Content-type": "application/x-www-form-urlencoded",
+                        "Content-type": "application/json",
                         "Accept": "application/json",
                         "Authorization": 'Bearer ' + accessData.access_token
                     })
@@ -95,7 +125,6 @@ export class Visitors {
                 .share()
                 .map(res => res.json())
                 .subscribe(responseData => {
-                    console.log('Ojo', responseData);
                     resolve(responseData);
                 }, er => {
                     console.log(er);
@@ -117,8 +146,48 @@ export class Visitors {
     }
 
     register(visitor: Visitor) : Promise<any> {
-        return new Promise((resolve) => {
-            resolve({});
+        return new Promise((resolve, reject) => {
+            this.user.getAccessData().then(accessData => {
+                const currentUserData = this.user.userData;
+                const data = {
+                    "Identification" : visitor.id,
+                    "Name": visitor.name,
+                    "Plate": visitor.carId,
+                    "EntryType": visitor.entryType,
+                    "RegistrationType": visitor.registrationType,
+                    "IdHome" : visitor.homeId,
+                    "IsFavorite": false,
+                    "UserName": currentUserData.email
+                };
+                const requestOptions = new RequestOptions({
+                    headers: new Headers({
+                        "Content-type": "application/json",
+                        "Accept": "application/json",
+                        "Authorization": 'Bearer ' + accessData.access_token
+                    })
+                });
+
+                this.api.post('api/visits/register', data, requestOptions)
+                .share()
+                .map(res => res.json())
+                .subscribe(responseData => {
+                    resolve(responseData);
+                }, er => {
+                    console.log(er);
+                    let error = {
+                        status: er.status,
+                        message: 'There was an error reaching the server, please try again'
+                    };
+                    if(er && typeof er.text === 'function') {
+                        const errorData = JSON.parse(er.text());
+                        console.log('Error data', errorData);
+                        if(errorData.error_description || errorData.message) {
+                            error.message = errorData.error_description || errorData.message;
+                        }
+                    }
+                    reject(error);
+                });
+            });
         });
     }
 

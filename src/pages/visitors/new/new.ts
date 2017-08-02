@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from "@angular/forms";
-import { NavParams, NavController } from 'ionic-angular';
+import { NavParams, NavController, LoadingController, AlertController } from 'ionic-angular';
 import { Security } from '../../../providers/security';
 import { Homes } from '../../../providers/homes';
 import { Visitors } from '../../../providers/visitors';
@@ -17,7 +17,7 @@ export class NewVisitorPage {
 
     visitorForm: FormGroup;
     homesCollection: Array<Home>;
-    visitor: Visitor = new Visitor('', '', '', null, null, '', null);
+    visitor: Visitor = new Visitor(null, '', '', null, null, '', null);
     entryTypes: any = [];
     registrationTypes: any = [];
 
@@ -27,7 +27,9 @@ export class NewVisitorPage {
                 private navController: NavController,
                 private homes: Homes,
                 private visitors: Visitors,
-                private translateService: TranslateService) {
+                private translateService: TranslateService,
+                private loadingCtrl: LoadingController,
+                private alertCtrl: AlertController) {
 
         //NOTE: Security users can only add quick visitors
         this.visitor.registrationType = this.security.isSecurityUser ? VisitorRegistrationTypes.Quick : this.navParams.data.registrationType;
@@ -37,8 +39,7 @@ export class NewVisitorPage {
 
         this.visitorForm = this.formBuilder.group({
             'homeId': new FormControl({ value: visitors.currentHome.id, disabled: !this.security.isResidentUser }, Validators.required),
-            'firstName': ['', [Validators.required]],
-            'lastName': ['', [Validators.required]],
+            'name': ['', [Validators.required]],
             'id': ['', [Validators.required]],
             'carId': ['', []],
             registrationType: new FormControl({ value: this.security.isResidentUser ? this.navParams.data.registrationType : VisitorRegistrationTypes.Quick, disabled: !this.security.isResidentUser }, Validators.required),
@@ -69,7 +70,56 @@ export class NewVisitorPage {
     }
 
     onSubmit() {
-        console.log('submitting form', this.visitor);
+        if(this.security.isResidentUser) {
+            this._submitByResident();
+        }
+        else if(this.security.isSecurityUser) {
+            this._submitBySecurityUser();
+        }
+    }
+
+    _submitByResident() {
+        let loader = this.loadingCtrl.create({
+            content: "Please wait..."
+        });
+        loader.present();
+        this.visitors.preregister(this.visitor)
+        .then(response => {
+            console.log(response);
+            loader.dismiss();
+        })
+        .catch(error => {
+            loader.dismiss();
+            console.error(error);
+            let alert = this.alertCtrl.create({
+                title: 'Error',
+                subTitle: error.message,
+                buttons: ['OK']
+            });
+            alert.present();
+        });
+    }
+
+    _submitBySecurityUser() {
+        let loader = this.loadingCtrl.create({
+            content: "Please wait..."
+        });
+        loader.present();
+        this.visitors.register(this.visitor)
+        .then(response => {
+            console.log(response);
+            loader.dismiss();
+        })
+        .catch(error => {
+            loader.dismiss();
+            console.error(error);
+            let alert = this.alertCtrl.create({
+                title: 'Error',
+                subTitle: error.message,
+                buttons: ['OK']
+            });
+            alert.present();
+        });
     }
 
     enableSave() {

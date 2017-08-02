@@ -90,6 +90,7 @@
   },
 
   "VISITORS": {
+    "EMPTY_LIST": "There are no visitors registered in this section",
     "QUICK": {
       "TITLE": "Visitors",
       "TAB_TITLE": "Quick"
@@ -108,8 +109,7 @@
     "NEW": {
       "TITLE": "New visitor",
       "HOUSE_ID": "House #",
-      "FIRST_NAME": "First name",
-      "LAST_NAME": "Last name",
+      "NAME": "Name",
       "ID": "Identification",
       "CAR_ID": "Car Id",
       "REGISTRATION_TYPE": "Registration type",
@@ -140,12 +140,12 @@
   },
 
   "DAYS": {
-    "MONDAY": "Monday",
-    "TUESDAY": "Tuesday",
-    "WEDNESDAY": "Wednesday",
-    "THURSDAY": "Thursday",
-    "FRIDAY": "Friday",
-    "SATURDAY": "Saturday",
-    "SUNDAY": "Sunday"
+    "L": "Monday",
+    "K": "Tuesday",
+    "M": "Wednesday",
+    "J": "Thursday",
+    "V": "Friday",
+    "S": "Saturday",
+    "D": "Sunday"
   }
 }

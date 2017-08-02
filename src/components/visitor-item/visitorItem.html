@@ -1,6 +1,12 @@
 <ion-item-sliding #slidingItem>
     <ion-item>
-        <h2>{{visitor.getFullName()}}</h2>
+        <h2>{{visitor.name}}</h2>
+        <p>{{visitor.identification}}</p>
+        <p *ngIf="visitor.carId">{{ 'VISITORS.NEW.CAR_ID' | translate }}: {{ visitor.carId }}</p>
+        <div *ngIf="visitor.isRecurring()">
+            <p class="days-label">{{getDaysLabels()}}</p>
+            <p>{{formatTimeLabel()}}</p>
+        </div>
     </ion-item>
 
     <ion-item-options>

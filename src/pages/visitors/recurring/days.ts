@@ -48,7 +48,7 @@ export class RecurringDaysView {
                 private formBuilder: FormBuilder,
                 private visitors: Visitors,
                 private loadingCtrl: LoadingController,
-                private alertCtrl: AlertController,) {
+                private alertCtrl: AlertController) {
 
         this.visitor = navParams.data.visitor;
 
@@ -103,6 +103,5 @@ export class RecurringDaysView {
             });
             alert.present();
         });
-
     }
 }

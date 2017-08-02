@@ -28,7 +28,10 @@
       </ion-list>
     </form>
   </ion-toolbar>
-  <ion-list>
+  <ion-list *ngIf="visitors.permanentVisitors.length">
     <visitor-item *ngFor="let visitor of visitors.permanentVisitors" [visitor]="visitor"></visitor-item>
   </ion-list>
+  <div *ngIf="!visitors.permanentVisitors.length" class="visitor-list-empty">
+    {{ 'VISITORS.EMPTY_LIST' | translate }}
+  </div>
 </ion-content>

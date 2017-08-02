@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Visitor } from '../../models/visitor';
 import { Security } from '../../providers/security';
+import { Utils } from '../../providers/utils';
 
 @Component({
     selector: 'visitor-item',
@@ -10,7 +11,8 @@ export class VisitorItem {
 
     _visitor: Visitor;
 
-    constructor(private security: Security) {
+    constructor(private security: Security,
+                private utils: Utils) {
         
     }
 
@@ -29,5 +31,14 @@ export class VisitorItem {
 
     cancelVisitor(slidingItem, visitor) {
         slidingItem.close();
+    }
+
+    getDaysLabels() : string {
+        const daysLabels = this.utils.getDaysLabels(this.visitor.days);
+        return daysLabels.join(', ');
+    }
+
+    formatTimeLabel() {
+        return this.utils.formatTimeLabel(this.visitor.approxTime);
     }
 }

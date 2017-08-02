@@ -42,6 +42,7 @@ import { Toast } from '../providers/toast';
 import { Topics } from '../mocks/providers/topics';
 import { Homes } from '../providers/homes';
 import { Visitors } from '../providers/visitors';
+import { Utils } from '../providers/utils';
 
 import { Camera } from '@ionic-native/camera';
 import { GoogleMaps } from '@ionic-native/google-maps';
@@ -154,6 +155,7 @@ export function provideSettings(storage: Storage) {
     SplashScreen,
     StatusBar,
     Vibration,
+    Utils,
     Dialogs,
     { provide: Settings, useFactory: provideSettings, deps: [Storage] },
     // Keep this to enable Ionic's runtime error handling during development

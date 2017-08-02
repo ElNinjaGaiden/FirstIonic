@@ -34,4 +34,9 @@ ion-navbar {
     display: none;
 }
 
+//Pages
 @import '../pages/visitors/recurring/days';
+@import '../pages/visitors/visitorsTabs/visitorsTabs';
+
+//Components
+@import '../components/visitor-item/visitorItem';

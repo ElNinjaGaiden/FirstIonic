@@ -1,24 +1,25 @@
-import { User } from './user';
-
-export class Visitor extends User {
+export class Visitor {
     registrationType: number;
-    id: string;
+    id: number;
+    name: string;
+    identification: string;
     carId: string;
     approxTime: string;
     entryType: number;
     homeId: number;
     days: Array<string>;
 
-    constructor(id: string,
-                firstName: string,
-                lastName: string,
+    constructor(id: number,
+                name: string,
+                identification: string,
                 registrationType: number,
                 entryType: number,
                 carId: string,
                 homeId: number) {
 
-        super(firstName, lastName);
         this.registrationType = registrationType;
+        this.name = name;
+        this.identification = identification;
         this.entryType = entryType;
         this.id = id;
         this.carId = carId;
@@ -46,7 +47,7 @@ export class Visitor extends User {
             return this.days.join(',');
         }
         return null;
-    }
+    }    
 
     getApproxTimeToSubmit() {
         if(this.isRecurring()) {
