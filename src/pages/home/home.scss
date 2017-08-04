@@ -1,0 +1,19 @@
+home-page {
+    ion-grid {
+        max-width: 270px;
+        margin-top: 20px;
+        ion-row {
+            margin-top: 10px;
+            ion-col {
+                div {
+                    height: 120px;
+                    width: 120px;
+                    button.button {
+                        font-size: 14px;
+                        min-height: 100%;
+                    }
+                }
+            }
+        }
+    }
+}

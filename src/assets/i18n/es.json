@@ -79,6 +79,9 @@
   "SECURITY_VISITORS": {
     "MENU_TITLE": "Visitantes"
   },
+  "SECURITY_OTHER": {
+    "MENU_TITLE": "Otros"
+  },
   "ACTIVE_VISITORS": {
     "MENU_TITLE": "Salidas",
     "TITLE": "Visitas activas",
@@ -91,7 +94,7 @@
     "MENU_TITLE": "Amenidades"
   },
   "PAYMENTS": {
-    "MENU_TITLE": "Pagos y facturas"
+    "MENU_TITLE": "Pagos"
   },
   "ALERTS": {
     "MENU_TITLE": "Alertas"
@@ -193,5 +196,18 @@
     "V": "Viernes",
     "S": "Sábado",
     "D": "Domingo"
+  },
+
+  "RESIDENT_HOME": {
+    "TITLE": "Koti"
+  },
+
+  "SECURITY_HOME": {
+    "TITLE": "Koti"
+  },
+
+  "ADMINISTRATOR_HOME": {
+    "TITLE": "Koti"
   }
+
 }

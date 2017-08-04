@@ -22,8 +22,8 @@ import { TutorialPage } from '../pages/tutorial/tutorial';
 import { WelcomePage } from '../pages/welcome/welcome';
 import { TopicsListPage } from '../pages/topics-list/topics-list';
 
+import { HomePage } from '../pages/home/home';
 import { HomesSearchPage } from '../pages/homes/search/search';
-
 import { VisitorsTabsPage } from '../pages/visitors/visitorsTabs/visitorsTabs';
 import { QuickVisitorsPage } from '../pages/visitors/quick/quick';
 import { PermanentVisitorsPage } from '../pages/visitors/permanent/permanent';
@@ -99,7 +99,8 @@ export function provideSettings(storage: Storage) {
     RecurringDaysView,
     NewVisitorPage,
     VisitorItem,
-    ActiveVisitorsPage
+    ActiveVisitorsPage,
+    HomePage
   ],
   imports: [
     BrowserModule,
@@ -139,7 +140,8 @@ export function provideSettings(storage: Storage) {
     RecurringVisitorsPage,
     RecurringDaysView,
     NewVisitorPage,
-    ActiveVisitorsPage
+    ActiveVisitorsPage,
+    HomePage
   ],
   providers: [
     Api,

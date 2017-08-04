@@ -28,8 +28,11 @@ import { User } from '../providers/user';
 import { Homes } from '../providers/homes';
 import { Security } from '../providers/security';
 import { Utils } from '../providers/utils';
+import { Toast } from '../providers/toast';
 
 import { TranslateService } from '@ngx-translate/core';
+
+declare var FCMPlugin;
 
 @Component({
   template: `
@@ -51,6 +54,9 @@ import { TranslateService } from '@ngx-translate/core';
         <ion-list-header color="light" *ngIf="security.isAdminUser">
           {{ 'ADMIN.MENU_TITLE' | translate }}
         </ion-list-header>
+        <button menuClose ion-item (click)="openPage(rootPage)" *ngIf="security.isAdminUser">
+          Home
+        </button>
         <button menuClose ion-item (click)="openPage()" *ngIf="security.isAdminUser">
           {{ 'ADMIN_AMENITIES.MENU_TITLE' | translate }}
         </button>
@@ -63,6 +69,9 @@ import { TranslateService } from '@ngx-translate/core';
         <ion-list-header color="light" *ngIf="security.isSecurityUser">
           {{ 'SECURITY.MENU_TITLE' | translate }}
         </ion-list-header>
+        <button menuClose ion-item (click)="openPage(rootPage)" *ngIf="security.isSecurityUser">
+          Home
+        </button>
         <button menuClose ion-item (click)="openPage(homesSearchPage)" *ngIf="security.isSecurityUser">
           {{ 'SECURITY_VISITORS.MENU_TITLE' | translate }}
         </button>
@@ -72,6 +81,9 @@ import { TranslateService } from '@ngx-translate/core';
         <ion-list-header color="light" *ngIf="security.isResidentUser">
           {{ 'MY_HOUSE.MENU_TITLE' | translate }}
         </ion-list-header>
+        <button menuClose ion-item (click)="openPage(rootPage)" *ngIf="security.isResidentUser">
+          Home
+        </button>
         <button menuClose ion-item (click)="openPage()" *ngIf="security.isResidentUser">
           {{ 'AMENITIES.MENU_TITLE' | translate }}
         </button>
@@ -105,9 +117,8 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class MyApp {
   rootPage = null; //FirstRunPage
-  mainPage = MainPage;
-  homesSearchPage = HomesSearchPage;
   visitorsPage = VisitorsTabsPage;
+  homesSearchPage = HomesSearchPage;
   settingsPage = SettingsPage;
   activeVisitorsPage = ActiveVisitorsPage;
   logoutConfirmationMessage : string;
@@ -127,7 +138,8 @@ export class MyApp {
               private statusBar: StatusBar, 
               private splashScreen: SplashScreen,
               private storage: Storage,
-              private utils: Utils) {
+              private utils: Utils,
+              private toast: Toast) {
 
     this.initTranslate();
     this.user.getAccessData().then((accessData) => {

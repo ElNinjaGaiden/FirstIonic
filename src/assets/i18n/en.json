@@ -91,6 +91,9 @@
   "SECURITY_VISITORS": {
     "MENU_TITLE": "Visitors"
   },
+  "SECURITY_OTHER": {
+    "MENU_TITLE": "Other"
+  },
   "ACTIVE_VISITORS": {
     "MENU_TITLE": "Departures",
     "TITLE": "Active visitors",
@@ -205,5 +208,17 @@
     "V": "Friday",
     "S": "Saturday",
     "D": "Sunday"
+  },
+
+  "RESIDENT_HOME": {
+    "TITLE": "Koti"
+  },
+
+  "SECURITY_HOME": {
+    "TITLE": "Koti"
+  },
+
+  "ADMINISTRATOR_HOME": {
+    "TITLE": "Koti"
   }
 }

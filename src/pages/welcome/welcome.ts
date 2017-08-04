@@ -38,7 +38,7 @@ export class WelcomePage {
     this.menu.enable(true);
   }
 
-  doLogin() {
+  getToken() {
     let loader = this.loadingCtrl.create({
         content: "Starting session..."
     });

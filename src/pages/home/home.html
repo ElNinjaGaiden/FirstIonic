@@ -1,0 +1,129 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>{{ 'RESIDENT_HOME.TITLE' | translate }}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+    <ion-grid *ngIf="security.isAdminUser">
+      <ion-row>
+          <ion-col width-50>
+              <div>
+                  <button ion-button color="primary" block (click)="onNavOptionClick()">
+                      {{ 'ADMIN_AMENITIES.MENU_TITLE' | translate }}
+                  </button>
+              </div>
+          </ion-col>
+          <ion-col width-50>
+              <div>
+                  <button ion-button color="primary" block (click)="onNavOptionClick()">
+                      {{ 'ADMIN_CHARGES.MENU_TITLE' | translate }}
+                  </button>
+              </div>
+          </ion-col>
+      </ion-row>
+        <ion-row>
+          <ion-col width-50>
+              <div>
+                  <button ion-button color="primary" block (click)="onNavOptionClick()">
+                      {{ 'ADMIN_USERS.MENU_TITLE' | translate }}
+                  </button>
+              </div>
+          </ion-col>
+          <ion-col width-50>
+              <div>
+                  <button ion-button color="primary" block (click)="onNavOptionClick(settingsPage)">
+                      {{ 'SETTINGS.MENU_TITLE' | translate }}
+                  </button>
+              </div>
+          </ion-col>
+      </ion-row>
+  </ion-grid>
+  <ion-grid *ngIf="security.isResidentUser">
+      <ion-row>
+          <ion-col width-50>
+              <div>
+                  <button ion-button color="primary" block (click)="onNavOptionClick()">
+                      {{ 'AMENITIES.MENU_TITLE' | translate }}
+                  </button>
+              </div>
+          </ion-col>
+          <ion-col width-50>
+              <div>
+                  <button ion-button color="primary" block (click)="onNavOptionClick()">
+                      {{ 'PAYMENTS.MENU_TITLE' | translate }}
+                  </button>
+              </div>
+          </ion-col>
+      </ion-row>
+        <ion-row>
+          <ion-col width-50>
+              <div>
+                  <button ion-button color="primary" block (click)="onNavOptionClick(visitorsPage, { homes: homes.userHomes })">
+                      {{ 'VISITORS.MENU_TITLE' | translate }}
+                  </button>
+              </div>
+          </ion-col>
+          <ion-col width-50>
+              <div>
+                  <button ion-button color="primary" block (click)="onNavOptionClick()">
+                      {{ 'ALERTS.MENU_TITLE' | translate }}
+                  </button>
+              </div>
+          </ion-col>
+      </ion-row>
+        <ion-row>
+          <ion-col width-50>
+              <div>
+                  <button ion-button color="primary" block (click)="onNavOptionClick()">
+                      {{ 'SERVICES.MENU_TITLE' | translate }}
+                  </button>
+              </div>
+          </ion-col>
+          <ion-col width-50>
+              <div>
+                  <button ion-button color="primary" block (click)="onNavOptionClick()">
+                      {{ 'MI_PROFILE.MENU_TITLE' | translate }}
+                  </button>
+              </div>
+          </ion-col>
+      </ion-row>
+  </ion-grid>
+    <ion-grid *ngIf="security.isSecurityUser">
+      <ion-row>
+          <ion-col width-50>
+              <div>
+                  <button ion-button color="primary" block (click)="onNavOptionClick(homesSearchPage)">
+                      {{ 'SECURITY_VISITORS.MENU_TITLE' | translate }}
+                  </button>
+              </div>
+          </ion-col>
+          <ion-col width-50>
+              <div>
+                  <button ion-button color="primary" block (click)="onNavOptionClick(activeVisitorsPage)">
+                      {{ 'ACTIVE_VISITORS.MENU_TITLE' | translate }}
+                  </button>
+              </div>
+          </ion-col>
+      </ion-row>
+        <ion-row>
+          <ion-col width-50>
+              <div>
+                  <button ion-button color="primary" block (click)="onNavOptionClick()">
+                      {{ 'SECURITY_OTHER.MENU_TITLE' | translate }}
+                  </button>
+              </div>
+          </ion-col>
+          <ion-col width-50>
+              <div>
+                  <button ion-button color="primary" block (click)="onNavOptionClick(settingsPage)">
+                      {{ 'SETTINGS.MENU_TITLE' | translate }}
+                  </button>
+              </div>
+          </ion-col>
+      </ion-row>
+  </ion-grid>
+</ion-content>
