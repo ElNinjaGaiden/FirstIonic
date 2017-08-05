@@ -10,7 +10,7 @@ import { Visitor } from '../../../models/visitor';
 import { Home } from '../../../models/home';
 
 @Component({
-    selector: 'vists-tabs',
+    selector: 'visitors-tabs',
     templateUrl: 'visitorsTabs.html'
 })
 export class VisitorsTabsPage {

@@ -6,18 +6,9 @@ import { Storage, IonicStorageModule } from '@ionic/storage';
 
 import { MyApp } from './app.component';
 
-import { CardsPage } from '../pages/cards/cards';
-import { ContentPage } from '../pages/content/content';
-import { ItemCreatePage } from '../pages/item-create/item-create';
-import { ItemDetailPage } from '../pages/item-detail/item-detail';
-import { ListMasterPage } from '../pages/list-master/list-master';
 import { LoginPage } from '../pages/login/login';
-import { MapPage } from '../pages/map/map';
-import { MenuPage } from '../pages/menu/menu';
-import { SearchPage } from '../pages/search/search';
 import { SettingsPage } from '../pages/settings/settings';
 import { SignupPage } from '../pages/signup/signup';
-import { TabsPage } from '../pages/tabs/tabs';
 import { TutorialPage } from '../pages/tutorial/tutorial';
 import { WelcomePage } from '../pages/welcome/welcome';
 import { TopicsListPage } from '../pages/topics-list/topics-list';
@@ -35,7 +26,6 @@ import { ActiveVisitorsPage } from '../pages/visitors/actives/actives';
 import { VisitorItem } from '../components/visitor-item/visitorItem';
 
 import { Api } from '../providers/api';
-import { Items } from '../mocks/providers/items';
 import { Settings, DefaultLanguage } from '../providers/settings';
 import { User } from '../providers/user';
 import { Security } from '../providers/security';
@@ -76,18 +66,9 @@ export function provideSettings(storage: Storage) {
 @NgModule({
   declarations: [
     MyApp,
-    CardsPage,
-    ContentPage,
-    ItemCreatePage,
-    ItemDetailPage,
-    ListMasterPage,
     LoginPage,
-    MapPage,
-    MenuPage,
-    SearchPage,
     SettingsPage,
     SignupPage,
-    TabsPage,
     TutorialPage,
     WelcomePage,
     TopicsListPage,
@@ -118,18 +99,9 @@ export function provideSettings(storage: Storage) {
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    CardsPage,
-    ContentPage,
-    ItemCreatePage,
-    ItemDetailPage,
-    ListMasterPage,
     LoginPage,
-    MapPage,
-    MenuPage,
-    SearchPage,
     SettingsPage,
     SignupPage,
-    TabsPage,
     TutorialPage,
     WelcomePage,
     TopicsListPage,
@@ -145,7 +117,6 @@ export function provideSettings(storage: Storage) {
   ],
   providers: [
     Api,
-    Items,
     User,
     Security,
     Toast,

@@ -38,7 +38,7 @@ declare var FCMPlugin;
   template: `
   <ion-menu [content]="content">
     <ion-header>
-      <ion-toolbar>
+      <ion-toolbar color="secondary">
         <ion-title>{{ 'MENU_TITLE' | translate }}</ion-title>
       </ion-toolbar>
     </ion-header>

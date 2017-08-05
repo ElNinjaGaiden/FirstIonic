@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-navbar>
+  <ion-navbar color="secondary">
     <button ion-button menuToggle>
         <ion-icon name="menu"></ion-icon>
     </button>
@@ -13,7 +13,7 @@
       <ion-item-sliding *ngFor="let home of currentHomes" #slidingItem>
           <ion-item>
               <h2>{{home.name}}</h2>
-              <p *ngFor="let contact of home.contacts" >{{contact.getFullName()}}</p>
+              <p *ngFor="let contact of home.contacts" >{{contact.name}}</p>
           </ion-item>
 
           <ion-item-options>
@@ -24,3 +24,9 @@
       </ion-item-sliding>
   </ion-list>
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar color="dark">
+    <ion-title>Koti</ion-title>
+  </ion-toolbar>
+</ion-footer>

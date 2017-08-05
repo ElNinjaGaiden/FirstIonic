@@ -26,12 +26,34 @@ ion-navbar {
     }
 }
 
-.force-back-button .back-button {
-  display: inline-block;
+.toolbar.tab-toolbar {
+    .toolbar-background {
+        background-color: color($colors, 'secondary');
+    }
+    .bar-button-default-ios, .bar-button-default.bar-button-ios-default, .bar-button-clear-ios-default {
+        color: white;
+    } 
+    .bar-button-default-md, .bar-button-default.bar-button-md-default, .bar-button-clear-md-default {
+        color: white;
+    } 
+    ion-title {
+        .toolbar-title {
+            color: white;
+        }
+    }
 }
 
-.no-back-button .back-button {
-    display: none;
+.force-back-button {
+    
+    .back-button {
+        display: inline-block;
+    }
+}
+
+.no-back-button {
+    .back-button {
+        display: none;
+    }
 }
 
 //Pages

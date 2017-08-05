@@ -2,64 +2,40 @@ import { Injectable } from '@angular/core';
 import { Home } from '../models/home';
 import { Resident } from '../models/resident';
 import { User } from '../providers/user';
+import { Security } from '../providers/security';
 
 @Injectable()
 export class Homes {
 
     _userHomes: Array<Home>;
 
-    constructor(private user: User) {
+    constructor(private user: User,
+                private security: Security) {
 
     }
 
     searchByNumber(searchTerm: string) : Array<Home> {
         const searchRegex = new RegExp(searchTerm, 'i');
         return this.userHomes.filter(h => h.name.match(searchRegex));
-        // return new Promise((resolve) => {
-        //     setTimeout(() => {
-        //         resolve([
-        //             new Home(1, '101', [
-        //                 new Resident('Sergio', 'Sanchez'),
-        //                 new Resident('Juana', 'Consuelo'),
-        //             ]),
-        //             new Home(2, '102', [
-        //                 new Resident('Sergio', 'Sanchez'),
-        //             ]),
-        //             new Home(3, '201', [
-        //                 new Resident('Sergio', 'Sanchez'),
-        //                 new Resident('Juana', 'Consuelo'),
-        //             ]),
-        //             new Home(4, '202', [
-        //                 new Resident('Sergio', 'Sanchez')
-        //             ]),
-        //             new Home(5, '301', [
-        //                 new Resident('Sergio', 'Sanchez'),
-        //                 new Resident('Juana', 'Consuelo'),
-        //             ]),
-        //             new Home(6, '302', [
-        //                 new Resident('Sergio', 'Sanchez'),
-        //                 new Resident('Juana', 'Consuelo'),
-        //             ])
-        //         ]);
-        //     }, 400);
-        // });
     }
 
     get userHomes() : Array<Home> {
         if(!this._userHomes) {
             const userData = this.user.userData;
-            this._userHomes = userData.homes.map(h => new Home(h.id, h.name, [ new Resident(userData.firstName, userData.lastName) ]));
+            this._userHomes = userData.homes.map(h => this._parseHome(h, userData));
         }
         return this._userHomes;
     }
 
-    // searchByUser() : Promise<Array<Home>> {
-    //     return new Promise((resolve) => {
-    //         setTimeout(() => {
-    //             const userData = this.user.userData;
-    //             const userHomes = userData.homes.map(h => new Home(h.id, h.name, [ new Resident(userData.firstName, userData.lastName) ]));
-    //             resolve(userHomes);
-    //         }, 400);
-    //     });
-    // }
+    _parseHome(data, userData) : Home {
+        let residents : Array<Resident>;
+        if(this.security.isSecurityUser) {
+            residents = data.users.split(',').map(n => new Resident(n)); 
+        }
+        else if(this.security.isResidentUser) {
+            residents = [new Resident(`${userData.firstName} ${userData.lastName}`)];
+        }
+        
+        return new Home(data.id, data.name, residents);
+    }
 }

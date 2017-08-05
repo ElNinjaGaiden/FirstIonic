@@ -7,6 +7,7 @@
             <p *ngIf="visitor.days" class="days-label">{{getDaysLabels()}}</p>
             <p *ngIf="visitor.property">{{formatTimeLabel()}}</p>
         </div>
+        <p *ngIf="security.isSecurityUser && visitor.isActive && visitor.home">{{ 'ACTIVE_VISITORS.HOME' | translate }}: {{visitor.home.name}}</p>
     </ion-item>
 
     <ion-item-options>

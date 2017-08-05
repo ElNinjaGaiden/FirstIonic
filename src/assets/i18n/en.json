@@ -97,7 +97,8 @@
   "ACTIVE_VISITORS": {
     "MENU_TITLE": "Departures",
     "TITLE": "Active visitors",
-    "SEARCH_PLACEHOLDER": "Search by name, card id or house number"
+    "SEARCH_PLACEHOLDER": "Search by name, card id or house number",
+    "HOME": "Home"
   },
   "MY_HOUSE": {
     "MENU_TITLE": "Mi house"

@@ -1,3 +1,5 @@
+import { Home } from './home';
+
 export class Visitor {
     registrationType: number;
     id: number;
@@ -9,6 +11,7 @@ export class Visitor {
     homeId: number;
     days: Array<string>;
     isActive: boolean;
+    home: Home;
 
     constructor(id: number,
                 name: string,

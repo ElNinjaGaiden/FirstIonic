@@ -3,6 +3,7 @@ import { RequestOptions, Headers } from '@angular/http';
 import { Visitor, VisitorRegistrationTypes, VisitorEntryTypes } from '../models/visitor';
 import { Home } from '../models/home';
 import { User } from './user';
+import { Homes } from './homes';
 import {Api } from './api';
 
 @Injectable()
@@ -15,7 +16,8 @@ export class Visitors {
     _currentHome: Home;
 
     constructor(private user: User,
-                private api: Api) {
+                private api: Api,
+                private homes: Homes) {
     }
 
     get currentHome() : Home {
@@ -275,6 +277,7 @@ export class Visitors {
                     this.activeVisitors = responseData.map(v => this._parseVisitor(v));
                     this.activeVisitors.forEach(v => {
                         v.isActive = true;
+                        v.home = this._searchVisitorHome(v);
                     });
                     resolve(this.activeVisitors);
                 }, er => {
@@ -334,5 +337,9 @@ export class Visitors {
                 });
             });
         });
+    }
+
+    _searchVisitorHome(visitor: Visitor) {
+        return this.homes.userHomes.find(h => h.id === visitor.homeId);
     }
 }

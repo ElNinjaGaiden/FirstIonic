@@ -85,7 +85,8 @@
   "ACTIVE_VISITORS": {
     "MENU_TITLE": "Salidas",
     "TITLE": "Visitas activas",
-    "SEARCH_PLACEHOLDER": "Busca por nombre, placa o número de casa"
+    "SEARCH_PLACEHOLDER": "Busca por nombre, placa o número de casa",
+    "HOME": "Casa"
   },
   "MY_HOUSE": {
     "MENU_TITLE": "Mi casa"

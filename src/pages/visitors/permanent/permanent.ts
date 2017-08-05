@@ -61,7 +61,7 @@ export class PermanentVisitorsPage {
 
     get navBarClass() : string {
         let baseCssClass = this.platform.is('android') ? 'toolbar toolbar-md' : 'toolbar toolbar-ios';
-        return (!this.tabsContainerIsRootView ? 'force-back-button' : 'no-back-button') + ' ' + baseCssClass;
+        return (!this.tabsContainerIsRootView ? 'force-back-button tab-toolbar' : 'no-back-button tab-toolbar') + ' ' + baseCssClass;
     }
 
     onVisitorEntry(visitor) {

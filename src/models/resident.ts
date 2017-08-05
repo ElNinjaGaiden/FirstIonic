@@ -1,8 +1,10 @@
 import { User } from './user';
 
-export class Resident extends User {
+export class Resident {
 
-    constructor(firstName: string, lastName: string) {
-        super(firstName, lastName);
+    name: string;
+
+    constructor(name: string) {
+        this.name = name;
     }
 }
