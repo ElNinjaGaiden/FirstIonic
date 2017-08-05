@@ -54,7 +54,7 @@ declare var FCMPlugin;
         <ion-list-header color="light" *ngIf="security.isAdminUser">
           {{ 'ADMIN.MENU_TITLE' | translate }}
         </ion-list-header>
-        <button menuClose ion-item (click)="openPage(rootPage)" *ngIf="security.isAdminUser">
+        <button menuClose ion-item (click)="openPage(mainPage)" *ngIf="security.isAdminUser">
           Home
         </button>
         <button menuClose ion-item (click)="openPage()" *ngIf="security.isAdminUser">
@@ -69,7 +69,7 @@ declare var FCMPlugin;
         <ion-list-header color="light" *ngIf="security.isSecurityUser">
           {{ 'SECURITY.MENU_TITLE' | translate }}
         </ion-list-header>
-        <button menuClose ion-item (click)="openPage(rootPage)" *ngIf="security.isSecurityUser">
+        <button menuClose ion-item (click)="openPage(mainPage)" *ngIf="security.isSecurityUser">
           Home
         </button>
         <button menuClose ion-item (click)="openPage(homesSearchPage)" *ngIf="security.isSecurityUser">
@@ -81,7 +81,7 @@ declare var FCMPlugin;
         <ion-list-header color="light" *ngIf="security.isResidentUser">
           {{ 'MY_HOUSE.MENU_TITLE' | translate }}
         </ion-list-header>
-        <button menuClose ion-item (click)="openPage(rootPage)" *ngIf="security.isResidentUser">
+        <button menuClose ion-item (click)="openPage(mainPage)" *ngIf="security.isResidentUser">
           Home
         </button>
         <button menuClose ion-item (click)="openPage()" *ngIf="security.isResidentUser">
@@ -117,6 +117,7 @@ declare var FCMPlugin;
 })
 export class MyApp {
   rootPage = null; //FirstRunPage
+  mainPage = null;
   visitorsPage = VisitorsTabsPage;
   homesSearchPage = HomesSearchPage;
   settingsPage = SettingsPage;
@@ -141,6 +142,7 @@ export class MyApp {
               private utils: Utils,
               private toast: Toast) {
 
+    this.mainPage = MainPage;
     this.initTranslate();
     this.user.getAccessData().then((accessData) => {
       if(accessData) {
