@@ -18,6 +18,9 @@ home-page {
                         .button-inner {
                             display: initial;
                         }
+                        &.small-font {
+                            font-size: 11px;
+                        }
                     }
                 }
             }

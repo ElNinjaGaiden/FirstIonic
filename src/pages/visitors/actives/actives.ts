@@ -36,7 +36,15 @@ export class ActiveVisitorsPage {
     }
 
     filterActiveVisitors(event) {
-
+        if(event.target.value) {
+            const searchRegex = new RegExp(event.target.value, 'i');
+            this.activeVisitos = this.visitors.activeVisitors.filter(v => {
+                return v.name.match(searchRegex) || v.carId.match(searchRegex) || (v.home && v.home.name.match(searchRegex));
+            });
+        }
+        else {
+            this.activeVisitos = this.visitors.activeVisitors;
+        }
     }
 
     onVisitorDeparture (visitor: Visitor) {
