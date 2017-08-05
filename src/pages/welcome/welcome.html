@@ -1,7 +1,7 @@
 <ion-content no-bounce scroll="false">
   <div class="splash-bg"></div>
   <div class="splash-info">
-    <div class="splash-logo"></div>
+     <div class="splash-logo"></div> 
     <div class="splash-intro">
       {{ 'WELCOME_INTRO' | translate }}
     </div>
@@ -18,9 +18,15 @@
           <ion-input type="password" [(ngModel)]="account.password" name="password"></ion-input>
         </ion-item>
         <div padding>
-          <button ion-button color="primary" block [disabled]="!account.email || !account.password">{{ 'LOGIN_BUTTON' | translate }}</button>
+          <button ion-button color="secondary" block [disabled]="!account.email || !account.password">{{ 'LOGIN_BUTTON' | translate }}</button>
         </div>
       </ion-list>
     </form>
   </div>
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar color="dark">
+    <ion-title>Koti</ion-title>
+  </ion-toolbar>
+</ion-footer>
