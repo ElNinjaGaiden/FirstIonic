@@ -33,7 +33,7 @@ export class HomePage {
                 private navCtrl: NavController,
                 private loadingCtrl: LoadingController,) {
 
-        this.configurePushNotificationsLsteners();
+        this._tryStartSession();
         this.storage.get('doneWithTutorial').then((doneWithTutorial) => {
             if(!doneWithTutorial) {
                 this.navCtrl.push(TutorialPage);
@@ -46,104 +46,98 @@ export class HomePage {
             this.navCtrl.setRoot(page, params);
         }
     }
-    
-    configurePushNotificationsLsteners() {
-        if(typeof FCMPlugin !== 'undefined') {
-            if(!this.user.deviceRegistrationToken) {
-                console.log('Configuring FCM integration');
-                FCMPlugin.getToken(this.onFirebaseTokenReceived.bind(this));
-            }
-        }
-        else {
-            if(!this.user.deviceRegistrationToken) {
-                this.onFirebaseTokenReceived('DummyDeviceRegistrationId-WebApp');
-            }
+
+    _tryStartSession() {
+        if(!this.user.userData) {
+            //First check if the current access token is not expired
+            this.user.getAccessData().then((accessData) => {
+                if(accessData) {
+                    if(!this.user.isTokenExpired(accessData)) {
+                        this._doLogin();
+                    }
+                    else {
+                        //The access token is expired, we need to request a new access token
+                        console.log('Re-login user because acces token was expired');
+                        this.reLoginUser();
+                    }
+                }
+                else {
+                    //There is no acces data
+                    //This should not happens because if the user gets to this page is because there is one but just in case...
+                    this.navCtrl.setRoot(WelcomePage);
+                }
+            });
         }
     }
-
-    onFirebaseTokenReceived(firebaseToken) {
+    
+    _doLogin() {
+        let loader = this.loadingCtrl.create({
+            content: "Loading data..."
+        });
+        loader.present();
+        this.user.login().then((userData) => {
+        loader.dismiss();
 
         if(typeof FCMPlugin !== 'undefined') {
             FCMPlugin.onTokenRefresh(this.onFirebaseTokenReceived.bind(this));
             FCMPlugin.onNotification(this.onNotificationReceived.bind(this));
+            FCMPlugin.getToken(this.onFirebaseTokenReceived.bind(this));
         }
-
-        if(!this.user.userData) {
-            //First check if the current access token is not expired
-            this.user.getAccessData().then((accessData) => {
-            if(accessData) {
-                if(!this.user.isTokenExpired(accessData)) {
-                    this._doLogin(firebaseToken);
-                }
-                else {
-                    //The access token is expired, we need to request a new access token
-                    console.log('Re-login user because acces token was expired');
-                    this.reLoginUser(firebaseToken);
-                }
-            }
-            else {
-                //There is no acces data
-                //This should not happens because if the user gets to this page is because there is one but just in case...
-                this.navCtrl.setRoot(WelcomePage);
-            }
-        });
-    }
-  }
-
-  _doLogin(firebaseToken) {
-    let loader = this.loadingCtrl.create({
-        content: "Loading data..."
-    });
-    loader.present();
-    this.user.login(firebaseToken).then((userData) => {
-      loader.dismiss();
-    }, (error) => {
-      console.log(error);
-      loader.dismiss();
-      if(error.status === 401) {
-        this.reLoginUser(firebaseToken);
-        //This means the token has expired, we need to login again
-      }
-    });
-  }
-
-  reLoginUser(firebaseToken) {
-    let loader = this.loadingCtrl.create({
-        content: "Renewing session..."
-    });
-    loader.present();
-    //Get the current acces data (to pull the name and password)
-    this.user.getAccessData().then((currenAccesData) => {
-      let email = currenAccesData.userName;
-      let password = currenAccesData.password;
-      //Remove the current access token
-      this.user.deleteAccessData().then(() => {
-        this.user.getToken({ email, password }).then((accessTokenData) => {
-          loader.dismiss();
-          this.onFirebaseTokenReceived(firebaseToken);
         }, (error) => {
-          //Error login the user again, maybe the password is wrong
-          console.log('Error login the user again, maybe the password is wrong');
-          loader.dismiss();
-          this.navCtrl.setRoot(WelcomePage);
+            console.log(error);
+            loader.dismiss();
+            if(error.status === 401) {
+                this.reLoginUser();
+                //This means the token has expired, we need to login again
+            }
         });
-      }, (error) => {
-        //Error deleting the current access data
-        console.log('Error deleting the current access data');
-        loader.dismiss();
-        this.navCtrl.setRoot(WelcomePage);
-      });
-    }, (error) => {
-      //Error getting the current acces token data
-      console.log('Error getting the current acces token data');
-      loader.dismiss();
-      this.navCtrl.setRoot(WelcomePage);
-    });
-  }
-
-  onNotificationReceived(notificationData) {
-    if(!notificationData.wasTapped) {
-      this.toast.show(notificationData);
     }
-  }
+    
+    reLoginUser() {
+        let loader = this.loadingCtrl.create({
+            content: "Renewing session..."
+        });
+        loader.present();
+        //Get the current acces data (to pull the name and password)
+        this.user.getAccessData().then((currenAccesData) => {
+            let email = currenAccesData.userName;
+            let password = currenAccesData.password;
+            //Remove the current access token
+            this.user.deleteAccessData().then(() => {
+                this.user.getAccessToken({ email, password }).then((accessTokenData) => {
+                    loader.dismiss();
+                    this._doLogin();
+                }, (error) => {
+                    //Error login the user again, maybe the password is wrong
+                    console.log('Error login the user again, maybe the password is wrong');
+                    loader.dismiss();
+                    this.navCtrl.setRoot(WelcomePage);
+                });
+            }, (error) => {
+                //Error deleting the current access data
+                console.log('Error deleting the current access data');
+                loader.dismiss();
+                this.navCtrl.setRoot(WelcomePage);
+            });
+        }, (error) => {
+            //Error getting the current acces token data
+            console.log('Error getting the current acces token data');
+            loader.dismiss();
+            this.navCtrl.setRoot(WelcomePage);
+        });
+    }
+
+    onFirebaseTokenReceived(firebaseToken) {
+        if(typeof FCMPlugin !== 'undefined') {
+            this.user.renewFireBaseToken(firebaseToken).then(firebaseToke => {
+                console.log('Firebase token renewed');
+            });
+        }
+    }
+
+    onNotificationReceived(notificationData) {
+        if(!notificationData.wasTapped) {
+            this.toast.show(notificationData);
+        }
+    }
 }

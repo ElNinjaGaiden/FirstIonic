@@ -137,20 +137,20 @@
   "VISITORS": {
     "MENU_TITLE": "Visitantes",
     "EMPTY_LIST": "No hay visitantes registrados en ésta sección",
-    "QUICK": {
+    "INMEDIATE": {
       "TITLE": "Visitantes",
-      "TAB_TITLE": "Rápidos"
+      "TAB_TITLE": "Inmediatos"
     },
-    "RECURRING": {
+    "FAVORITES": {
       "TITLE": "Visitantes",
-      "TAB_TITLE": "Recurrentes",
-      "DAYS": {
-        "TITLE": "Días"
-      }
+      "TAB_TITLE": "Favoritos"
     },
     "PERMANENT": {
       "TITLE": "Visitantes",
-      "TAB_TITLE": "Permanentes"
+      "TAB_TITLE": "Permanentes",
+      "DAYS": {
+        "TITLE": "Días"
+      }
     },
     "NEW": {
       "TITLE": "Nueva visita",
@@ -159,11 +159,11 @@
       "IDENTIFICATION": "Identificación",
       "CAR_ID": "Placa",
       "REGISTRATION_TYPE": "Tipo de registro",
-      "ENTRY_TYPE": "Medio de entrada"
+      "ENTRY_TYPE": "Medio de entrada",
+      "IS_FAVORITE": "Favorito"
     },
     "REGISTRATION_TYPES": {
-      "QUICK": "Rápida",
-      "RECURRING": "Recurrente",
+      "INMEDIATE": "Inmediato",
       "PERMANENT": "Permanente"
     },
     "ENTRY_TYPES": {

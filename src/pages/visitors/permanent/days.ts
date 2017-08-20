@@ -10,7 +10,7 @@ import { Utils } from '../../../providers/utils';
     selector: 'recurring-days',
     templateUrl: 'days.html'
 })
-export class RecurringDaysView {
+export class PermanentDaysView {
 
     daysForm: FormGroup;
     visitor: Visitor;

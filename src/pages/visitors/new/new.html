@@ -37,6 +37,10 @@
                 <ion-label floating>{{ 'VISITORS.NEW.CAR_ID' | translate }}</ion-label>
                 <ion-input type="text" [(ngModel)]="visitor.carId" formControlName="carId"></ion-input>
             </ion-item>
+            <ion-item *ngIf="security.isResidentUser">
+                <ion-label>{{ 'VISITORS.NEW.IS_FAVORITE' | translate }}</ion-label>
+                <ion-toggle [(ngModel)]="visitor.isFavorite" formControlName="isFavorite" [disabled]="!enableIsFavorite()"></ion-toggle>
+            </ion-item>
             <div padding>
                 <button *ngIf="enableSave()" ion-button color="primary" block 
                         [disabled]="!visitorForm.valid || !validateVisitorEntryType()">

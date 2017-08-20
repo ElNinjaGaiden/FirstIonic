@@ -43,7 +43,7 @@ export class WelcomePage {
         content: "Starting session..."
     });
     loader.present();
-    this.user.getToken(this.account).then((accessTokenData) => {
+    this.user.getAccessToken(this.account).then((accessTokenData) => {
       loader.dismiss();
       this.goToApp();
     }, (errorMessage) => {

@@ -16,10 +16,10 @@ import { TopicsListPage } from '../pages/topics-list/topics-list';
 import { HomePage } from '../pages/home/home';
 import { HomesSearchPage } from '../pages/homes/search/search';
 import { VisitorsTabsPage } from '../pages/visitors/visitorsTabs/visitorsTabs';
-import { QuickVisitorsPage } from '../pages/visitors/quick/quick';
+import { InmediateVisitorsPage } from '../pages/visitors/inmediate/inmediate';
 import { PermanentVisitorsPage } from '../pages/visitors/permanent/permanent';
-import { RecurringVisitorsPage } from '../pages/visitors/recurring/recurring';
-import { RecurringDaysView } from '../pages/visitors/recurring/days';
+import { FavoritesVisitorsPage } from '../pages/visitors/favorites/favorites';
+import { PermanentDaysView } from '../pages/visitors/permanent/days';
 import { NewVisitorPage } from '../pages/visitors/new/new';
 import { ActiveVisitorsPage } from '../pages/visitors/actives/actives';
 
@@ -75,9 +75,9 @@ export function provideSettings(storage: Storage) {
     HomesSearchPage,
     VisitorsTabsPage,
     PermanentVisitorsPage,
-    QuickVisitorsPage,
-    RecurringVisitorsPage,
-    RecurringDaysView,
+    InmediateVisitorsPage,
+    FavoritesVisitorsPage,
+    PermanentDaysView,
     NewVisitorPage,
     VisitorItem,
     ActiveVisitorsPage,
@@ -108,9 +108,9 @@ export function provideSettings(storage: Storage) {
     HomesSearchPage,
     VisitorsTabsPage,
     PermanentVisitorsPage,
-    QuickVisitorsPage,
-    RecurringVisitorsPage,
-    RecurringDaysView,
+    InmediateVisitorsPage,
+    FavoritesVisitorsPage,
+    PermanentDaysView,
     NewVisitorPage,
     ActiveVisitorsPage,
     HomePage

@@ -149,13 +149,13 @@
   "VISITORS": {
     "MENU_TITLE": "Visitors",
     "EMPTY_LIST": "There are no visitors registered in this section",
-    "QUICK": {
+    "INMEDIATE": {
       "TITLE": "Visitors",
-      "TAB_TITLE": "Quick"
+      "TAB_TITLE": "Inmediate"
     },
-    "RECURRING": {
+    "FAVORITES": {
       "TITLE": "Visitors",
-      "TAB_TITLE": "Recurring",
+      "TAB_TITLE": "Favorites",
       "DAYS": {
         "TITLE": "Days"
       }
@@ -171,11 +171,11 @@
       "IDENTIFICATION": "Identification",
       "CAR_ID": "Car Id",
       "REGISTRATION_TYPE": "Registration type",
-      "ENTRY_TYPE": "Entry mode"
+      "ENTRY_TYPE": "Entry mode",
+      "IS_FAVORITE": "Favorite"
     },
     "REGISTRATION_TYPES": {
-      "QUICK": "Quick",
-      "RECURRING": "Recurring",
+      "INMEDIATE": "Inmediate",
       "PERMANENT": "Permanent"
     },
     "ENTRY_TYPES": {

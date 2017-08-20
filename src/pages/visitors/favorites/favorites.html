@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-navbar [class]="navBarClass">
+  <ion-navbar [class]="navBarClass" color="secondary">
      <button ion-button menuToggle *ngIf="tabsContainerIsRootView">
       <ion-icon name="menu"></ion-icon>
     </button>
@@ -11,7 +11,7 @@
         <ion-icon name="refresh"></ion-icon>
       </button>
     </ion-buttons>
-    <ion-title>{{ 'VISITORS.QUICK.TITLE' | translate }}</ion-title>
+    <ion-title>{{ 'VISITORS.FAVORITES.TITLE' | translate }}</ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -28,10 +28,10 @@
       </ion-list>
     </form>
   </ion-toolbar>
-  <ion-list *ngIf="visitors.quickVisitors.length">
-    <visitor-item *ngFor="let visitor of visitors.quickVisitors" [visitor]="visitor" (visitorEntry)="onVisitorEntry($event)"></visitor-item>
+  <ion-list *ngIf="visitors.favoriteVisitors.length">
+    <visitor-item *ngFor="let visitor of visitors.favoriteVisitors" [visitor]="visitor" (visitorEntry)="onVisitorEntry($event)"></visitor-item>
   </ion-list>
-  <div *ngIf="!visitors.quickVisitors.length" class="visitor-list-empty">
+  <div *ngIf="!visitors.favoriteVisitors.length" class="visitor-list-empty">
     {{ 'VISITORS.EMPTY_LIST' | translate }}
   </div>
 </ion-content>

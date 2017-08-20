@@ -80,7 +80,7 @@ export class User {
    * Send a POST request to our login endpoint with the data
    * the user entered on the form.
    */
-  getToken(userAccount: any) {
+  getAccessToken(userAccount: any) {
     let body = new URLSearchParams();
     body.set('username', userAccount.email);
     body.set('password', userAccount.password);
@@ -130,14 +130,14 @@ export class User {
    * Send a POST request to our login endpoint with the data
    * the user entered on the form.
    */
-  login(deviceRegistrationToken) {
-    this.deviceRegistrationToken = deviceRegistrationToken;
+  login() { //deviceRegistrationToken
+    //this.deviceRegistrationToken = deviceRegistrationToken;
     return new Promise((resolve, reject) => {
       this.getAccessData().then((accessData) => {
 
         let body = new URLSearchParams();
         body.set('username', accessData.userName);
-        body.set('deviceRegistrationTokenId', deviceRegistrationToken);
+        //body.set('deviceRegistrationTokenId', deviceRegistrationToken);
 
         let requestOptions = new RequestOptions({
           headers: new Headers({
@@ -172,6 +172,42 @@ export class User {
     });
   }
 
+  renewFireBaseToken(firebaseToken) : Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.getAccessData().then((accessData) => {
+
+        let body = new URLSearchParams();
+        body.set('sessionId', this.userData.sessionId);
+        body.set('deviceRegistrationTokenId', firebaseToken);
+
+        let requestOptions = new RequestOptions({
+          headers: new Headers({
+            "Content-type": "application/x-www-form-urlencoded",
+            "Accept": "application/json",
+            "Authorization": 'Bearer ' + accessData.access_token
+          })
+        });
+
+        this.api.post('api/account/renewSession', body, requestOptions)
+        .share()
+        .map(res => res.json())
+        .subscribe(renewResponse => {
+          this.deviceRegistrationToken = firebaseToken;
+          resolve(firebaseToken);
+        }, error => {
+          let errorMessage = 'There was an error reaching the server, please try again';
+          if(error && typeof error.text === 'function') {
+            const errorData = JSON.parse(error.text());
+            if(errorData.error_description) {
+              errorMessage = errorData.error_description;
+            }
+          }
+          reject(errorMessage);
+        });
+      });
+    });
+  }
+
   /**
    * Log the user out, which forgets the session
    */
@@ -180,8 +216,7 @@ export class User {
       this.getAccessData().then((accessData) => {
 
         let body = new URLSearchParams();
-        body.set('username', accessData.userName);
-        body.set('deviceRegistrationTokenId', this.deviceRegistrationToken);
+        body.set('sessionId', this.userData.sessionId);
 
         let requestOptions = new RequestOptions({
           headers: new Headers({

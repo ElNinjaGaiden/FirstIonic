@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-navbar [class]="navBarClass" color="secondary">
+  <ion-navbar [class]="navBarClass">
      <button ion-button menuToggle *ngIf="tabsContainerIsRootView">
       <ion-icon name="menu"></ion-icon>
     </button>
@@ -11,7 +11,7 @@
         <ion-icon name="refresh"></ion-icon>
       </button>
     </ion-buttons>
-    <ion-title>{{ 'VISITORS.RECURRING.TITLE' | translate }}</ion-title>
+    <ion-title>{{ 'VISITORS.INMEDIATE.TITLE' | translate }}</ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -28,10 +28,10 @@
       </ion-list>
     </form>
   </ion-toolbar>
-  <ion-list *ngIf="visitors.recurringVisitors.length">
-    <visitor-item *ngFor="let visitor of visitors.recurringVisitors" [visitor]="visitor" (visitorEntry)="onVisitorEntry($event)"></visitor-item>
+  <ion-list *ngIf="visitors.inmediateVisitors.length">
+    <visitor-item *ngFor="let visitor of visitors.inmediateVisitors" [visitor]="visitor" (visitorEntry)="onVisitorEntry($event)"></visitor-item>
   </ion-list>
-  <div *ngIf="!visitors.recurringVisitors.length" class="visitor-list-empty">
+  <div *ngIf="!visitors.inmediateVisitors.length" class="visitor-list-empty">
     {{ 'VISITORS.EMPTY_LIST' | translate }}
   </div>
 </ion-content>

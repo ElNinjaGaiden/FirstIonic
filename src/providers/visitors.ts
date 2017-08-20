@@ -9,8 +9,8 @@ import {Api } from './api';
 @Injectable()
 export class Visitors {
 
-    _quickVisitors: Array<Visitor> = [];
-    _recurrentVisitors: Array<Visitor> = [];
+    _inmediateVisitors: Array<Visitor> = [];
+    _favoriteVisitors: Array<Visitor> = [];
     _permanentVisitors: Array<Visitor> = [];
     _activeVisitors: Array<Visitor> = [];
     _currentHome: Home;
@@ -28,20 +28,20 @@ export class Visitors {
         this._currentHome = home;
     }
 
-    get quickVisitors() : Array<Visitor> {
-        return this._quickVisitors;
+    get inmediateVisitors() : Array<Visitor> {
+        return this._inmediateVisitors;
     }
 
-    set quickVisitors(visitors: Array<Visitor>) {
-        this._quickVisitors = visitors;
+    set inmediateVisitors(visitors: Array<Visitor>) {
+        this._inmediateVisitors = visitors;
     }
 
-    get recurringVisitors() : Array<Visitor> {
-        return this._recurrentVisitors;
+    get favoriteVisitors() : Array<Visitor> {
+        return this._favoriteVisitors; //
     }
 
-    set recurringVisitors(visitors: Array<Visitor>) {
-        this._recurrentVisitors = visitors;
+    set favoriteVisitors(visitors: Array<Visitor>) {
+        this._favoriteVisitors = visitors;
     }
 
     get permanentVisitors() : Array<Visitor> {
@@ -76,15 +76,19 @@ export class Visitors {
                 .map(res => res.json())
                 .subscribe(responseData => {
                     this.currentHome = home;
+
+                    
+
                     if(responseData.current) {
                         const visitors: Array<Visitor> = responseData.current.map(v => this._parseVisitor(v));
-                        this.quickVisitors = visitors.filter(v => v.isQuick());
-                        this.recurringVisitors = visitors.filter(v => v.isRecurring());
+                        this.inmediateVisitors = visitors.filter(v => v.isInmediate() && !v.isFavorite);
+                        this.favoriteVisitors = visitors.filter(v => v.isInmediate() && v.isFavorite);
                         this.permanentVisitors = visitors.filter(v => v.isPermanent());
                     }
                     else {
-                        this.quickVisitors = responseData.inmediate.map(v => this._parseVisitor(v));
-                        this.recurringVisitors = responseData.recurrent.map(v => this._parseVisitor(v));
+                        this.inmediateVisitors = responseData.inmediate.map(v => this._parseVisitor(v));
+                        this.favoriteVisitors = responseData.favorites.map(v => this._parseVisitor(v));
+                        this.favoriteVisitors.forEach(v => { v.isFavorite = true; });
                         this.permanentVisitors = responseData.permanent.map(v => this._parseVisitor(v));
                     }
                     resolve();
@@ -108,8 +112,17 @@ export class Visitors {
     }
 
     _parseVisitor(data: any) : Visitor {
-        const visitor = new Visitor(data.id, data.name, data.identification, data.idVisitRegistrationType, data.idVisitEntryType, data.plate, data.idHome);
-        if(visitor.isRecurring()) {
+        const visitor = new Visitor(
+            data.id, 
+            data.name, 
+            data.identification, 
+            data.idVisitRegistrationType, 
+            data.idVisitEntryType, 
+            data.plate, 
+            data.isFavorite || false, 
+            data.idHome);
+
+        if(visitor.isPermanent()) {
             if(data.days) {
                 visitor.days = data.days.split(',');
             }
@@ -131,7 +144,7 @@ export class Visitors {
                     "Days": visitor.getDaysToSubmit(),
                     "AproxHour": visitor.getApproxTimeToSubmit(),
                     "IdHome" : visitor.homeId,
-                    "IsFavorite": false,
+                    "IsFavorite": visitor.isFavorite,
                     "UserName": currentUserData.email
                 };
                 const requestOptions = new RequestOptions({
@@ -177,7 +190,7 @@ export class Visitors {
                     "EntryType": visitor.entryType,
                     "RegistrationType": visitor.registrationType,
                     "IdHome" : visitor.homeId,
-                    "IsFavorite": false,
+                    "IsFavorite": visitor.isFavorite,
                     "UserName": currentUserData.email
                 };
                 const requestOptions = new RequestOptions({

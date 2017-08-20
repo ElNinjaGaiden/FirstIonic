@@ -10,6 +10,7 @@ export class Visitor {
     entryType: number;
     homeId: number;
     days: Array<string>;
+    isFavorite: boolean;
     isActive: boolean;
     home: Home;
 
@@ -19,6 +20,7 @@ export class Visitor {
                 registrationType: number,
                 entryType: number,
                 carId: string,
+                isFavorite: boolean,
                 homeId: number) {
 
         this.registrationType = registrationType;
@@ -27,15 +29,12 @@ export class Visitor {
         this.entryType = entryType;
         this.id = id;
         this.carId = carId;
+        this.isFavorite = isFavorite;
         this.homeId = homeId;
     }
 
-    isQuick() {
-        return this.registrationType === VisitorRegistrationTypes.Quick;
-    }
-
-    isRecurring() {
-        return this.registrationType === VisitorRegistrationTypes.Recurring;
+    isInmediate() {
+        return this.registrationType === VisitorRegistrationTypes.Inmediate;
     }
 
     isPermanent() {
@@ -47,14 +46,14 @@ export class Visitor {
     }
 
     getDaysToSubmit() {
-        if(this.isRecurring()) {
+        if(this.isPermanent()) {
             return this.days.join(',');
         }
         return null;
     }    
 
     getApproxTimeToSubmit() {
-        if(this.isRecurring()) {
+        if(this.isPermanent()) {
             return this.approxTime;
         }
         return null;
@@ -68,7 +67,6 @@ export const VisitorEntryTypes = {
 };
 
 export const VisitorRegistrationTypes = {
-    Quick: 1,
-    Recurring: 2,
-    Permanent: 3
+    Inmediate: 1,
+    Permanent: 2
 };

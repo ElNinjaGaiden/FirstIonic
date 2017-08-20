@@ -10,10 +10,10 @@ import { Home } from '../../../models/home';
 import { VisitorRegistrationTypes } from '../../../models/visitor';
 
 @Component({
-    selector: 'quick-visitors',
-    templateUrl: 'quick.html'
+    selector: 'inmediate-visitors',
+    templateUrl: 'inmediate.html'
 })
-export class QuickVisitorsPage {
+export class InmediateVisitorsPage {
 
     @ViewChild(Navbar) navBar:Navbar;
     homesForm: FormGroup;
@@ -43,7 +43,7 @@ export class QuickVisitorsPage {
     }
 
     goToNewVisitor() {
-        this.rootNav.push(NewVisitorPage, { registrationType: VisitorRegistrationTypes.Quick, homes: this.homes });
+        this.rootNav.push(NewVisitorPage, { registrationType: VisitorRegistrationTypes.Inmediate, homes: this.homes });
     }
 
     ionViewDidLoad() {

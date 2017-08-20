@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { NavParams, LoadingController } from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
-import { QuickVisitorsPage } from '../quick/quick';
+import { InmediateVisitorsPage } from '../inmediate/inmediate';
 import { PermanentVisitorsPage } from '../permanent/permanent';
-import { RecurringVisitorsPage } from '../recurring/recurring';
+import { FavoritesVisitorsPage } from '../favorites/favorites';
 import { Visitors } from '../../../providers/visitors';
 import { Utils } from '../../../providers/utils';
 import { Visitor } from '../../../models/visitor';
@@ -18,12 +18,12 @@ export class VisitorsTabsPage {
     homes: Array<Home>;
     currentHome: Home;
 
-    visitorsQuickTab: any = QuickVisitorsPage;
-    visitorsRecurringTab: any = RecurringVisitorsPage;
+    visitorsInmediateTab: any = InmediateVisitorsPage;
+    visitorsFavoritesTab: any = FavoritesVisitorsPage;
     visitorsPermanentTab: any = PermanentVisitorsPage;
 
-    visitorsQuickTitle = " ";
-    visitorsRecurringTitle = " ";
+    visitorsInmediateTitle = " ";
+    visitorsFavoritesTitle = " ";
     visitorsPermanentTitle = " ";
 
     constructor(private navParams: NavParams,
@@ -32,9 +32,9 @@ export class VisitorsTabsPage {
                 private loadingCtrl: LoadingController,
                 private utils: Utils) {
 
-        translateService.get(['VISITORS.QUICK.TAB_TITLE', 'VISITORS.RECURRING.TAB_TITLE', 'VISITORS.PERMANENT.TAB_TITLE']).subscribe(values => {
-            this.visitorsQuickTitle = values['VISITORS.QUICK.TAB_TITLE'];
-            this.visitorsRecurringTitle = values['VISITORS.RECURRING.TAB_TITLE'];
+        translateService.get(['VISITORS.INMEDIATE.TAB_TITLE', 'VISITORS.FAVORITES.TAB_TITLE', 'VISITORS.PERMANENT.TAB_TITLE']).subscribe(values => {
+            this.visitorsInmediateTitle = values['VISITORS.INMEDIATE.TAB_TITLE'];
+            this.visitorsFavoritesTitle = values['VISITORS.FAVORITES.TAB_TITLE'];
             this.visitorsPermanentTitle = values['VISITORS.PERMANENT.TAB_TITLE'];
         });
 

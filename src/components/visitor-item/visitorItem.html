@@ -3,7 +3,7 @@
         <h2>{{visitor.name}}</h2>
         <p>{{visitor.identification}}</p>
         <p *ngIf="visitor.carId">{{ 'VISITORS.NEW.CAR_ID' | translate }}: {{ visitor.carId }}</p>
-        <div *ngIf="visitor.isRecurring()">
+        <div *ngIf="visitor.isPermanent()">
             <p *ngIf="visitor.days" class="days-label">{{getDaysLabels()}}</p>
             <p *ngIf="visitor.property">{{formatTimeLabel()}}</p>
         </div>

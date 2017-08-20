@@ -9,10 +9,10 @@ import { Home } from '../../../models/home';
 import { VisitorRegistrationTypes } from '../../../models/visitor';
 
 @Component({
-    selector: 'recurring-visitors',
-    templateUrl: 'recurring.html'
+    selector: 'favorites-visitors',
+    templateUrl: 'favorites.html'
 })
-export class RecurringVisitorsPage {
+export class FavoritesVisitorsPage {
 
     @ViewChild(Navbar) navBar:Navbar;
     homesForm: FormGroup;
@@ -41,7 +41,7 @@ export class RecurringVisitorsPage {
     }
 
     goToNewVisitor() {
-        this.rootNav.push(NewVisitorPage, { registrationType: VisitorRegistrationTypes.Recurring, homes: this.homes });
+        this.rootNav.push(NewVisitorPage, { registrationType: VisitorRegistrationTypes.Inmediate, isFavorite: true, homes: this.homes });
     }
 
     ionViewDidLoad() {
