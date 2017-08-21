@@ -3,6 +3,7 @@
   "MENU_TITLE": "Menú",
   "BACK_BUTTON_TEXT" : "Atrás",
   "CONFIRMATION_TITLE": "Segur@?",
+  "DELETE_CONFIRMATION_MESSAGE": "Segur@ que quieres eliminar este item?",
 
 
   "NAME": "Nombre",

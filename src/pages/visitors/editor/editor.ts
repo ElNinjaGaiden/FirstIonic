@@ -22,6 +22,7 @@ export class EditorVisitorPage {
     entryTypes: any = [];
     registrationTypes: any = [];
     showFavorite: boolean = true;
+    deleteConfirmationMessage: string;
 
     //Posible modes:
     //'save' = new pre-register
@@ -87,7 +88,9 @@ export class EditorVisitorPage {
 
             'VISITORS.ENTRY_TYPES.PEDESTRIAN',
             'VISITORS.ENTRY_TYPES.VEHICLE',
-            'VISITORS.ENTRY_TYPES.PUBLIC_TRANSPORTATION'
+            'VISITORS.ENTRY_TYPES.PUBLIC_TRANSPORTATION',
+
+            'DELETE_CONFIRMATION_MESSAGE'
         ];
 
         translateService.get(translations).subscribe(values => {
@@ -97,6 +100,8 @@ export class EditorVisitorPage {
             this.entryTypes.push({ type: VisitorEntryTypes.Pedestrian, text: values['VISITORS.ENTRY_TYPES.PEDESTRIAN'] });
             this.entryTypes.push({ type: VisitorEntryTypes.Vehicle, text: values['VISITORS.ENTRY_TYPES.VEHICLE'] });
             this.entryTypes.push({ type: VisitorEntryTypes.PublicTransportation, text: values['VISITORS.ENTRY_TYPES.PUBLIC_TRANSPORTATION'] });
+
+            this.deleteConfirmationMessage = values['DELETE_CONFIRMATION_MESSAGE'];
         });
 
         this.homesCollection = this.navParams.data.homes;
@@ -277,15 +282,30 @@ export class EditorVisitorPage {
     }
 
     deleteVisitor() {
-        switch(this.mode) {
-            case 'edit':
-                this.deletePreRegister();
-                break;
-
-            case 'editFavorite':
-                this.deleteFavorite();
-                break;
-        }
+        let confirmation = this.alertCtrl.create({
+            title: this.utils.confirmationTitle,
+            message: this.deleteConfirmationMessage,
+            buttons: [
+                {
+                    text: 'Cancel'
+                },
+                {
+                    text: 'Yes',
+                    handler: () => {
+                        switch(this.mode) {
+                            case 'edit':
+                                this.deletePreRegister();
+                                break;
+                
+                            case 'editFavorite':
+                                this.deleteFavorite();
+                                break;
+                        }
+                    }
+                }
+            ]
+        });
+        confirmation.present();
     }
 
     deletePreRegister() {
