@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormGroup, FormBuilder, FormControl, Validators } from "@angular/forms";
+import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { NavParams, LoadingController, NavController, AlertController } from 'ionic-angular';
 import { Visitor } from '../../../models/visitor';
 import { Home } from '../../../models/home';
