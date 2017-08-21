@@ -173,8 +173,8 @@
     },
     "VISITOR": {
       "OPTIONS": {
-        "IS_ARRIVING": "Llegó",
-        "CANCEL": "Cancelar",
+        "IS_ARRIVING": "Viene",
+        "EDIT": "Editar",
         "DEPARTURE": "Adiós"
       },
       "BUTTONS": {

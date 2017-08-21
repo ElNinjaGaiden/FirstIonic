@@ -1,6 +1,11 @@
 <ion-header>
   <ion-navbar color="secondary">
     <ion-title>{{ 'VISITORS.NEW.TITLE' | translate }}</ion-title>
+    <ion-buttons end>
+        <button ion-button (click)="deleteVisitor()" *ngIf="enableDelete()">
+            <ion-icon name="trash"></ion-icon>
+        </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
@@ -13,13 +18,13 @@
                     <ion-option *ngFor="let home of homesCollection" [value]="home.id" [selected]="home.id == visitor.houseId">{{home.name}}</ion-option>
                 </ion-select>
             </ion-item>
-            <ion-item>
+            <!-- <ion-item>
                 <ion-label stacked>{{ 'VISITORS.NEW.REGISTRATION_TYPE' | translate }}</ion-label>
                 <ion-select [(ngModel)]="visitor.registrationType" formControlName="registrationType">
                     <ion-option *ngFor="let registrationType of registrationTypes" [value]="registrationType.type" [selected]="registrationType.type == visitor.registrationType">{{registrationType.text}}</ion-option>
                 </ion-select>
-            </ion-item>
-            <ion-item>
+            </ion-item> -->
+            <ion-item *ngIf="requiresEntryType()">
                 <ion-label stacked>{{ 'VISITORS.NEW.ENTRY_TYPE' | translate }}</ion-label>
                 <ion-select [(ngModel)]="visitor.entryType" formControlName="entryType">
                     <ion-option *ngFor="let entryType of entryTypes" [value]="entryType.type" [selected]="entryType.type == visitor.entryType">{{entryType.text}}</ion-option>
@@ -37,7 +42,7 @@
                 <ion-label floating>{{ 'VISITORS.NEW.CAR_ID' | translate }}</ion-label>
                 <ion-input type="text" [(ngModel)]="visitor.carId" formControlName="carId"></ion-input>
             </ion-item>
-            <ion-item *ngIf="security.isResidentUser">
+            <ion-item *ngIf="security.isResidentUser && showFavorite">
                 <ion-label>{{ 'VISITORS.NEW.IS_FAVORITE' | translate }}</ion-label>
                 <ion-toggle [(ngModel)]="visitor.isFavorite" formControlName="isFavorite" [disabled]="!enableIsFavorite()"></ion-toggle>
             </ion-item>
@@ -46,18 +51,23 @@
                         [disabled]="!visitorForm.valid || !validateVisitorEntryType()">
                     {{ 'BUTTONS.SAVE' | translate }}
                 </button>
+                <button *ngIf="enableEdit()" ion-button color="primary" block 
+                    [disabled]="!visitorForm.valid || !validateVisitorEntryType()"
+                    (click)="onEditVisitor($event)">
+                    {{ 'BUTTONS.SAVE' | translate }}
+                </button>
                 <button ion-button color="primary" block 
                         *ngIf="enableNext()"
                         (click)="goToRecurringDays($event)"
                         [disabled]="!visitorForm.valid || !validateVisitorEntryType()">
                     {{ 'BUTTONS.NEXT' | translate }}
                 </button>
-                <button ion-button color="primary" block 
+                <!-- <button ion-button color="primary" block 
                         *ngIf="enableVisitorEntry()"
                         (click)="notifyVisitorEntry()"
                         [disabled]="!visitorForm.valid || !validateVisitorEntryType()">
                     {{ 'VISITORS.VISITOR.BUTTONS.ENTRY' | translate }}
-                </button>
+                </button> -->
             </div>
         </ion-list>
     </form>

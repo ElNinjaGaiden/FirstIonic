@@ -4,9 +4,9 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-buttons end>
-      <button ion-button (click)="goToNewVisitor()">
+      <!-- <button ion-button (click)="goToNewVisitor()">
         <ion-icon name="add"></ion-icon>
-      </button>
+      </button> -->
       <button ion-button (click)="loadVisitors()">
         <ion-icon name="refresh"></ion-icon>
       </button>
@@ -29,7 +29,7 @@
     </form>
   </ion-toolbar>
   <ion-list *ngIf="visitors.favoriteVisitors.length">
-    <visitor-item *ngFor="let visitor of visitors.favoriteVisitors" [visitor]="visitor" (visitorEntry)="onVisitorEntry($event)"></visitor-item>
+    <visitor-item *ngFor="let visitor of visitors.favoriteVisitors" [visitor]="visitor" (visitorEntry)="onVisitorEntry($event)" (visitorEdit)="onVisitorEdit($event)"></visitor-item>
   </ion-list>
   <div *ngIf="!visitors.favoriteVisitors.length" class="visitor-list-empty">
     {{ 'VISITORS.EMPTY_LIST' | translate }}

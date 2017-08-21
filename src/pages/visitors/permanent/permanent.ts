@@ -1,11 +1,12 @@
 import { Component, ViewChild } from '@angular/core';
 import { App, NavController, Navbar, ViewController, Platform, NavParams, LoadingController } from 'ionic-angular';
 import { FormGroup, FormBuilder, FormControl } from "@angular/forms";
-import { NewVisitorPage } from '../new/new';
+import { EditorVisitorPage } from '../editor/editor';
 import { Visitors } from '../../../providers/visitors';
 import { Security } from '../../../providers/security';
 import { Utils } from '../../../providers/utils';
 import { Home } from '../../../models/home';
+import { Visitor } from '../../../models/visitor';
 import { VisitorRegistrationTypes } from '../../../models/visitor';
 
 @Component({
@@ -41,7 +42,7 @@ export class PermanentVisitorsPage {
     }
 
     goToNewVisitor() {
-        this.rootNav.push(NewVisitorPage, { registrationType: VisitorRegistrationTypes.Permanent, homes: this.homes });
+        this.rootNav.push(EditorVisitorPage, { registrationType: VisitorRegistrationTypes.Permanent, homes: this.homes });
     }
 
     ionViewDidLoad() {
@@ -64,8 +65,12 @@ export class PermanentVisitorsPage {
         return (!this.tabsContainerIsRootView ? 'force-back-button tab-toolbar' : 'no-back-button tab-toolbar') + ' ' + baseCssClass;
     }
 
-    onVisitorEntry(visitor) {
-        this.rootNav.push(NewVisitorPage, { visitor: visitor, homes: this.homes, mode: 'notify' });
+    onVisitorEntry(visitor : Visitor) {
+        this.rootNav.push(EditorVisitorPage, { visitor: visitor, homes: this.homes, mode: 'notify' });
+    }
+
+    onVisitorEdit(visitor : Visitor) {
+        this.rootNav.push(EditorVisitorPage, { visitor: visitor, homes: this.homes, mode: 'edit' });
     }
 
     loadVisitors() {

@@ -41,4 +41,13 @@ export class Utils {
         const suffix = hours >= 12 ? "PM":"AM";
         return ((hours + 11) % 12 + 1) + ':' + (pad.substring(0, pad.length - minutes.length) + minutes ) + ' ' + suffix;
     }
+
+    padLeft(value: string, length: number = 2, charToPad: string = '0') : string {
+        let arr = [];
+        for(let i = 0; i < length; i++) {
+            arr.push(charToPad);
+        }
+        let pad = arr.join('');
+        return pad.substring(0, pad.length - value.length) + value;
+    }
 }

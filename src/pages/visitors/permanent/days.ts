@@ -16,6 +16,7 @@ export class PermanentDaysView {
     visitor: Visitor;
     home: Home;
     approxTime: string = null;
+    mode: string;
     days: any = {
         monday: {
             key: 'L',
@@ -57,16 +58,35 @@ export class PermanentDaysView {
 
         this.visitor = navParams.data.visitor;
         this.home = navParams.data.home;
+        this.mode = this.navParams.data.mode;
+        const days = this.visitor.days || [];
+
+        this.days.monday.selected = days.indexOf('L') >= 0;
+        this.days.tuesday.selected = days.indexOf('K') >= 0;
+        this.days.wednesday.selected = days.indexOf('M') >= 0;
+        this.days.thursday.selected = days.indexOf('J') >= 0;
+        this.days.friday.selected = days.indexOf('V') >= 0;
+        this.days.saturday.selected = days.indexOf('S') >= 0;
+        this.days.sunday.selected = days.indexOf('D') >= 0;
+
+        const now = new Date();
+        if(this.visitor.approxTime) {
+            
+            this.approxTime = `${now.getFullYear()}-${this.utils.padLeft((now.getMonth() + 1).toString())}-${this.utils.padLeft(now.getDate().toString())}T${this.visitor.approxTime}:00.000Z`;
+        }
+        else {
+            this.approxTime = `${now.getFullYear()}-${this.utils.padLeft((now.getMonth() + 1).toString())}-${this.utils.padLeft(now.getDate().toString())}T07:00:00.000Z`;
+        }
 
         this.daysForm = this.formBuilder.group({
-            'mondaySelected': [''],
-            'tuesdaySelected': [''],
-            'wednesdaySelected': [''],
-            'thursdaySelected': [''],
-            'fridaySelected': [''],
-            'saturdaySelected': [''],
-            'sundaySelected': [''],
-            'approxTime': ['', [Validators.required]]
+            'mondaySelected': [this.days.monday.selected],
+            'tuesdaySelected': [this.days.tuesday.selected],
+            'wednesdaySelected': [this.days.wednesday.selected],
+            'thursdaySelected': [this.days.thursday.selected],
+            'fridaySelected': [this.days.friday.selected],
+            'saturdaySelected': [this.days.saturday.selected],
+            'sundaySelected': [this.days.sunday.selected],
+            'approxTime': [this.approxTime, [Validators.required]]
         });
     }
 
@@ -88,15 +108,57 @@ export class PermanentDaysView {
     }
 
     onSubmit () {
+        switch(this.mode) {
+            case 'save':
+                this.save();
+                break;
+
+            case 'edit':
+                this.edit();
+                break;
+        }
+    }
+
+    parseAproxTime() {
+        const dateParts = this.approxTime.split('T');
+        const timeParts = dateParts[1].split(':');
+        return `${timeParts[0]}:${timeParts[1]}`;
+    }
+
+    save() {
         this.visitor.days = this.getSelectedDays().map(d => d.key);
-        this.visitor.approxTime = this.approxTime;
+        this.visitor.approxTime = this.parseAproxTime();
         let loader = this.loadingCtrl.create({
             content: this.utils.pleaseWaitMessage
         });
         loader.present();
         this.visitors.preregister(this.visitor)
         .then(response => {
-            console.log(response);
+            loader.dismiss();
+            this.visitors.loadVisitorsByHome(this.home);
+            this.navController.popToRoot();
+        })
+        .catch(error => {
+            loader.dismiss();
+            console.error(error);
+            let alert = this.alertCtrl.create({
+                title: 'Error',
+                subTitle: error.message,
+                buttons: ['OK']
+            });
+            alert.present();
+        });
+    }
+
+    edit() {
+        this.visitor.days = this.getSelectedDays().map(d => d.key);
+        this.visitor.approxTime = this.parseAproxTime();
+        let loader = this.loadingCtrl.create({
+            content: this.utils.pleaseWaitMessage
+        });
+        loader.present();
+        this.visitors.editPreRegister(this.visitor)
+        .then(response => {
             loader.dismiss();
             this.visitors.loadVisitorsByHome(this.home);
             this.navController.popToRoot();

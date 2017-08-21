@@ -76,9 +76,6 @@ export class Visitors {
                 .map(res => res.json())
                 .subscribe(responseData => {
                     this.currentHome = home;
-
-                    
-
                     if(responseData.current) {
                         const visitors: Array<Visitor> = responseData.current.map(v => this._parseVisitor(v));
                         this.inmediateVisitors = visitors.filter(v => v.isInmediate() && !v.isFavorite);
@@ -86,10 +83,9 @@ export class Visitors {
                         this.permanentVisitors = visitors.filter(v => v.isPermanent());
                     }
                     else {
-                        this.inmediateVisitors = responseData.inmediate.map(v => this._parseVisitor(v));
-                        this.favoriteVisitors = responseData.favorites.map(v => this._parseVisitor(v));
-                        this.favoriteVisitors.forEach(v => { v.isFavorite = true; });
-                        this.permanentVisitors = responseData.permanent.map(v => this._parseVisitor(v));
+                        this.inmediateVisitors = responseData.inmediate.map(v => this._parseVisitor(v, false, VisitorRegistrationTypes.Inmediate));
+                        this.permanentVisitors = responseData.permanent.map(v => this._parseVisitor(v, false, VisitorRegistrationTypes.Permanent));
+                        this.favoriteVisitors = responseData.favorites.map(v => this._parseVisitor(v, true, VisitorRegistrationTypes.Inmediate));
                     }
                     resolve();
                 }, er => {
@@ -111,15 +107,15 @@ export class Visitors {
         });
     }
 
-    _parseVisitor(data: any) : Visitor {
+    _parseVisitor(data: any, isFavorite: boolean = false, registrationType: any = null) : Visitor {
         const visitor = new Visitor(
             data.id, 
             data.name, 
             data.identification, 
-            data.idVisitRegistrationType, 
+            registrationType, 
             data.idVisitEntryType, 
             data.plate, 
-            data.isFavorite || false, 
+            isFavorite, 
             data.idHome);
 
         if(visitor.isPermanent()) {
@@ -128,6 +124,7 @@ export class Visitors {
             }
             visitor.approxTime = data.aproxHour;
         }
+        
         return visitor;
     }
 
@@ -136,7 +133,7 @@ export class Visitors {
             this.user.getAccessData().then(accessData => {
                 const currentUserData = this.user.userData;
                 const data = {
-                    "Identification" : visitor.id,
+                    "Identification" : visitor.identification,
                     "Name": visitor.name,
                     "Plate": visitor.carId,
                     "EntryType": visitor.entryType,
@@ -184,7 +181,7 @@ export class Visitors {
             this.user.getAccessData().then(accessData => {
                 const currentUserData = this.user.userData;
                 const data = {
-                    "Identification" : visitor.id,
+                    "Identification" : visitor.identification,
                     "Name": visitor.name,
                     "Plate": visitor.carId,
                     "EntryType": visitor.entryType,
@@ -354,5 +351,165 @@ export class Visitors {
 
     _searchVisitorHome(visitor: Visitor) {
         return this.homes.userHomes.find(h => h.id === visitor.homeId);
+    }
+
+    editPreRegister(visitor: Visitor) : Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.user.getAccessData().then(accessData => {
+                const requestOptions = new RequestOptions({
+                    headers: new Headers({
+                        "Content-type": "application/json",
+                        "Accept": "application/json",
+                        "Authorization": 'Bearer ' + accessData.access_token
+                    })
+                });
+
+                const data = {
+                    Id: visitor.id,
+                    name: visitor.name,
+                    identification: visitor.identification,
+                    plate: visitor.carId,
+                    aproxHour: visitor.getApproxTimeToSubmit(),
+                    days: visitor.getDaysToSubmit()
+                };
+
+                this.api.post('api/visits/editPreRegistration', data, requestOptions)
+                .share()
+                .map(res => res.json())
+                .subscribe(responseData => {
+                    //....
+                    resolve(responseData);
+                }, er => {
+                    console.log(er);
+                    let error = {
+                        status: er.status,
+                        message: 'There was an error reaching the server, please try again'
+                    };
+                    if(er && typeof er.text === 'function') {
+                        const errorData = JSON.parse(er.text());
+                        console.log('Error data', errorData);
+                        if(errorData.error_description || errorData.message) {
+                            error.message = errorData.error_description || errorData.message;
+                        }
+                    }
+                    reject(error);
+                });
+            });
+        });
+    }
+
+    deletePreRegistration(visitor: Visitor) : Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.user.getAccessData().then(accessData => {
+                const requestOptions = new RequestOptions({
+                    headers: new Headers({
+                        "Content-type": "application/json",
+                        "Accept": "application/json",
+                        "Authorization": 'Bearer ' + accessData.access_token
+                    })
+                });
+
+                this.api.post('api/visits/editPreRegistration', { Id: visitor.id, Delete: true }, requestOptions)
+                .share()
+                .map(res => res.json())
+                .subscribe(responseData => {
+                    //....
+                    resolve(responseData);
+                }, er => {
+                    console.log(er);
+                    let error = {
+                        status: er.status,
+                        message: 'There was an error reaching the server, please try again'
+                    };
+                    if(er && typeof er.text === 'function') {
+                        const errorData = JSON.parse(er.text());
+                        console.log('Error data', errorData);
+                        if(errorData.error_description || errorData.message) {
+                            error.message = errorData.error_description || errorData.message;
+                        }
+                    }
+                    reject(error);
+                });
+            });
+        });
+    }
+
+    editFavorite(visitor: Visitor) : Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.user.getAccessData().then(accessData => {
+                const requestOptions = new RequestOptions({
+                    headers: new Headers({
+                        "Content-type": "application/json",
+                        "Accept": "application/json",
+                        "Authorization": 'Bearer ' + accessData.access_token
+                    })
+                });
+
+                const data = {
+                    Id: visitor.id,
+                    name: visitor.name,
+                    identification: visitor.identification,
+                    plate: visitor.carId
+                };
+
+                this.api.post('api/visits/editFavorite', data, requestOptions)
+                .share()
+                .map(res => res.json())
+                .subscribe(responseData => {
+                    //....
+                    resolve(responseData);
+                }, er => {
+                    console.log(er);
+                    let error = {
+                        status: er.status,
+                        message: 'There was an error reaching the server, please try again'
+                    };
+                    if(er && typeof er.text === 'function') {
+                        const errorData = JSON.parse(er.text());
+                        console.log('Error data', errorData);
+                        if(errorData.error_description || errorData.message) {
+                            error.message = errorData.error_description || errorData.message;
+                        }
+                    }
+                    reject(error);
+                });
+            });
+        });
+    }
+
+    deleteFavorite(visitor: Visitor) : Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.user.getAccessData().then(accessData => {
+                const requestOptions = new RequestOptions({
+                    headers: new Headers({
+                        "Content-type": "application/json",
+                        "Accept": "application/json",
+                        "Authorization": 'Bearer ' + accessData.access_token
+                    })
+                });
+
+                this.api.post('api/visits/editFavorite', { Id: visitor.id, Delete: true }, requestOptions)
+                .share()
+                .map(res => res.json())
+                .subscribe(responseData => {
+                    //....
+                    resolve(responseData);
+                }, er => {
+                    console.log(er);
+                    let error = {
+                        status: er.status,
+                        message: 'There was an error reaching the server, please try again'
+                    };
+                    if(er && typeof er.text === 'function') {
+                        const errorData = JSON.parse(er.text());
+                        console.log('Error data', errorData);
+                        if(errorData.error_description || errorData.message) {
+                            error.message = errorData.error_description || errorData.message;
+                        }
+                    }
+                    reject(error);
+                });
+            });
+        });
     }
 }

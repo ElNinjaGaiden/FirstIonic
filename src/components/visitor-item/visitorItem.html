@@ -11,14 +11,17 @@
     </ion-item>
 
     <ion-item-options>
-         <button *ngIf="security.isSecurityUser && !visitor.isActive" ion-button color="primary" (click)="notifyVisitorIsArriving(slidingItem, visitor)">
+         <button *ngIf="security.isResidentUser && visitor.isFavorite" ion-button color="danger" (click)="notifyVisitorIsArriving(slidingItem, visitor)">
             {{ 'VISITORS.VISITOR.OPTIONS.IS_ARRIVING' | translate }}
         </button> 
-        <button *ngIf="security.isResidentUser" ion-button color="danger" (click)="cancelVisitor(slidingItem, visitor)">
+        <!-- <button *ngIf="security.isResidentUser" ion-button color="danger" (click)="cancelVisitor(slidingItem, visitor)">
             {{ 'VISITORS.VISITOR.OPTIONS.CANCEL' | translate }}
-        </button> 
+        </button> -->
         <button *ngIf="security.isSecurityUser && visitor.isActive" ion-button color="danger" (click)="departureVisitor(slidingItem, visitor)">
             {{ 'VISITORS.VISITOR.OPTIONS.DEPARTURE' | translate }}
+        </button>
+        <button *ngIf="security.isResidentUser" ion-button color="primary" (click)="editVisitor(slidingItem, visitor)">
+            {{ 'VISITORS.VISITOR.OPTIONS.EDIT' | translate }}
         </button> 
     </ion-item-options>
 </ion-item-sliding>

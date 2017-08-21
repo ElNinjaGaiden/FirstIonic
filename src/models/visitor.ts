@@ -58,6 +58,15 @@ export class Visitor {
         }
         return null;
     }
+
+    clone() {
+        let visitor = new Visitor(this.id, this.name, this.identification, this.registrationType, this.entryType, this.carId, this.isFavorite, this.homeId);
+        visitor.days = this.days && this.days.slice();
+        visitor.approxTime = this.approxTime;
+        visitor.home = this.home;
+        visitor.homeId = this.homeId;
+        return visitor;
+    }
 }
 
 export const VisitorEntryTypes = {

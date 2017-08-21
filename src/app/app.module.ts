@@ -20,7 +20,7 @@ import { InmediateVisitorsPage } from '../pages/visitors/inmediate/inmediate';
 import { PermanentVisitorsPage } from '../pages/visitors/permanent/permanent';
 import { FavoritesVisitorsPage } from '../pages/visitors/favorites/favorites';
 import { PermanentDaysView } from '../pages/visitors/permanent/days';
-import { NewVisitorPage } from '../pages/visitors/new/new';
+import { EditorVisitorPage } from '../pages/visitors/editor/editor';
 import { ActiveVisitorsPage } from '../pages/visitors/actives/actives';
 
 import { VisitorItem } from '../components/visitor-item/visitorItem';
@@ -78,7 +78,7 @@ export function provideSettings(storage: Storage) {
     InmediateVisitorsPage,
     FavoritesVisitorsPage,
     PermanentDaysView,
-    NewVisitorPage,
+    EditorVisitorPage,
     VisitorItem,
     ActiveVisitorsPage,
     HomePage
@@ -111,7 +111,7 @@ export function provideSettings(storage: Storage) {
     InmediateVisitorsPage,
     FavoritesVisitorsPage,
     PermanentDaysView,
-    NewVisitorPage,
+    EditorVisitorPage,
     ActiveVisitorsPage,
     HomePage
   ],

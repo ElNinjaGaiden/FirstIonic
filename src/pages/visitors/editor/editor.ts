@@ -11,16 +11,24 @@ import { PermanentDaysView } from '../permanent/days';
 import { Visitor, VisitorRegistrationTypes, VisitorEntryTypes } from '../../../models/visitor';
 
 @Component({
-    selector: 'new-visitor',
-    templateUrl: 'new.html'
+    selector: 'visitor-editor',
+    templateUrl: 'editor.html'
 })
-export class NewVisitorPage {
+export class EditorVisitorPage {
 
     visitorForm: FormGroup;
     homesCollection: Array<Home>;
-    visitor: Visitor = new Visitor(null, '', '', null, null, '', false, null);
+    visitor: Visitor;
     entryTypes: any = [];
     registrationTypes: any = [];
+    showFavorite: boolean = true;
+
+    //Posible modes:
+    //'save' = new pre-register
+    //'edit' = edit pre-register
+    //'editFavorite' = edit favorite
+    //'delete' = delete pre-register
+    //'deletefavorite' = delete favorite
     mode: string = 'save';
 
     constructor(public formBuilder: FormBuilder,
@@ -34,31 +42,43 @@ export class NewVisitorPage {
                 private alertCtrl: AlertController,
                 private utils: Utils) {
 
-        if(this.navParams.data.visitor) {
-            this.visitor = this.navParams.data.visitor;
+        if(this.navParams.data.mode) {
+            this.mode = this.navParams.data.mode;
+        }
 
-            if(this.navParams.data.mode) {
-                this.mode = this.navParams.data.mode;
+        if(this.navParams.data.visitor) {
+            const _visitor : Visitor = this.navParams.data.visitor;
+            this.visitor = _visitor.clone();
+            if(typeof this.navParams.data.isFavorite !== 'undefined') {
+                this.visitor.isFavorite = this.navParams.data.isFavorite;
+            }
+        }
+        else {
+            //NOTE: Security users can only add inmediate visitors
+            const registrationType = this.security.isSecurityUser ? VisitorRegistrationTypes.Inmediate : this.navParams.data.registrationType;
+            this.visitor = new Visitor(null, '', '', registrationType, VisitorEntryTypes.Vehicle, '', this.navParams.data.isFavorite || false, null);
+        }
+
+        //Check if we need to hide the isFavorite field
+        if(typeof this.navParams.data.showFavorite !== 'undefined') {
+            this.showFavorite = this.navParams.data.showFavorite;
+
+            if(!this.showFavorite && this.mode === 'save') {
+                this.visitor.isFavorite = false;
             }
         }
 
-        //NOTE: Security users can only add quick visitors
-        this.visitor.registrationType = this.security.isSecurityUser ? VisitorRegistrationTypes.Inmediate : this.navParams.data.registrationType;
-        this.visitor.entryType = VisitorEntryTypes.Vehicle;
         //NOTE: change this to set homeId dynamically when we support several houses per user
         this.visitor.homeId = visitors.currentHome.id;
-
-        //Check if it's a favorite visitor
-        this.visitor.isFavorite = this.navParams.data.isFavorite || false;
 
         this.visitorForm = this.formBuilder.group({
             'homeId': new FormControl({ value: visitors.currentHome.id, disabled: !this.security.isResidentUser }, Validators.required),
             'name': [this.visitor.name, [Validators.required]],
             'identification': [this.visitor.identification, [Validators.required]],
             'carId': [this.visitor.carId, []],
-            registrationType: new FormControl({ value: this.security.isResidentUser ? this.navParams.data.registrationType : VisitorRegistrationTypes.Inmediate, disabled: !this.security.isResidentUser }, Validators.required),
-            entryType: new FormControl({ value: VisitorEntryTypes.Vehicle }, Validators.required),
-            'isFavorite': new FormControl({ value: this.visitor.isFavorite, disabled: !this.enableIsFavorite() }, Validators.required)
+            //registrationType: new FormControl({ value: this.security.isResidentUser ? this.navParams.data.registrationType : VisitorRegistrationTypes.Inmediate, disabled: !this.security.isResidentUser }, Validators.required),
+            entryType: new FormControl({ value: VisitorEntryTypes.Vehicle }, this.requiresEntryType() ? Validators.required : null),
+            'isFavorite': new FormControl({ value: this.visitor.isFavorite, disabled: !this.enableIsFavorite() })
         });
 
         const translations = [
@@ -82,6 +102,10 @@ export class NewVisitorPage {
         this.homesCollection = this.navParams.data.homes;
     }
 
+    requiresEntryType() {
+        return this.mode !== 'editFavorite';
+    }
+
     onSubmit() {
         if(this.security.isResidentUser) {
             this._submitByResident();
@@ -98,7 +122,6 @@ export class NewVisitorPage {
         loader.present();
         this.visitors.preregister(this.visitor)
         .then(response => {
-            console.log(response);
             loader.dismiss();
             this.navController.popToRoot();
             this.visitors.loadVisitorsByHome(this.visitors.currentHome);
@@ -122,7 +145,6 @@ export class NewVisitorPage {
         loader.present();
         this.visitors.register(this.visitor)
         .then(response => {
-            console.log(response);
             loader.dismiss();
             this.navController.pop();
             this.visitors.loadVisitorsByHome(this.visitors.currentHome);
@@ -143,26 +165,30 @@ export class NewVisitorPage {
         return this.visitor.isInmediate() && this.mode === 'save';
     }
 
+    enableEdit() {
+        return this.visitor.isInmediate() && (this.mode === 'edit' || this.mode === 'editFavorite');
+    }
+
     enableNext() {
         return this.visitor.isPermanent();
     }
 
+    enableDelete() {
+        return this.security.isResidentUser && (this.mode === 'edit' || this.mode === 'editFavorite');
+    }
+
     enableIsFavorite() {
         const enable = this.security.isResidentUser && 
-                        this.visitor.registrationType === VisitorRegistrationTypes.Inmediate &&
+                        (this.mode === 'save' || this.mode === 'edit' || this.mode === 'editFavorite') &&
                         this.visitor.entryType !== VisitorEntryTypes.PublicTransportation &&
                         ((this.visitor.entryType === VisitorEntryTypes.Pedestrian && this.visitor.name && this.visitor.identification) || (this.visitor.entryType === VisitorEntryTypes.Vehicle && this.visitor.name && this.visitor.identification && this.visitor.carId));
 
-        if(!enable) {
-            this.visitor.isFavorite = false;
-        }
-
-        return enable
+        return enable;
     }
 
     goToRecurringDays(event) {
         event.preventDefault();
-        this.navController.push(PermanentDaysView, { visitor: this.visitor, home: this.visitors.currentHome });
+        this.navController.push(PermanentDaysView, { visitor: this.visitor, home: this.visitors.currentHome, mode: this.mode });
     }
 
     validateVisitorEntryType() {
@@ -170,10 +196,6 @@ export class NewVisitorPage {
             return this.visitor.carId ? true : false;
         }
         return true;
-    }
-
-    enableVisitorEntry() {
-        return this.mode === 'notify';
     }
 
     notifyVisitorEntry() {
@@ -184,10 +206,119 @@ export class NewVisitorPage {
         loader.present();
         this.visitors.entry(this.visitor)
         .then(response => {
-            console.log(response);
             loader.dismiss();
         })
         .catch(error => {
+            loader.dismiss();
+            console.error(error);
+            let alert = this.alertCtrl.create({
+                title: 'Error',
+                subTitle: error.message,
+                buttons: ['OK']
+            });
+            alert.present();
+        });
+    }
+
+    onEditVisitor(event) {
+        event.preventDefault();
+
+        switch(this.mode) {
+            case 'edit':
+                this.editPreregister();
+                break;
+
+            case 'editFavorite':
+                this.editFavorite();
+                break;
+        }
+    }
+
+    editPreregister() {
+        let loader = this.loadingCtrl.create({
+            content: this.utils.pleaseWaitMessage
+        });
+        loader.present();
+        this.visitors.editPreRegister(this.visitor).then(response => {
+            loader.dismiss();
+            this.navController.pop();
+            this.visitors.loadVisitorsByHome(this.visitors.currentHome);
+        }, error => {
+            loader.dismiss();
+            console.error(error);
+            let alert = this.alertCtrl.create({
+                title: 'Error',
+                subTitle: error.message,
+                buttons: ['OK']
+            });
+            alert.present();
+        });
+    }
+
+    editFavorite() {
+        let loader = this.loadingCtrl.create({
+            content: this.utils.pleaseWaitMessage
+        });
+        loader.present();
+        this.visitors.editFavorite(this.visitor).then(response => {
+            loader.dismiss();
+            this.navController.pop();
+            this.visitors.loadVisitorsByHome(this.visitors.currentHome);
+        }, error => {
+            loader.dismiss();
+            console.error(error);
+            let alert = this.alertCtrl.create({
+                title: 'Error',
+                subTitle: error.message,
+                buttons: ['OK']
+            });
+            alert.present();
+        });
+    }
+
+    deleteVisitor() {
+        switch(this.mode) {
+            case 'edit':
+                this.deletePreRegister();
+                break;
+
+            case 'editFavorite':
+                this.deleteFavorite();
+                break;
+        }
+    }
+
+    deletePreRegister() {
+        let loader = this.loadingCtrl.create({
+            content: this.utils.pleaseWaitMessage
+        });
+        loader.present();
+        this.visitors.deletePreRegistration(this.visitor).then(response => {
+            loader.dismiss();
+            this.navController.pop();
+            this.visitors.loadVisitorsByHome(this.visitors.currentHome);
+        }, error => {
+            loader.dismiss();
+            console.error(error);
+            let alert = this.alertCtrl.create({
+                title: 'Error',
+                subTitle: error.message,
+                buttons: ['OK']
+            });
+            alert.present();
+        });
+    }
+
+    deleteFavorite() {
+        let loader = this.loadingCtrl.create({
+            content: this.utils.pleaseWaitMessage
+        });
+        loader.present();
+        this.visitors.deleteFavorite(this.visitor).then(response => {
+            loader.dismiss();
+            this.navController.pop();
+            this.visitors.loadVisitorsByHome(this.visitors.currentHome);
+        }, error => {
             loader.dismiss();
             console.error(error);
             let alert = this.alertCtrl.create({

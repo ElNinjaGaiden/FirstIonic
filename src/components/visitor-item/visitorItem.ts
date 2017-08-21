@@ -13,6 +13,7 @@ export class VisitorItem {
 
     @Output() visitorEntry = new EventEmitter();
     @Output() visitorDeparture = new EventEmitter();
+    @Output() visitorEdit = new EventEmitter();
 
     constructor(private security: Security,
                 private utils: Utils) {
@@ -33,13 +34,18 @@ export class VisitorItem {
         this.visitorEntry.emit(this.visitor);
     }
 
-    cancelVisitor(slidingItem, visitor) {
-        slidingItem.close();
-    }
+    // cancelVisitor(slidingItem, visitor) {
+    //     slidingItem.close();
+    // }
 
     departureVisitor(slidingItem, visitor) {
         slidingItem.close();
         this.visitorDeparture.emit(this.visitor);
+    }
+
+    editVisitor(slidingItem, visitor) {
+        slidingItem.close();
+        this.visitorEdit.emit(this.visitor);
     }
 
     getDaysLabels() : string {

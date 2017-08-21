@@ -185,8 +185,8 @@
     },
     "VISITOR": {
       "OPTIONS": {
-        "IS_ARRIVING": "Is here",
-        "CANCEL": "Cancel",
+        "IS_ARRIVING": "Is coming",
+        "EDIT": "Edit",
         "DEPARTURE": "Bye"
       },
       "BUTTONS": {
